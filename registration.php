@@ -10,13 +10,13 @@
 
 </body>
 <div align="center">
-  <form id="form" action="" method="post">
+  <form id="form" action="validation_reg.php" method="post">
 
     <h1>Sign Up</h1>
     <table>
       <tr>
         <!-- <td>Full Name</td> -->
-        <td><input type="text" name="name" placeholder="Full Name" required /></td>
+        <td><input type="text" name="uname" placeholder="Full Name" required /></td>
       </tr>
       <tr>
         <!-- <td>Short Name</td> -->
@@ -40,7 +40,14 @@
         <!-- <td>Project Email ID</td> -->
         <td><input type="email" name="p_emailid" placeholder="Project Email ID" required /></td>
       </tr>
-
+      <tr>
+        <!-- <td>Password</td> -->
+        <td><input type="password" placeholder="Password" name="password" id="password" /></td>
+      </tr>
+      <tr>
+        <!-- <td>Password</td> -->
+        <td><input type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" /></td>
+      </tr>
 
 
     </table>

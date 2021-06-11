@@ -10,7 +10,7 @@
 <body>
   <div align="center">
     <h1> Login</h1>
-    <form id="form" action="" method="post">
+    <form id="form" action="validation_log.php" method="post">
       <table >
         <tr>
           <!-- <td>User ID</td> -->
