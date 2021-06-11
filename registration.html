@@ -3,11 +3,52 @@
 
 <head>
   <meta charset="ISO-8859-1">
-  <title>Registration Form</title>
+  <title>Registration Page</title>
 </head>
-<body>
-  <h1>Assignment Manager Registration </h1>
-</body>
 
+<body>
+
+</body>
+<div align="center">
+  <form id="form" action="" method="post">
+
+    <h1>Sign Up</h1>
+    <table>
+      <tr>
+        <!-- <td>Full Name</td> -->
+        <td><input type="text" name="name" placeholder="Full Name" required /></td>
+      </tr>
+      <tr>
+        <!-- <td>Short Name</td> -->
+        <td><input type="text" name="shortname" placeholder="Short Name" required /></td>
+      </tr>
+
+      <tr >
+
+        <!-- <td>EmployeeID</td> -->
+        <td style="padding-top: 50px;"><input type="text" name="employeeid" placeholder="Employee ID"  required /></td>
+      </tr>
+      <tr>
+        <!-- <td>Contact No</td> -->
+        <td><input type="tel" name="contact" placeholder="Contact No" pattern="[0-9]{10}" required /></td>
+      </tr>
+      <tr>
+        <!-- <td>Employee Email ID</td> -->
+        <td><input type=" email" name="e_emailid" placeholder="Employee Email ID" required /></td>
+      </tr>
+      <tr>
+        <!-- <td>Project Email ID</td> -->
+        <td><input type="email" name="p_emailid" placeholder="Project Email ID" required /></td>
+      </tr>
+
+
+
+    </table>
+    <br>
+    <input type="submit" name="register" value="Register" id="register">
+  </form>
+  <br>
+  <a href="login.html"> Already have an account? Login here</a>
+</div>
 
 </html>
