@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html>
+<?php
+session_start();
+if(!isset($_SESSION['uname'])){
+header('location:index.php');
+}
+?>
+<html >
   <head>
     <meta charset="utf-8">
-    <title>Welcome Page</title>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title> welcome page</title>
   </head>
   <body>
-<h1> Welcome to the home page</h1>
+<a href="logout.php"> Logout</a>
+<h1> Welcome <?php echo $_SESSION['uname']; ?> </h1>
   </body>
 </html>
