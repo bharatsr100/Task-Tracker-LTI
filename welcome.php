@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['arr'])){
+if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 $arr = unserialize($_SESSION['arr']);
@@ -30,7 +30,7 @@ $name="Hello  there!!";
 
 
   <br><br>
-  <button onclick="location.href='#';" type="button" class="btn btn-secondary">User Profile</button>
+  <button onclick="location.href='user_profile.php';" type="button" class="btn btn-secondary">User Profile</button>
   <button onclick="location.href='#';" type="button" class="btn btn-secondary">My Task</button>
   <button onclick="location.href='#';" type="button" class="btn btn-secondary">Calendar</button>
 

@@ -172,7 +172,8 @@
 						$rr4 = mysqli_fetch_assoc($tr4);
 						$arr['p_emailid']=$rr4["value"];
 
-						$_SESSION['arr'] = serialize($arr);
+						$_SESSION['arr']=serialize($arr);
+						$_SESSION['uguid']=$row['uguid'];
 
 
 						$_SESSION['uname']=$row["uname"];
@@ -216,6 +217,7 @@
 					$rr4 = mysqli_fetch_assoc($tr4);
 					$arr['p_emailid']=$rr4["value"];
 
+					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
 					echo json_encode($arr);
@@ -258,6 +260,7 @@
 					$rr4 = mysqli_fetch_assoc($tr4);
 					$arr['p_emailid']=$rr4["value"];
 
+					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
 					echo json_encode($arr);
@@ -297,6 +300,7 @@
 					$rr4 = mysqli_fetch_assoc($tr4);
 					$arr['p_emailid']=$rr4["value"];
 
+					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
 					echo json_encode($arr);
