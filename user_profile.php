@@ -41,6 +41,10 @@ if(isset($_POST['update']))
     //$s1 ="UPDATE userdata1 SET uname='$uname', shortname='$shortname' WHERE uguid= '$uguid'" ;
     $s1= mysqli_query($conn,"UPDATE userdata1 SET uname='$uname', shortname='$shortname' WHERE uguid= '$uguid'");
     //$s2 ="UPDATE userdata2 SET value='$contact' WHERE type= $t1 && uguid= $uguid" ;
+    $s2= mysqli_query($conn,"UPDATE userdata2 SET value='$contact' WHERE uguid= '$uguid' && type='$t1'");
+    $s3= mysqli_query($conn,"UPDATE userdata2 SET value='$employeeid' WHERE uguid= '$uguid' && type='$t2'");
+    $s4= mysqli_query($conn,"UPDATE userdata2 SET value='$e_emailid' WHERE uguid= '$uguid' && type='$t3'");
+    $s5= mysqli_query($conn,"UPDATE userdata2 SET value='$p_emailid' WHERE uguid= '$uguid' && type='$t4'");
 
     // $s3 ="UPDATE userdata2 SET value='$employeeid'  WHERE type= $t2 && uguid= $uguid" ;
     // $s4 ="UPDATE userdata2 SET value='$e_emailid' WHERE type= $t3 && uguid= $uguid" ;
@@ -48,7 +52,7 @@ if(isset($_POST['update']))
     //$sql1 = "UPDATE employeedata SET firstname='$firstname',email='$email',contact='$contact' WHERE employeeid=$employeeid";
     //$r1 = mysql_query( $s1, $conn);
     //&& $conn->query($s2)  && $conn->query($s3)  && $conn->query($s4)  && $conn->query($s5)
-    if ($s1)
+    if ($s1 && $s2 && $s3 && $s4 && $s5)
         { echo "<script type='text/javascript'>alert('Successful - Record Updated!'); window.location.href = 'user_profile.php';</script>"; }
     else
         { echo "<script type='text/javascript'>alert('Unsuccessful - ERROR!'); window.location.href = 'user_profile.php';</script>"; }
