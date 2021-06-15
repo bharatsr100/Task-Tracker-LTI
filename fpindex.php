@@ -16,6 +16,13 @@ session_start();
     <h3>Enter Employee Email ID And Recover Your Account</h3>
   </center>
   <form method="post" class="form-horizontal">
+    <div class="alert alert-success alert-dismissible" id="success" style="display:none;">
+
+  	</div>
+  	<div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
+
+  	</div>
+
     <div class="form-group">
       <!-- <label class="col-sm-3 control-label">Employee Email ID</label> -->
       <div class="col-sm-6">
