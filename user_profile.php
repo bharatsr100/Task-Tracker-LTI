@@ -1,13 +1,66 @@
 <?php
+
 session_start();
 if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 $arr = unserialize($_SESSION['arr']);
-
+$uguid=$_SESSION['uguid'];
 
 //echo $arr['shortname'];
 //echo $arr['contact']
+?>
+
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$db="userdatabase";
+/*Create connection*/
+$conn = mysqli_connect($servername, $username, $password,$db);
+
+if(isset($_POST['update']))
+{ $password= $_POST['password'];
+  $p2= mysqli_query($conn,"select * from userdata1 where password= '$password' && uguid='$uguid'");
+  $n1= mysqli_num_rows($p2);
+
+  if($n1){
+  $uname= $_POST['uname'];
+  $shortname= $_POST['shortname'];
+  $employeeid= $_POST['employeeid'];
+  $contact= $_POST['contact'];
+  $e_emailid= $_POST['e_emailid'];
+  $p_emailid= $_POST['p_emailid'];
+  $t1="contact";
+  $t2="employeeid";
+  $t3="e_emailid";
+  $t4="p_emailid";
+
+
+    //$s1 ="UPDATE userdata1 SET uname='$uname', shortname='$shortname' WHERE uguid= '$uguid'" ;
+    $s1= mysqli_query($conn,"UPDATE userdata1 SET uname='$uname', shortname='$shortname' WHERE uguid= '$uguid'");
+    //$s2 ="UPDATE userdata2 SET value='$contact' WHERE type= $t1 && uguid= $uguid" ;
+
+    // $s3 ="UPDATE userdata2 SET value='$employeeid'  WHERE type= $t2 && uguid= $uguid" ;
+    // $s4 ="UPDATE userdata2 SET value='$e_emailid' WHERE type= $t3 && uguid= $uguid" ;
+    // $s5 ="UPDATE userdata2 SET value='$p_emailid' WHERE type= $t4 && uguid= $uguid" ;
+    //$sql1 = "UPDATE employeedata SET firstname='$firstname',email='$email',contact='$contact' WHERE employeeid=$employeeid";
+    //$r1 = mysql_query( $s1, $conn);
+    //&& $conn->query($s2)  && $conn->query($s3)  && $conn->query($s4)  && $conn->query($s5)
+    if ($s1)
+        { echo "<script type='text/javascript'>alert('Successful - Record Updated!'); window.location.href = 'user_profile.php';</script>"; }
+    else
+        { echo "<script type='text/javascript'>alert('Unsuccessful - ERROR!'); window.location.href = 'user_profile.php';</script>"; }
+
+}
+else {
+  echo "<script type='text/javascript'>alert('Wrong Password! Try again!!'); window.location.href = 'user_profile.php';</script>";
+}
+}
+// $query1=mysql_query("SELECT * FROM tbl_staffs WHERE username='".mysql_real_escape_string($_SESSION["VALID_USER"])."'  AND user_levels = '".mysql_real_escape_string('1')."'");
+// $query2=mysql_fetch_array($query1);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +80,7 @@ $arr = unserialize($_SESSION['arr']);
   <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float: right;">Log Out</button>
   <br>
   <h1 style="text-align:center;"> User Profile <?php
-echo $arr['uname'];
+echo $arr['shortname'];
 ?> </h1>
   <br><br>
   <div style="margin: auto;width: 60%;">
@@ -37,7 +90,7 @@ echo $arr['uname'];
     <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
 
     </div>
-    <form id="update_form" name="form1" method="post" style="margin-top:50px;">
+    <form id="update_form" name="form1" method="post" ation="user_profile.php" style="margin-top:50px;">
       <div class="form-group">
         <label for="uname">Full Name:</label>
         <input type="text" class="form-control" id="uname" value= "<?php echo $arr['uname']; ?>" name="uname">
@@ -69,7 +122,7 @@ echo $arr['uname'];
       </div>
       <div style="margin-left:10px; width:200px;height:30px;float:left;">
 
-        <input type="button" name="save" class="btn btn-primary" value="Update" id="update">
+        <input type="submit" name="update" class="btn btn-primary" value="Update" id="update">
       </div>
     </form>
 

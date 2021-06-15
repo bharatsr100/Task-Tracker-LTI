@@ -23,9 +23,10 @@ $name="Hello  there!!";
   <button onclick="location.href='logout.php';" type="button" class="btn btn-primary">Log Out</button>
   <h1 style="text-align:center;"> Welcome <?php
   //echo $_SESSION['uname'];
-  echo $arr['uname'];
+  //echo $_SESSION['uguid'];
   // echo $name;
   // echo $arr['uguid'];
+      echo $arr['uname'];
   ?> </h1>
 
 
