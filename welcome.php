@@ -1,8 +1,10 @@
 <?php
 session_start();
-if(!isset($_SESSION['uname'])){
+if(!isset($_SESSION['arr'])){
 header('location:index.php');
 }
+$arr = unserialize($_SESSION['arr']);
+$name="Hello  there!!";
 ?>
 <html>
 
@@ -19,7 +21,14 @@ header('location:index.php');
 <body>
   <!-- <a href="logout.php"> Logout</a> -->
   <button onclick="location.href='logout.php';" type="button" class="btn btn-primary">Log Out</button>
-  <h1 style="text-align:center;"> Welcome <?php echo $_SESSION['uname']; ?> </h1>
+  <h1 style="text-align:center;"> Welcome <?php
+  //echo $_SESSION['uname'];
+  echo $arr['uname'];
+  // echo $name;
+  // echo $arr['uguid'];
+  ?> </h1>
+
+
   <br><br>
   <button onclick="location.href='#';" type="button" class="btn btn-secondary">User Profile</button>
   <button onclick="location.href='#';" type="button" class="btn btn-secondary">My Task</button>

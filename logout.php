@@ -1,6 +1,6 @@
 <?php
 session_start();
 session_destroy();
-unset($_SESSION['uname']);
+unset($_SESSION['arr']);
 header("Location:index.php");
 ?>
