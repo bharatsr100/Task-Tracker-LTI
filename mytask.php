@@ -127,26 +127,31 @@ $arr = unserialize($_SESSION['arr']);
 <th>Actual Start</th>
 <th>Actual End</th>
 <th>Actual Effort</th>
+<th>Task Stage</th>
+<th>Created By</th>
 </tr>
 <?php
 include 'database.php';
+  $uguid=$_SESSION['uguid'];
 //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
-$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid";
+$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.createdby='$uguid'";
 //$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
 $result=mysqli_query($conn, $sql2);
 while($row=mysqli_fetch_assoc($result))
 {
   ?>
      <tr>
-     <td><p><?php echo $row['createdon']; ?></p></td>
-     <td><p><?php echo $row['tid']; ?></p></td>
-     <td><p><?php echo $row['tdescription']; ?></p></td>
-     <td><p><?php echo $row['pstart']; ?></p></td>
-     <td><p><?php echo $row['pend']; ?></p></td>
-     <td><p><?php echo $row['peffort']; ?></p></td>
-     <td><p><?php echo $row['astart']; ?></p></td>
-     <td><p><?php echo $row['aend']; ?></p></td>
-     <td><p><?php echo $row['aeffort']; ?></p></td>
+     <td><?php echo $row['createdon']; ?></td>
+     <td><?php echo $row['tid']; ?></td>
+     <td><?php echo $row['tdescription']; ?></td>
+     <td><?php echo $row['pstart']; ?></td>
+     <td><?php echo $row['pend']; ?></td>
+     <td><?php echo $row['peffort']; ?></td>
+     <td><?php echo $row['astart']; ?></td>
+     <td><?php echo $row['aend']; ?></td>
+     <td><?php echo $row['aeffort']; ?></td>
+     <td><p><?php echo $row['tstage']; ?></p></td>
+     <td><p><?php echo $row['createdby']; ?></p></td>
      </tr>
      <?php
  }
