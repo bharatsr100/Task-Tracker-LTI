@@ -6,6 +6,7 @@ header('location:index.php');
 }
 if($_POST['type']==1){
 $arr2 = array (
+
         "tid"=> "",
         "tdescription"=> "",
         "ttype"=> "",
@@ -61,10 +62,25 @@ $arr2 = array (
     $arr2['aeffort']="$aeffort";
     $arr2['comment']="$comment";
 
+    if($assignto=="") $assignto=$uguid;
     $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby')";
-     $r1=mysqli_query($conn, $sql1);
+    $r1=mysqli_query($conn, $sql1);
+    $tsequenceid=11;
+    $tstage=0;
 
-     if($r1) {
+    if($pstart==""){
+      $tstage=1;
+    }
+    else {
+      $tstage=2;
+    }
+
+
+    $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
+    $r2=mysqli_query($conn, $sql2);
+
+
+     if($r1 && $r2) {
        $arr2['statuscode']="s";
        $arr2['description']="Task Created Successfully";
      }
