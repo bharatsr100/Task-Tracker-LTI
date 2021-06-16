@@ -49,6 +49,9 @@ $arr2 = array (
     $createdat=$time2;
     $createdby=$uguid;
 
+    $updatedon=$date1;
+    $updatedat=$time2;
+    $updatedby=$uguid;
 
     $arr2['tid']="$tid";
     $arr2['tdescription']="$tdescription";
@@ -78,9 +81,9 @@ $arr2 = array (
 
     $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
     $r2=mysqli_query($conn, $sql2);
-
-
-     if($r1 && $r2) {
+    $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
+    $r3=mysqli_query($conn, $sql3);
+     if($r1 && $r2 && $r3) {
        $arr2['statuscode']="s";
        $arr2['description']="Task Created Successfully";
      }
