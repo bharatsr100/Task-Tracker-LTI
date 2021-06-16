@@ -20,8 +20,9 @@ $name="Hello  there!!";
 
 <body>
   <!-- <a href="logout.php"> Logout</a> -->
-  <button onclick="location.href='logout.php';" type="button" class="btn btn-primary">Log Out</button>
-  <h1 style="text-align:center;"> Welcome <?php
+  <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float:right;">Log Out</button>
+  <br><br><br>
+  <h1 style="text-align:center; margin-top:50px;"> Welcome <?php
   //echo $_SESSION['uname'];
   //echo $_SESSION['uguid'];
   // echo $name;

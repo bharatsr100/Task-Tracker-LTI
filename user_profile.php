@@ -62,6 +62,35 @@ else {
   echo "<script type='text/javascript'>alert('Wrong Password! Try again!!'); window.location.href = 'user_profile.php';</script>";
 }
 }
+
+if(isset($_POST['u_password'])){
+    $password= $_POST['opassword'];
+    $p2= mysqli_query($conn,"select * from userdata1 where password= '$password' && uguid='$uguid'");
+    $n1= mysqli_num_rows($p2);
+    if($n1){
+      $npassword= $_POST['npassword'];
+      $ncpassword= $_POST['ncpassword'];
+      if($npassword==$ncpassword){
+        $s1= mysqli_query($conn,"UPDATE userdata1 SET password='$npassword' WHERE uguid= '$uguid'");
+        if($s1){
+          echo "<script type='text/javascript'>alert('Successful - Password Updated!'); window.location.href = 'user_profile.php';</script>";
+        }
+        else{
+          echo "<script type='text/javascript'>alert('Unsuccessful - ERROR!'); window.location.href = 'user_profile.php';</script>";
+        }
+      }
+      else{
+        echo "<script type='text/javascript'>alert('Passwords Not Matching !! Try again!!'); window.location.href = 'user_profile.php';</script>";
+      }
+
+    }
+    else{
+
+        echo "<script type='text/javascript'>alert('Wrong Password! Try again!!'); window.location.href = 'user_profile.php';</script>";
+
+    }
+
+}
 // $query1=mysql_query("SELECT * FROM tbl_staffs WHERE username='".mysql_real_escape_string($_SESSION["VALID_USER"])."'  AND user_levels = '".mysql_real_escape_string('1')."'");
 // $query2=mysql_fetch_array($query1);
 
@@ -77,12 +106,17 @@ else {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <script src="uprofile.js"></script>
   <title> user profile page</title>
 </head>
 
 <body>
+
   <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float: right;">Log Out</button>
-  <br>
+  <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; margin-right:10px;">Home</button>
+  <br><br><br>
+
+
   <h1 style="text-align:center;"> User Profile <?php
 echo $arr['shortname'];
 ?> </h1>
@@ -94,7 +128,10 @@ echo $arr['shortname'];
     <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
 
     </div>
-    <form id="update_form" name="form1" method="post" ation="user_profile.php" style="margin-top:50px;">
+    <button type="button" class="btn btn-secondary" id="userprofile">Update User Profile</button>
+    <button type="button" class="btn btn-secondary" id="upassword">Password and Security</button>
+
+    <form id="update_form" name="form1" method="post" action="user_profile.php" style="margin-top:50px;">
       <div class="form-group">
         <label for="uname">Full Name:</label>
         <input type="text" class="form-control" id="uname" value= "<?php echo $arr['uname']; ?>" name="uname">
@@ -128,6 +165,23 @@ echo $arr['shortname'];
 
         <input type="submit" name="update" class="btn btn-primary" value="Update" id="update">
       </div>
+    </form>
+
+    <form id="update_password" name="form4" method="post" action="user_profile.php" style="margin-top:50px;display:none;">
+      <div class="form-group" >
+        <label for="opassword">Current Password</label>
+        <input type="password" class="form-control" id="opassword" placeholder="Current Password" name="opassword">
+      </div>
+      <div class="form-group" style="margin-top:50px;">
+        <label for="npassword">New Password:</label>
+        <input type="password" class="form-control" id="npassword" placeholder="New Password" name="npassword">
+      </div>
+      <div class="form-group" >
+        <label for="ncpassword">Confirm New Password:</label>
+        <input type="password" class="form-control" id="ncpasswod" placeholder="Confirm New Password" name="ncpassword">
+      </div>
+
+      <input type="submit" name="u_password" class="btn btn-primary" value="Update Password" id="u_password">
     </form>
 
 

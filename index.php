@@ -19,9 +19,10 @@
 	<div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
 
 	</div>
-	<button type="button" class="btn btn-success btn-sm" id="register">Register</button> <button type="button" class="btn btn-success btn-sm" id="login">Login</button>
+	<button type="button" class="btn btn-success btn-sm" id="register">Register</button>
+	 <button type="button" class="btn btn-success btn-sm" id="login">Login</button>
 
-	<form id="register_form" name="form1" method="post" style="margin-top:50px;">
+	<form id="register_form" name="form1" method="post" style="margin-top:50px;display:none;">
 		<div class="form-group">
 			<label for="uname">Full Name:</label>
 			<input type="text" class="form-control" id="uname" placeholder="Full Name" name="uname">
@@ -62,7 +63,7 @@
 	<div id="message1" style="margin-left:-80px;margin-top: 10px;width:200px;height:30px;float:left;" ></div>
 
 	</form>
-	<form id="login_form" name="form1" method="post" style="display:none;">
+	<form id="login_form" name="form1" method="post" >
 
 		<div style="margin-top:50px;" class="form-group">
 			<label title="Use Employee Number, Employee Email ID, Project Email ID or Contact Number as User ID" for="userid">User ID:
@@ -74,7 +75,7 @@
 			<input type="password" class="form-control" id="password_log" placeholder="Password" name="password_log">
 		</div>
 		<input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
-		<input type="button" name="save" class="btn btn-primary" value="Forgot Password" id="f_password">
+		<input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password">
 	</form>
 </div>
 <div id="message1" style="margin-top:50px;width:250px;height:30px" ></div>

@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+
 <html lang="en" dir="ltr">
 
 <head>
@@ -12,17 +10,34 @@ session_start();
 </head>
 
 <body>
+  <div id="msg">
+  <?php
+  session_start();
+  if(isset($_SESSION["errorMsg"]))
+  {
+  ?>
+  <div class="alert alert-danger">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong><?php echo $_SESSION["errorMsg"]; unset($_SESSION["errorMsg"]);?></strong>
+  </div>
+  <?php
+  }
+  if(isset($_SESSION["successMsg"]))
+  {
+  ?>
+  <div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong><?php echo $_SESSION["successMsg"]; unset($_SESSION["successMsg"]); ?></strong>
+  </div>
+  <?php
+  }
+  ?>
+  </div>
+
   <center>
     <h3>Enter Employee Email ID And Recover Your Account</h3>
   </center>
   <form method="post" class="form-horizontal">
-    <div class="alert alert-success alert-dismissible" id="success" style="display:none;">
-
-  	</div>
-  	<div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
-
-  	</div>
-
     <div class="form-group">
       <!-- <label class="col-sm-3 control-label">Employee Email ID</label> -->
       <div class="col-sm-6">

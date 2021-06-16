@@ -112,4 +112,6 @@ $(document).ready(function() {
 		$('#f_password').on('click', function() {
 			location.href = "fpindex.php";
 		});
+
+
 });
