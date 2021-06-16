@@ -116,5 +116,43 @@ $arr = unserialize($_SESSION['arr']);
         </div>
       </div>
     </div>
+    <table align="center" border="1" width="70%">
+<tr>
+<th>Task Creation Date</th>
+<th>Task ID</th>
+<th>Task Description</th>
+<th>Planned Start</th>
+<th>Planned End</th>
+<th>Planned Effort</th>
+<th>Actual Start</th>
+<th>Actual End</th>
+<th>Actual Effort</th>
+</tr>
+<?php
+include 'database.php';
+//$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
+$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid";
+//$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
+$result=mysqli_query($conn, $sql2);
+while($row=mysqli_fetch_assoc($result))
+{
+  ?>
+     <tr>
+     <td><p><?php echo $row['createdon']; ?></p></td>
+     <td><p><?php echo $row['tid']; ?></p></td>
+     <td><p><?php echo $row['tdescription']; ?></p></td>
+     <td><p><?php echo $row['pstart']; ?></p></td>
+     <td><p><?php echo $row['pend']; ?></p></td>
+     <td><p><?php echo $row['peffort']; ?></p></td>
+     <td><p><?php echo $row['astart']; ?></p></td>
+     <td><p><?php echo $row['aend']; ?></p></td>
+     <td><p><?php echo $row['aeffort']; ?></p></td>
+     </tr>
+     <?php
+ }
+ ?>
+ </table>
+
+
   </body>
 </html>
