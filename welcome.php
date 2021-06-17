@@ -15,7 +15,15 @@ $name="Hello  there!!";
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+  <!-- <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table-locale-all.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script> -->
+
   <title> welcome page</title>
+
 </head>
 
 <body>
@@ -28,6 +36,7 @@ $name="Hello  there!!";
   // echo $name;
   // echo $arr['uguid'];
       echo $arr['uname'];
+      //
   ?> </h1>
 
 
@@ -35,6 +44,8 @@ $name="Hello  there!!";
   <button onclick="location.href='user_profile.php';" type="button" class="btn btn-secondary">User Profile</button>
   <button onclick="location.href='mytask.php';" type="button" class="btn btn-secondary">My Task</button>
   <button onclick="location.href='#';" type="button" class="btn btn-secondary">Calendar</button>
+  <br><br><br>
+
 
 
 </body>
