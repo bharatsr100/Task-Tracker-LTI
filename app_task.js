@@ -14,8 +14,9 @@ $(document).ready(function() {
     var aeffort = $('#aeffort').val();
     var comment = $('#comment').val();
 
-    if(tid!="" && tdescription!="" && ttype!="" ){
-      //console. log("3");
+    console. log("4");
+    if(tid!="" && tdescription!=""  ){
+      console. log("3");
 
       $.ajax({
 				url: "task.php",
@@ -45,7 +46,7 @@ $(document).ready(function() {
 						$("#createtask").removeAttr("disabled");
 						$('#task_form').find('input:text').val('');
 
-            alert("Successfully created task");
+            alert(dataResult.description);
 						// $("#success").show();
 						// $('#success').html('Successfully created task!');
 
@@ -53,7 +54,7 @@ $(document).ready(function() {
         else {
           // $("#error").show();
           // $('#error').html('Task Creation Unsuccessful');
-          alert("Unsuccessful in creating task");
+          alert(dataResult.description);
         }
       }
       });
