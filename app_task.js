@@ -15,7 +15,7 @@ $(document).ready(function() {
     var comment = $('#comment').val();
 
     console. log("4");
-    if(tid!="" && tdescription!=""  ){
+    if((tid!="" && tdescription!="" && pstart!="" && pend!="" && peffort!="") || (tid!="" && tdescription!="" && pstart=="" && pend=="" && peffort=="")  ){
       console. log("3");
 
       $.ajax({

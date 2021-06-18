@@ -66,6 +66,19 @@ $arr2 = array (
     $arr2['comment']="$comment";
 
     if($assignto=="") $assignto=$uguid;
+
+    $st= mysqli_query($conn,"select * from ttable where tid= '$tid' && createdby='$createdby'");
+    $nt= mysqli_num_rows($st);
+
+    if($st){
+      $arr2['statuscode']="e";
+      $arr2['description']="Task ID Already Exist";
+      echo json_encode($arr2);
+      mysqli_close($conn);
+    }
+
+    else{
+
     $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby')";
     $r1=mysqli_query($conn, $sql1);
     $tsequenceid=11;
@@ -93,4 +106,5 @@ $arr2 = array (
 
 
   }
+}
 ?>

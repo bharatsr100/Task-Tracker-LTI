@@ -18,7 +18,7 @@ $pstart= $_POST['pstart1'];
 $pend= $_POST['pend1'];
 $peffort= $_POST['peffort1'];
 
-$s3= mysqli_query($conn,"select * from ttable where tid= '$tid' && tguid!='$tguid'");
+$s3= mysqli_query($conn,"select * from ttable where tid= '$tid' && tguid!='$tguid' && createdby='$uguid'");
 $n3= mysqli_num_rows($s3);
 if($n3){
   echo "<script type='text/javascript'>alert('Task ID Already Exist.!'); window.location.href = 'mytask.php';</script>";
