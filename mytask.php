@@ -287,7 +287,7 @@ $arr = unserialize($_SESSION['arr']);
           </div>
           <div class="modal-body">
 
-          <form id="task_form1" name="form1" method="post" action="" >
+          <form id="task_form1" name="form1" method="post" action="updatetask.php" >
             <div  class="form-group">
               <label style="display:none;" for="tguid">Task GUID:
             </label>
@@ -370,7 +370,7 @@ $arr = unserialize($_SESSION['arr']);
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="edittaskbtn">Save</button>
+            <button type="submit" class="btn btn-primary" id="edittaskbtn" name="edittaskbtn" >Save</button>
           </form>
 
           </div>
