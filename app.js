@@ -90,7 +90,11 @@ $(document).ready(function() {
 				cache: false,
 				success: function(dataResult){
 					var dataResult = JSON.parse(dataResult);
-          console.log(dataResult);
+        	//console.dir(dataResult);
+					//console.log(JSON.stringify(dataResult));
+					//console.log(dataResult);
+					console.log(JSON.stringify(dataResult, null, 4));
+					//console.table(dataResult);
 
 					if(dataResult.statuscode=="s"){
 						location.href = "welcome.php";

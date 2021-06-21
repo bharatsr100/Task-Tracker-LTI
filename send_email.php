@@ -139,7 +139,7 @@ if (isset($_POST["email"]) && (!empty($_POST["email"]))) {
         if (!$mail->Send()) {
             echo "Mailer Error: " . $mail->ErrorInfo;
         } else {
-            echo "<br><br> <h1>An Email is sent</h1><br><br>";
+            echo "<br><br> <center><h1>An Email has been sent for password recovery</h1></center><br><br>";
         }
     }
 }

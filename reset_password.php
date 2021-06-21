@@ -72,16 +72,32 @@
                             echo $error;
                         } else {
                           $t1="e_emailid";
-                          $sel_query = "SELECT * FROM userdata2 WHERE value='$email' && type='$t1'";
-                          $results = mysqli_query($conn, $sel_query);
-                          $row1 = mysqli_fetch_assoc($results);
-                          $uguid= $row1["uguid"];
-                          mysqli_query($conn,"UPDATE userdata1 SET password='$pass1' WHERE uguid= '$uguid'");
-                            //mysqli_query($conn, "UPDATE `users` SET `password` = '" . $pass1 . "', `trn_date` = '" . $curDate . "' WHERE `email` = '" . $email . "'");
 
-                            mysqli_query($conn, "DELETE FROM `password_reset_temp` WHERE `email` = '$email'");
 
-                            echo '<div class="error"><p>Congratulations! Your password has been updated successfully.</p>';
+                        //  $results =  ($conn,"SELECT * FROM `userdata2` WHERE `value`='" . $email . "' and `type`='" . $t1 . "'");
+                          $sql1 = "SELECT * FROM userdata2 WHERE value='$email' && type='$t1'";
+                        //$results = mysqli_query($conn, $sql1);
+                          $results=$conn->query($sql1);
+                          $row3 = mysqli_fetch_assoc($results);
+                          // //echo "results query=".$results."<br>";
+                          // echo "row query=".$row3."<br>";
+                          // echo "value=".$row3["value"]."<br>";
+                          // echo "type=".$row3['type']."<br>";
+                          // echo $row3['uguid'];
+                          $uguid= $row3['uguid'];
+                        //  echo $uguid;
+                        //$sql1=  mysqli_query($conn,"UPDATE userdata1 SET password='$pass1' WHERE uguid= '$uguid'");
+                        $sql1= mysqli_query($conn, "UPDATE `userdata1` SET `password` = '" . $pass1 . "' WHERE `uguid` = '" . $uguid . "'");
+                        //mysqli_query($conn, "UPDATE `users` SET `password` = '" . $pass1 . "', `trn_date` = '" . $curDate . "' WHERE `email` = '" . $email . "'");
+
+                        // echo "sql query result=".$sql1."<br>";
+                            if($sql1){
+                              //echo "uguid=".$uguid."<br>";
+                            //  echo "uname=".$uname."<br>";
+                              echo "<h1><center>Congratulations! Your password has been updated successfully</center></h1>";
+                              mysqli_query($conn, "DELETE FROM `password_reset_temp` WHERE `email` = '$email'");
+                            }
+                            else echo "Some error occured while updating passwprd";
                         }
                     }
                     ?>
