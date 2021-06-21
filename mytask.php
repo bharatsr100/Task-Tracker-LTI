@@ -520,7 +520,7 @@ $arr = unserialize($_SESSION['arr']);
     </div>
     <!-- ######################################################################################################################################### -->
     <!-- my task table -->
-    <table  class="table table-hover" id="mytasktable">
+    <table  class="table" id="mytasktable">
       <thead>
       <tr>
         <th scope="col">Task Creation Date</th>

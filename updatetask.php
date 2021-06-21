@@ -20,20 +20,28 @@ $peffort= $_POST['peffort1'];
 
 $s3= mysqli_query($conn,"select * from ttable where tid= '$tid' && tguid!='$tguid' && createdby='$uguid'");
 $n3= mysqli_num_rows($s3);
+
+
 if($n3){
   echo "<script type='text/javascript'>alert('Task ID Already Exist.!'); window.location.href = 'mytask.php';</script>";
 }
 else{
-if($assignto=="") $assignto=$uguid;
 
+if(($pstart!="" && $pend!="" && $peffort!="") || ($pstart=="" && $pend=="" && $peffort=="") ){
+if($assignto=="") $assignto=$uguid;
+$tsequence= 11;
 $s1= mysqli_query($conn,"UPDATE ttable SET tid='$tid', tdescription='$tdescription',ttype='$ttype' WHERE tguid= '$tguid'");
-$s2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto', pstart='$pstart',pend='$pend',peffort='$peffort' WHERE tguid= '$tguid'");
+$s2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto', pstart='$pstart',pend='$pend',peffort='$peffort' WHERE tguid= '$tguid' && tsequenceid='$tsequence'");
 
 if($s1 && $s2){
 echo "<script type='text/javascript'>alert('Successful - Task Updated!'); window.location.href = 'mytask.php';</script>";
 }
 else{
 echo "<script type='text/javascript'>alert('UnSuccessful - Task Not Updated!'); window.location.href = 'mytask.php';</script>";
+}
+}
+else{
+  echo "<script type='text/javascript'>alert('UnSuccessful - Enter all planning details!'); window.location.href = 'mytask.php';</script>";
 }
 }
 }
