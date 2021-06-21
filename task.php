@@ -92,7 +92,7 @@ $arr2 = array (
     }
 
 
-    $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
+    $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
     $r2=mysqli_query($conn, $sql2);
     $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
     $r3=mysqli_query($conn, $sql3);

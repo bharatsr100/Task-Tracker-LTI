@@ -79,17 +79,65 @@ $(document).ready(function() {
 
 
 			if(data[4]!=""){
+				$('#editmodal').modal('show');
+				$('#tguid1').val(data[0]);
+				$('#tdescription1').val(data[2]);
+				$('#ttype1').val(data[3]);
+				$('#tid1').val(data[1].trim());
+				$("#pstart1").val(data[4]);
+				$("#pend1").val(data[5]);
+				$("#peffort1").val(data[6]);
 
-			alert("Task is already planned please contact your admin");
+				$("#edittaskbtn").hide();
+
+				$("#tid1").attr("readonly","readonly");
+				$("#tid1").attr("disabled", "disabled");
+				$("#tdescription1").attr("readonly","readonly");
+				$("#tdescription1").attr("disabled", "disabled");
+				$("#ttype1").attr("readonly","readonly");
+				$("#ttype1").attr("disabled", "disabled");
+				$("#assignto1").attr("readonly","readonly");
+				$("#assignto1").attr("disabled", "disabled");
+				$("#pstart1").attr("readonly","readonly");
+				$("#pstart1").attr("disabled", "disabled");
+				$("#pend1").attr("readonly","readonly");
+				$("#pend1").attr("disabled", "disabled");
+				$("#peffort1").attr("readonly","readonly");
+				$("#peffort1").attr("disabled", "disabled");
+
+			//alert("Task is already planned please contact your admin");
 			 }
 
 			 else{
 				 $('#editmodal').modal('show');
 
 				 $('#tguid1').val(data[0]);
+				 $('#tid1').val(data[1].trim());
 				 $('#tdescription1').val(data[2]);
 				 $('#ttype1').val(data[3]);
-				 $('#tid1').val(data[1].trim());
+				 $("#pstart1").val("");
+				 $("#pend1").val("");
+				 $("#peffort1").val("");
+
+
+				 $("#tid1").prop("readonly", false);
+				 $("#tid1").prop("disabled", false);
+				 $("#tdescription1").prop("readonly", false);
+				 $("#tdescription1").prop("disabled", false);
+				 $("#ttype1").prop("readonly", false);
+				 $("#ttype1").prop("disabled", false);
+				 $("#assignto1").prop("readonly", false);
+				 $("#assignto1").prop("disabled", false);
+				 $("#pstart1").prop("readonly", false);
+				 $("#pstart1").prop("disabled", false);
+				 $("#pend1").prop("readonly", false);
+				 $("#pend1").prop("disabled", false);
+				 $("#peffort1").prop("readonly", false);
+				 $("#peffort1").prop("disabled", false);
+
+				 $("#edittaskbtn").show();
+
+
 
 			 }
 

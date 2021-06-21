@@ -524,7 +524,7 @@ $arr = unserialize($_SESSION['arr']);
       <thead>
       <tr>
         <th scope="col">Task Creation Date</th>
-        <th scope="col" >Task GUID</th>
+        <th scope="col" style="display:none;" >Task GUID</th>
         <th scope="col">Task ID</th>
         <th scope="col">Task Description</th>
         <th scope="col">Task Type</th>
@@ -556,7 +556,7 @@ $arr = unserialize($_SESSION['arr']);
   ?>
       <tr>
         <th scope="row"><?php echo $row['createdon']; ?></th>
-        <td ><?php echo $row['tguid']; ?></td>
+        <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
         <td><button onclick="location.href='#'" type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
         <?php

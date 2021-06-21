@@ -23,6 +23,7 @@ $n3= mysqli_num_rows($s3);
 
 
 if($n3){
+  
   echo "<script type='text/javascript'>alert('Task ID Already Exist.!'); window.location.href = 'mytask.php';</script>";
 }
 else{
@@ -31,7 +32,7 @@ if(($pstart!="" && $pend!="" && $peffort!="") || ($pstart=="" && $pend=="" && $p
 if($assignto=="") $assignto=$uguid;
 $tsequence= 11;
 $s1= mysqli_query($conn,"UPDATE ttable SET tid='$tid', tdescription='$tdescription',ttype='$ttype' WHERE tguid= '$tguid'");
-$s2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto', pstart='$pstart',pend='$pend',peffort='$peffort' WHERE tguid= '$tguid' && tsequenceid='$tsequence'");
+$s2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto',tstepdescription='$tdescription', pstart='$pstart',pend='$pend',peffort='$peffort' WHERE tguid= '$tguid' && tsequenceid='$tsequence'");
 
 if($s1 && $s2){
 echo "<script type='text/javascript'>alert('Successful - Task Updated!'); window.location.href = 'mytask.php';</script>";

@@ -93,7 +93,7 @@ $(document).ready(function() {
         	//console.dir(dataResult);
 					//console.log(JSON.stringify(dataResult));
 					//console.log(dataResult);
-					console.log(JSON.stringify(dataResult, null, 4));
+					//console.log(JSON.stringify(dataResult, null, 4));
 					//console.table(dataResult);
 
 					if(dataResult.statuscode=="s"){
