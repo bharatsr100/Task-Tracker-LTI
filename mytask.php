@@ -28,9 +28,9 @@ $arr = unserialize($_SESSION['arr']);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    <link red="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <link red="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"> -->
     <script src="app_task.js"></script>
     <title>my tasks</title>
 
@@ -115,7 +115,7 @@ $arr = unserialize($_SESSION['arr']);
     <i class="fas fa-plus"></i>  Create Task
     </button>
     <br>
-    <a href="#" onclick="testfunction(129);" style="display:none">Cick here</a>
+
     <!-- ######################################################################################################################################### -->
     <!--Create Task Modal -->
 
@@ -193,7 +193,7 @@ $arr = unserialize($_SESSION['arr']);
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="createtask">Create</button>
+            <button type="submit" class="btn btn-primary createtask1" id="createtask">Create</button>
           </form>
 
           </div>
@@ -453,7 +453,7 @@ $arr = unserialize($_SESSION['arr']);
     <!-- ######################################################################################################################################### -->
 
     <!-- ######################################################################################################################################### -->
-      <!--Hold Task Modal -->
+      <!--Await Task Modal -->
     <div class="modal fade" id="awaittaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document" id="awaitmodal">
         <div class="modal-content">
@@ -486,7 +486,7 @@ $arr = unserialize($_SESSION['arr']);
       </div>
     </div>
     <!-- ######################################################################################################################################### -->
-  <!--Await Task Modal -->
+  <!--Delete Task Modal -->
     <div class="modal fade" id="deletetaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document" id="deletemodal">
         <div class="modal-content">
@@ -525,8 +525,6 @@ $arr = unserialize($_SESSION['arr']);
       <tr>
         <th scope="col">Task Creation Date</th>
         <th scope="col" >Task GUID</th>
-
-
         <th scope="col">Task ID</th>
         <th scope="col">Task Description</th>
         <th scope="col">Task Type</th>
@@ -821,15 +819,7 @@ while($row=mysqli_fetch_assoc($result))
   </tr>
   </thead>
 </table>
-<script>
-$(document).ready(function(){
 
-
-
-});
-
-
-</script>
 
   </body>
 </html>

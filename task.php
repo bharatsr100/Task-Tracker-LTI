@@ -70,7 +70,7 @@ $arr2 = array (
     $st= mysqli_query($conn,"select * from ttable where tid= '$tid' && createdby='$createdby'");
     $nt= mysqli_num_rows($st);
 
-    if($st){
+    if($nt){
       $arr2['statuscode']="e";
       $arr2['description']="Task ID Already Exist";
       echo json_encode($arr2);
