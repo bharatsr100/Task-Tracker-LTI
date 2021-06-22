@@ -28,7 +28,7 @@ $arr2 = array (
     date_default_timezone_set("Asia/Kolkata");
     $date1= date("Ymd");
     $time1= date("hsiv");
-    $time2= date("hsi");
+    $time2= date("his");
     $digits = 4;
     $ran= rand(pow(10, $digits-1), pow(10, $digits)-1);
     $tguid=$date1.$time1.$ran;

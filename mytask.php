@@ -81,6 +81,10 @@ $arr = unserialize($_SESSION['arr']);
       outline: none;
       overflow:hidden;
       }
+      #commentbtn1{
+        font-weight: 700;
+        background: white;
+      }
       #stepbtn1{
         background: white;
       }
@@ -95,6 +99,15 @@ $arr = unserialize($_SESSION['arr']);
       .stmodal{
         max-width: 70%;
       }
+      .ctmodal{
+        max-width: 70%;
+      }
+      #commenttask3{
+        border: 1px solid #ddd;
+        width: 70%;
+      }
+
+
     </style>
 
   </head>
@@ -518,6 +531,64 @@ $arr = unserialize($_SESSION['arr']);
         </div>
       </div>
     </div>
+  <!-- ######################################################################################################################################### -->
+      <!--Comment Modal -->
+    <div class="modal fade" id="commenttaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog ctmodal" role="document" id="commentmodal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          <form id="comment_form" name="form1" action="updatetask.php" method="post" >
+
+            <div  class="form-group">
+              <label  for="tguid4" style="display:none;">TGUID:
+            </label>
+              <input type="text" class="form-control" id="tguid4" placeholder="TGUID" name="tguid4" style="display:none;">
+            </div>
+            <div  class="form-group">
+              <label  for="comment4">New Comment:
+            </label>
+              <input type="text" class="form-control" id="comment4" placeholder="New Comment" name="comment4">
+            </div>
+
+            <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
+            <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="savecomment" name="savecomment">Save Comment</button>
+          </form>
+          <br><br><br>
+          <center><h1 >Comment History</h1>
+          <br><br>
+          <div id="tcomments" style="display:contents">
+          <table class="table table-hover" id="commenttask3">
+
+            <thead>
+            <tr>
+
+              <th scope="col" >Commented On</th>
+              <th scope="col" >Commented At</th>
+              <th scope="col">Commment</th>
+            </tr>
+            </thead>
+
+            <tbody id="tbodycomment">
+            </tbody>
+
+          </table>
+        </div>
+          </center>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- ######################################################################################################################################### -->
     <!-- my task table -->
     <table  class="table" id="mytasktable">
@@ -555,7 +626,8 @@ $arr = unserialize($_SESSION['arr']);
   {
   ?>
       <tr>
-        <th scope="row"><?php echo $row['createdon']; ?></th>
+
+        <th scope="row"><button type="submit" class="btn btn-success commentbtn" id="commentbtn1" style="color: black; border-color:white"><?php echo $row['createdon']; ?></button></th>
         <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
         <td><button onclick="location.href='#'" type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:

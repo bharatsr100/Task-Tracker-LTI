@@ -23,7 +23,7 @@ $n3= mysqli_num_rows($s3);
 
 
 if($n3){
-  
+
   echo "<script type='text/javascript'>alert('Task ID Already Exist.!'); window.location.href = 'mytask.php';</script>";
 }
 else{
@@ -45,5 +45,31 @@ else{
   echo "<script type='text/javascript'>alert('UnSuccessful - Enter all planning details!'); window.location.href = 'mytask.php';</script>";
 }
 }
+}
+else if(isset($_POST['savecomment'])){
+  $tguid= $_POST['tguid4'];
+  $uguid=$_SESSION['uguid'];
+
+  date_default_timezone_set("Asia/Kolkata");
+
+  $date1= date("Ymd");
+  $time1= date("his");
+
+  $updatedon=$date1;
+  $updatedat=$time1;
+  $updatedby=$uguid;
+  $tsequenceid=11;
+  $comment= $_POST['comment4'];
+
+  $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
+  $r3=mysqli_query($conn, $sql3);
+  if($r3){
+    echo "<script type='text/javascript'>alert('Comment Created Successfully !'); window.location.href = 'mytask.php';</script>";
+  }
+  else{
+    echo "<script type='text/javascript'>alert('Failed to create Comment !'); window.location.href = 'mytask.php';</script>";
+  }
+
+
 }
 ?>
