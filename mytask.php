@@ -51,6 +51,24 @@ $arr = unserialize($_SESSION['arr']);
     border: solid 1px #000;
    border-radius: 10px;
     } */
+    #completetask{
+      top:10%;
+      right:-30%;
+      outline: none;
+      overflow:hidden;
+    }
+    #starttask{
+      top:10%;
+      right:-30%;
+      outline: none;
+      overflow:hidden;
+    }
+    #forwardtask{
+      top:10%;
+      right:-30%;
+      outline: none;
+      overflow:hidden;
+    }
     #updatemodal{
       top:10%;
       right:-30%;
@@ -325,6 +343,111 @@ $arr = unserialize($_SESSION['arr']);
       </div>
     </div>
     <!-- ######################################################################################################################################### -->
+    <!--Start Task Modal -->
+  <div class="modal fade" id="starttaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" id="starttask">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Start task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+        <form id="start_form" name="form1" method="post" >
+
+          <div  class="form-group">
+            <label  for="ttype">Comment:
+          </label>
+            <input type="text" class="form-control" id="commentstart" placeholder="Comment" name="comment">
+          </div>
+
+          <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
+          <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="starttask12">Start Task</button>
+        </form>
+
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ######################################################################################################################################### -->
+  <!--Forward Task Modal -->
+<div class="modal fade" id="forwardtaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" id="forwardtask">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Forward task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div  class="form-group">
+          <label  for="forwardto12">Forward to:
+        </label>
+          <input type="text" class="form-control" id="forwardto12" placeholder="Forward To" name="forwardto12">
+        </div>
+
+
+
+        <div  class="form-group">
+          <label  for="commentforward">Comment:
+        </label>
+          <input type="text" class="form-control" id="commentforward" placeholder="Comment" name="commentforward">
+        </div>
+
+        <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
+        <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="forwardtask12">Forward Task</button>
+      </form>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ######################################################################################################################################### -->
+<!--Forward Task Modal -->
+<div class="modal fade" id="completetaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document" id="completetask">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Complete task</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+
+
+      <div  class="form-group">
+        <label  for="commentforward">Comment:
+      </label>
+        <input type="text" class="form-control" id="commentcomplete" placeholder="Comment" name="commentcomplete">
+      </div>
+
+      <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
+      <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary" id="completetask12">Complete Task</button>
+    </form>
+
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>
+</div>
+<!-- ######################################################################################################################################### -->
     <!--Edit Task Modal-->
     <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -607,7 +730,7 @@ $arr = unserialize($_SESSION['arr']);
         <th scope="col">Actual Effort</th>
 
         <th scope="col">Task Status</th>
-        <th scope="col" style="display:none;">Actions</th>
+        <th scope="col" style="width: 150px;">Actions</th>
         <!-- <th scope="col">Task Stage</th>
         <th scope="col">Created By</th> -->
       </tr>
@@ -710,14 +833,19 @@ $arr = unserialize($_SESSION['arr']);
          else if($row['tstage']==4) echo "Completed";
          else if($row['tstage']==5) echo "On Hold";
          else if($row['tstage']==6) echo "Awaiting"; ?></td>
-        <td style="display:none;">
-          <a href="#updatetaskmodal"  data-toggle="modal" data-target="#updatetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Update Task" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>
+        <td >
+          <!-- <a href="#updatetaskmodal"  data-toggle="modal" data-target="#updatetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Update Task" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>
           &nbsp;
           <a href="#plantaskmodal"  data-toggle="modal" data-target="#plantaskmodal"><i data-toggle="tooltip" data-placement="left" title="Plan Task" class="far fa-play-circle" style="font-size:20px;" id="plan"></i></a>
           &nbsp;
           <a href="#holdtaskmodal"  data-toggle="modal" data-target="#holdtaskmodal"><i  data-toggle="tooltip" data-placement="left" title="Put task on hold" class="fas fa-pause-circle" style="font-size:20px;" id="on hold"></i></a>
           &nbsp;
-          <a href="#awaittaskmodal"  data-toggle="modal" data-target="#awaittaskmodal"><i  data-toggle="tooltip" data-placement="left" title="Awaiting for someone" class="fas fa-user-edit" style="font-size:20px;" id="Awaiting"></i></a>
+          <a href="#awaittaskmodal"  data-toggle="modal" data-target="#awaittaskmodal"><i  data-toggle="tooltip" data-placement="left" title="Awaiting for someone" class="fas fa-user-edit" style="font-size:20px;" id="Awaiting"></i></a> -->
+          <a href="#starttaskmodal"  data-toggle="modal" data-target="#starttaskmodal"><i data-toggle="tooltip" data-placement="left" title="Start Task" class="fas fa-play" style="font-size:20px;" id="startt"></i></a>
+          &nbsp;
+          <a href="#forwardtaskmodal"  data-toggle="modal" data-target="#forwardtaskmodal"><i data-toggle="tooltip" data-placement="left" title="Forward Task" class="far fa-share-square" style="font-size:20px;" id="forwardt"></i></a>
+          &nbsp;
+          <a href="#completetaskmodal"  data-toggle="modal" data-target="#completetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Forward Task" class="far fa-check-square" style="font-size:20px;" id="completet"></i></a>
           <!--   &nbsp;
         <a href="#deletetaskmodal"  data-toggle="modal" data-target="#deletetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Delete Task" class="fas fa-trash-alt" style="color:red;font-size:20px;" id="delete"></i></a> -->
 
