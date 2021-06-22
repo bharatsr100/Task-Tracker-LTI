@@ -46,8 +46,8 @@ $(document).ready(function() {
 											if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null") aendn="";
 											else aendn= item.aend;
                     $('#tsteps tbody').append(
-                        '<tr><td >' + item.tguid +
-												'</td><td >' + item.tsequenceid +
+                        '<tr><td style="display:none;">' + item.tguid +
+												'</td><td style="display:none;">' + item.tsequenceid +
                         '</td><td>' + item.tstepdescription +
                         '</td><td>' + pstartn +
                         '</td><td>' + pendn +
@@ -172,13 +172,16 @@ $(document).ready(function() {
 				$("#pend1").attr("disabled", "disabled");
 				$("#peffort1").attr("readonly","readonly");
 				$("#peffort1").attr("disabled", "disabled");
+				$("#error").show();
+				$('#error').html("Task is already planned so please contact admin");
 
 			//alert("Task is already planned please contact your admin");
 			 }
 
 			 else{
-				 $('#editmodal').modal('show');
 
+				 $('#editmodal').modal('show');
+				 $("#error").hide();
 				 $('#tguid1').val(data[0]);
 				 $('#tid1').val(data[1].trim());
 				 $('#tdescription1').val(data[2]);

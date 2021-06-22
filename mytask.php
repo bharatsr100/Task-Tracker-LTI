@@ -100,7 +100,7 @@ $arr = unserialize($_SESSION['arr']);
       overflow:hidden;
       }
       #commentbtn1{
-        font-weight: 700;
+        font-weight: 400;
         background: white;
       }
       #stepbtn1{
@@ -135,12 +135,51 @@ $arr = unserialize($_SESSION['arr']);
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; margin-right:10px;">Home</button>
     <br><br><br>
     <h1 style="text-align:center;">My Tasks</h1>
+    <!-- Default dropleft button -->
+<div class="btn-group dropleft" style="float: right;">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Color Index
+  </button>
+
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#/"><b>Task in Progress</b></a>
+      <br>
+      <a class="dropdown-item" href="#/"><i style="color:#5FDB39;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is more than 48 calendar hours</a>
+      <a class="dropdown-item" href="#/"><i style="color:#F39536 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 clendar hours</a>
+      <a class="dropdown-item" href="#/"><i style="color:#EC4819 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Deadline is already passed</a>
+
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#/"><b>Task on Hold</b></a>
+      <br>
+      <a class="dropdown-item" href="#/"><i style="color:#EDE310;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is more than 48 calendar hours</a>
+      <a class="dropdown-item" href="#/"><i style="color:#8C1BE0;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 clendar hours</a>
+      <a class="dropdown-item" href="#/"><i style="color:#2227E3 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Deadline is already passed</a>
+
+
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#/"><b>Task Awaiting</b></a>
+    <br>
+    <a class="dropdown-item" href="#/"><i style="color:#F2EC82 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is more than 48 calendar hours</a>
+    <a class="dropdown-item" href="#/"><i style="color:#C28BEA ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 clendar hours</a>
+    <a class="dropdown-item" href="#/"><i style="color:#878AE0 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Deadline is already passed</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#/"><b>Task yet to be planned</b></a>
+    <br>
+    <a class="dropdown-item" href="#/"><i style="color:#BEBFCC ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Task is yet to be planned</a>
+
+  </div>
+
+
+
+</div>
+
+
     <!-- <button onclick="location.href='mytask.php';" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i>  Create Task</button> -->
     <!-- Button trigger modal -->
-    <div class="alert alert-success alert-dismissible" id="success" style="display:none;">
+    <!-- <div class="alert alert-success alert-dismissible" id="success" style="display:none;">
     </div>
     <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
-    </div>
+    </div> -->
     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#createtaskmodal">
 
     <i class="fas fa-plus"></i>  Create Task
@@ -415,7 +454,7 @@ $arr = unserialize($_SESSION['arr']);
   </div>
 </div>
 <!-- ######################################################################################################################################### -->
-<!--Forward Task Modal -->
+<!--Complete Task Modal -->
 <div class="modal fade" id="completetaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document" id="completetask">
   <div class="modal-content">
@@ -459,8 +498,9 @@ $arr = unserialize($_SESSION['arr']);
             </button>
           </div>
           <div class="modal-body">
-
-          <form id="task_form1" name="form1" method="post" action="updatetask.php" >
+            <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
+            </div>
+            <form id="task_form1" name="form1" method="post" action="updatetask.php" >
             <div  class="form-group">
               <label style="display:none;" for="tguid">Task GUID:
             </label>
@@ -542,12 +582,12 @@ $arr = unserialize($_SESSION['arr']);
               <thead>
               <tr>
                 <!-- <th scope="col">Select</th> -->
-                <th scope="col" >Task GUID</th>
-                <th scope="col" >Task Sequence</th>
+                <th style="display:none;" scope="col">Task GUID</th>
+                <th style="display:none;" scope="col">Task Sequence</th>
                 <!-- <th scope="col" style="display:none;">Task ID</th> -->
                 <!-- <th scope="col">Task Sequence No</th> -->
                 <th scope="col">Task Step Description</th>
-                <th scope="col">Planned Start</th>
+                <th  scope="col">Planned Start</th>
                 <th scope="col">Planned End</th>
                 <th scope="col">Planned Effort</th>
                 <th scope="col">Actual Start</th>
@@ -555,22 +595,10 @@ $arr = unserialize($_SESSION['arr']);
                 <th scope="col">Actual Effort</th>
                 <th scope="col">Task Status</th>
 
-                <!-- <th scope="col">Task Stage</th> -->
-                <!-- <th scope="col">Actions</th> -->
+
               </tr>
               </thead>
-            <!-- include 'database.php';
-            $uguid=$_SESSION['uguid'];
-            $tguidstep=$_SESSION['taskguid'];
-            $sequence="11";
-            $tguid= $guidstep;
-            $tid= $_POST['tidstep'];
-            $sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
-            $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.createdby='$uguid' && c.tsequenceid='$sequence'";
 
-            echo '<script>console.log("Hello")</script>';
-            echo '<script>console.log('.$sequence.')</script>';
-            echo '<script>console.log('.$taskguid1.')</script>'; -->
             <tbody id="tbodystep">
             </tbody>
             </table>
@@ -714,7 +742,7 @@ $arr = unserialize($_SESSION['arr']);
     </div>
     <!-- ######################################################################################################################################### -->
     <!-- my task table -->
-    <table  class="table" id="mytasktable">
+    <table  class="table" id="mytasktable" >
       <thead>
       <tr>
         <th scope="col">Task Creation Date</th>
@@ -726,10 +754,10 @@ $arr = unserialize($_SESSION['arr']);
         <th scope="col">Planned End</th>
         <th scope="col">Planned Effort</th>
         <th scope="col">Actual Start</th>
-        <th scope="col">Actual End</th>
+        <th scope="col" >Actual End</th>
         <th scope="col">Actual Effort</th>
 
-        <th scope="col">Task Status</th>
+        <th scope="col" style="width: 160px;">Task Status</th>
         <th scope="col" style="width: 150px;">Actions</th>
         <!-- <th scope="col">Task Stage</th>
         <th scope="col">Created By</th> -->
@@ -750,7 +778,7 @@ $arr = unserialize($_SESSION['arr']);
   ?>
       <tr>
 
-        <th scope="row"><button type="submit" class="btn btn-success commentbtn" id="commentbtn1" style="color: black; border-color:white"><?php echo $row['createdon']; ?></button></th>
+        <th scope="row" style="font-weight:400;"><?php echo $row['createdon']; ?></th>
         <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
         <td><button onclick="location.href='#'" type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
@@ -804,8 +832,8 @@ $arr = unserialize($_SESSION['arr']);
         <?php echo $row['tid']; ?>
         </button></td>
 
-        <td><button type="submit" class="btn btn-success stpbtn" id="stepbtn1" style="color: black; border-color:white"><?php echo $row['tdescription']; ?></button></td>
-         <td><?php echo $row['ttype']; ?></td>
+        <td><?php echo $row['tdescription']; ?></td>
+         <td><button type="submit" class="btn btn-success stpbtn" id="stepbtn1" style="color: black;font-weight:700;text-decoration: underline; border-color:white"><?php echo $row['ttype']; ?></button></td>
         <td><?php
 
 
@@ -826,13 +854,13 @@ $arr = unserialize($_SESSION['arr']);
         if($row['aend']=="0000-00-00") echo "";
         else echo $row['aend']; ?></td>
         <td><?php echo $row['aeffort']; ?></td>
-         <td><?php
-         if($row['tstage']==1) echo "To be planned";
-         else if($row['tstage']==2) echo "Planned but not started";
-         else if($row['tstage']==3) echo "In Progress";
-         else if($row['tstage']==4) echo "Completed";
-         else if($row['tstage']==5) echo "On Hold";
-         else if($row['tstage']==6) echo "Awaiting"; ?></td>
+         <td ><button type="submit" class="btn btn-success commentbtn" id="commentbtn1" style="color: black; border-color:white"><?php
+         if($row['tstage']==1) echo "<b><u>To be planned</b></u>";
+         else if($row['tstage']==2) echo "<b><u>Planned but not started</b></u>";
+         else if($row['tstage']==3) echo "<b><u>In Progress</b></u>";
+         else if($row['tstage']==4) echo "<b><u>Completed</b></u>";
+         else if($row['tstage']==5) echo "<b><u>On Hold</b></u>";
+         else if($row['tstage']==6) echo "<b><u>Awaiting</b></u>"; ?></button></td>
         <td >
           <!-- <a href="#updatetaskmodal"  data-toggle="modal" data-target="#updatetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Update Task" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>
           &nbsp;
@@ -843,9 +871,9 @@ $arr = unserialize($_SESSION['arr']);
           <a href="#awaittaskmodal"  data-toggle="modal" data-target="#awaittaskmodal"><i  data-toggle="tooltip" data-placement="left" title="Awaiting for someone" class="fas fa-user-edit" style="font-size:20px;" id="Awaiting"></i></a> -->
           <a href="#starttaskmodal"  data-toggle="modal" data-target="#starttaskmodal"><i data-toggle="tooltip" data-placement="left" title="Start Task" class="fas fa-play" style="font-size:20px;" id="startt"></i></a>
           &nbsp;
-          <a href="#forwardtaskmodal"  data-toggle="modal" data-target="#forwardtaskmodal"><i data-toggle="tooltip" data-placement="left" title="Forward Task" class="far fa-share-square" style="font-size:20px;" id="forwardt"></i></a>
+          <a href="#forwardtaskmodal"  data-toggle="modal" data-target="#forwardtaskmodal"><i data-toggle="tooltip" data-placement="left" title="Forward Task" class="fas fa-share-square" style="font-size:20px;" id="forwardt"></i></a>
           &nbsp;
-          <a href="#completetaskmodal"  data-toggle="modal" data-target="#completetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Forward Task" class="far fa-check-square" style="font-size:20px;" id="completet"></i></a>
+          <a href="#completetaskmodal"  data-toggle="modal" data-target="#completetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Complete Task" class="fas fa-check-circle" style="font-size:20px;" id="completet"></i></a>
           <!--   &nbsp;
         <a href="#deletetaskmodal"  data-toggle="modal" data-target="#deletetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Delete Task" class="fas fa-trash-alt" style="color:red;font-size:20px;" id="delete"></i></a> -->
 
@@ -996,29 +1024,6 @@ while($row=mysqli_fetch_assoc($result))
 ?>
 </table>
 
-<table  class="table table-hover" id="taskstep">
-  <thead>
-  <tr>
-    <th scope="col">Select</th>
-    <th scope="col" style="display:none;">Task GUID</th>
-
-
-    <th scope="col" style="display:none;">Task ID</th>
-    <th scope="col">Task Sequence No</th>
-    <th scope="col">Task Step Description</th>
-    <th scope="col">Planned Start</th>
-    <th scope="col">Planned End</th>
-    <th scope="col">Planned Effort</th>
-    <th scope="col">Actual Start</th>
-    <th scope="col">Actual End</th>
-    <th scope="col">Actual Effort</th>
-    <th scope="col">Task Status</th>
-
-    <!-- <th scope="col">Task Stage</th> -->
-    <th scope="col">Actions</th>
-  </tr>
-  </thead>
-</table>
 
 
   </body>
