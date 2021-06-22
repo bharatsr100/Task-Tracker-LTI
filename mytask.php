@@ -110,10 +110,10 @@ $arr = unserialize($_SESSION['arr']);
 
         color: white;
         }
-      #taskstep{
+      /* #taskstep{
          border: 1px solid #ddd;
-          width: 70%;
-      }
+          width: 90%;
+      } */
       .stmodal{
         max-width: 70%;
       }
@@ -122,7 +122,7 @@ $arr = unserialize($_SESSION['arr']);
       }
       #commenttask3{
         border: 1px solid #ddd;
-        width: 70%;
+        width: 90%;
       }
 
 
@@ -583,7 +583,7 @@ $arr = unserialize($_SESSION['arr']);
               <tr>
                 <!-- <th scope="col">Select</th> -->
                 <th style="display:none;" scope="col">Task GUID</th>
-                <th style="display:none;" scope="col">Task Sequence</th>
+                <th scope="col">Task Sequence</th>
                 <!-- <th scope="col" style="display:none;">Task ID</th> -->
                 <!-- <th scope="col">Task Sequence No</th> -->
                 <th scope="col">Task Step Description</th>
@@ -594,6 +594,7 @@ $arr = unserialize($_SESSION['arr']);
                 <th scope="col">Actual End</th>
                 <th scope="col">Actual Effort</th>
                 <th scope="col">Task Status</th>
+                <th scope="col">Action </th>
 
 
               </tr>
@@ -605,8 +606,26 @@ $arr = unserialize($_SESSION['arr']);
           </div>
 
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="stepstaskbtn" name="steptaskbtn" >Save</button>
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="stepstaskbtn" name="steptaskbtn" >Save</button> -->
+
+                <br><br><br><br><h5>Task Steps List</h5>
+                <table  class="table table-hover" id="tasksteplist">
+                  <thead>
+                  <tr>
+                    <th scope="col">Task Sequence</th>
+                    <th scope="col">Task Step Description</th>
+                    <th scope="col">Action </th>
+                  </tr>
+                </thead>
+
+              <tbody id="tbodylist">
+
+              </tbody>
+              </table>
+
+
+
               </center>
             </div>
             <div class="modal-footer">
@@ -856,7 +875,7 @@ $arr = unserialize($_SESSION['arr']);
         <td><?php echo $row['aeffort']; ?></td>
          <td ><button type="submit" class="btn btn-success commentbtn" id="commentbtn1" style="color: black; border-color:white"><?php
          if($row['tstage']==1) echo "<b><u>To be planned</b></u>";
-         else if($row['tstage']==2) echo "<b><u>Planned but not started</b></u>";
+         else if($row['tstage']==2) echo "<b><u>In Progress</b></u>";
          else if($row['tstage']==3) echo "<b><u>In Progress</b></u>";
          else if($row['tstage']==4) echo "<b><u>Completed</b></u>";
          else if($row['tstage']==5) echo "<b><u>On Hold</b></u>";
@@ -897,9 +916,9 @@ $arr = unserialize($_SESSION['arr']);
 
 
     <th scope="col">Task ID</th>
-    <th scope="col">Task Sequence No</th>
-    <th scope="col">Task Description</th>
-    <th scope="col">Task Type</th>
+    <!-- <th scope="col">Task Sequence No</th> -->
+    <th scope="col">Task Step Description</th>
+    <!-- <th scope="col">Task Type</th> -->
     <th scope="col">Planned Start</th>
     <th scope="col">Planned End</th>
     <th scope="col">Planned Effort</th>
@@ -931,9 +950,9 @@ while($row=mysqli_fetch_assoc($result))
     <td style="display:none;"><?php echo $row['tguid']; ?></td>
 
     <td><?php echo $row['tid']; ?></td>
-    <td><?php echo $row['tsequenceid']; ?></td>
-    <td><?php echo $row['tdescription']; ?></td>
-     <td><?php echo $row['ttype']; ?></td>
+    <!-- <td><?php //echo $row['tsequenceid']; ?></td> -->
+    <td><?php echo $row['tstepdescription']; ?></td>
+     <!-- <td><?php //echo $row['ttype']; ?></td> -->
     <td><?php
 
 
@@ -1023,6 +1042,23 @@ while($row=mysqli_fetch_assoc($result))
 }
 ?>
 </table>
+<!-- <p id="demo"></p>
+
+<script>
+$(document).ready(function() {
+function stagefunction(stage){
+
+  var myObject = { 1: 'Planned', 2: 'In Progress', 3: 'On Hold' };
+  console.log(myObject);
+  return myObject[stage];
+
+
+}
+});
+document.getElementById("demo").innerHTML = stagefunction(2);
+</script> -->
+
+
 
 
 

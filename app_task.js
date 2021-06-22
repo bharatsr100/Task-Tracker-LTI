@@ -1,9 +1,6 @@
 $(document).ready(function() {
-
+	$('[data-toggle="tooltip"]').tooltip();
 	$('.stpbtn').on('click',function(){
-
-
-
 
 	  $tr= $(this).closest('tr');
 	  var data=$tr.children("td").map(function(){
@@ -16,6 +13,72 @@ $(document).ready(function() {
 	  $('#stepmodal').modal('show');
 	//console.log(data[0]);
 		var tguidstep= data[0];
+		var tasklist=[
+
+			{	tsequenceid:"21",
+				tstepdescription:"Kickoff"
+				},
+			{	tsequenceid:"31",
+				tstepdescription:"Requirement Gathering"
+				},
+			{	tsequenceid:"41",
+				tstepdescription:"Requirement Analysis"
+				},
+			{	tsequenceid:"51",
+				tstepdescription:"Estimation"
+				},
+			{	tsequenceid:"61",
+				tstepdescription:"Approval Step"
+				},
+			{	tsequenceid:"71",
+				tstepdescription:"Functional Specification (FSR)"
+				},
+			{	tsequenceid:"81",
+				tstepdescription:"Functional Design (FSD)"
+				},
+			{	tsequenceid:"91",
+				tstepdescription:"Technical Design (TSD) "
+				},
+			{	tsequenceid:"101",
+				tstepdescription:"Code"
+				},
+			{	tsequenceid:"111",
+				tstepdescription:"Code Review"
+				},
+			{	tsequenceid:"121",
+				tstepdescription:"Technical Testing"
+				},
+			{	tsequenceid:"131",
+				tstepdescription:"Unit Testing (UT)"
+				},
+
+			{	tsequenceid:"141",
+				tstepdescription:"Integration Testing (TIN)"
+				},
+			{	tsequenceid:"151",
+				tstepdescription:"User Acceptance Testing (UAT)"
+				},
+			{	tsequenceid:"161",
+				tstepdescription:"Non Regression Testing (NRT)"
+				},
+			{	tsequenceid:"171",
+				tstepdescription:"Cut Over"
+				},
+			{	tsequenceid:"181",
+				tstepdescription:"Go Live"
+				},
+			{	tsequenceid:"191",
+				tstepdescription:"Hypercare"
+			},
+			{	tsequenceid:"201",
+				tstepdescription:"Bug Fix"
+				},
+			{	tsequenceid:"211",
+				tstepdescription:"Closure"}
+
+		 ]
+
+
 		//console.log(tguidstep);
 	        $.ajax({
 	      url: "tasksteps.php",
@@ -30,13 +93,21 @@ $(document).ready(function() {
 	      var dataResult = JSON.parse(dataResult);
 	      //console.log(dataResult);
 				$("#tbodystep").empty();
+						var taskpresent=[]
 				$(dataResult).each(function (index, item) {
-                    console.log(item);
+										var task1={
+											tsequenceid:item.tsequenceid,
+											tstepdescription:item.tstepdescription
+
+										}
+										taskpresent.push(task1);
+                    //console.log(item);
                     //console.log(receipts[index]);
 											var pstartn="";
 											var pendn="";
 											var astartn="";
 											var aendn="";
+											var pstagen="";
 											if(item.pstart=="0000-00-00" || item.pstart=="NULL" || item.pend=="null") pstartn="";
 											else pstartn= item.pstart;
 											if(item.pend=="0000-00-00" || item.pend=="NULL" || item.pend=="null") pendn="";
@@ -45,9 +116,15 @@ $(document).ready(function() {
 											else astartn= item.astart;
 											if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null") aendn="";
 											else aendn= item.aend;
+											if(item.tstage=="1") pstagen="To be planned";
+											else if(item.tstage=="2" || item.stage==3) pstagen="In Progress";
+											else if(item.tstage=="4") pstagen="Completed";
+											else if(item.tstage=="5") pstagen="On Hold";
+											else pstagen="Awaiting";
+										$('[data-toggle="tooltip"]').tooltip();
                     $('#tsteps tbody').append(
                         '<tr><td style="display:none;">' + item.tguid +
-												'</td><td style="display:none;">' + item.tsequenceid +
+												'</td><td >' + item.tsequenceid +
                         '</td><td>' + item.tstepdescription +
                         '</td><td>' + pstartn +
                         '</td><td>' + pendn +
@@ -55,11 +132,38 @@ $(document).ready(function() {
 												'</td><td>' + astartn +
 												'</td><td>' + aendn +
 												'</td><td>' + item.aeffort +
-												'</td><td>' + item.tstage +
+												'</td><td style="width: 160px;">' + pstagen +
+												'</td><td style="width: 100px;" ><a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash" style="font-size:20px;" id="deletestep"></i></a> &nbsp; &nbsp;<a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Update Task Step" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>' +
                         '</td></tr>'
                     )
 
+
                 });
+								// console.log(tasklist);
+								// console.log(taskpresent);
+
+				$(tasklist).each(function (index, item) {
+
+					let toSearch = item.tsequenceid;
+					let result = taskpresent.filter(o=> o.tsequenceid === toSearch);
+					var res= result.length;
+					//console.log(item);
+					//console.log(result);
+					//console.log(res);
+					if(res==0){
+						//console.log("true");
+						$('[data-toggle="tooltip"]').tooltip();
+						$('#tasksteplist tbody').append(
+							'<tr><td>' + item.tsequenceid +
+							'</td><td>' + item.tstepdescription +
+							'</td><td  ><a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-calendar-plus" style="font-size:20px;" id="deletestep"></i></a>'+
+							'</td></tr>'
+						)
+
+					}
+
+
+				});
 
 
 
@@ -136,7 +240,7 @@ $(document).ready(function() {
 
 	});
 
-	  $('[data-toggle="tooltip"]').tooltip();
+
 
 		$('.editbtn').on('click',function(){
 			$tr= $(this).closest('tr');
@@ -257,10 +361,11 @@ $(document).ready(function() {
           console.log("Hello");
           console.log(dataResult);
 					if(dataResult.statuscode=="s"){
-						$("#createtask").removeAttr("disabled");
-						$('#task_form').find('input:text').val('');
+						//$("#createtask").removeAttr("disabled");
+						//$('#task_form').find('input:text').val('');
 
             alert(dataResult.description);
+						window.location.href = 'mytask.php';
 						// $("#success").show();
 						// $('#success').html('Successfully created task!');
 
@@ -269,6 +374,7 @@ $(document).ready(function() {
           // $("#error").show();
           // $('#error').html('Task Creation Unsuccessful');
           alert(dataResult.description);
+					window.location.href = 'mytask.php';
         }
       }
       });
@@ -278,5 +384,7 @@ $(document).ready(function() {
         //console. log("4");
       }
   });
+
+
 
 });
