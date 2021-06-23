@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	let dropdown = $('#userslist');
 	dropdown.empty();
-	dropdown.append('<option selected="true" disabled value="0">Choose User Name</option>');
+	dropdown.append('<option selected="true" value="0">--Choose User Name--</option>');
 	dropdown.prop('selectedIndex', 0);
 
 	const url = 'employeelist.json';
@@ -15,6 +15,226 @@ $(document).ready(function() {
 
 
 	$('[data-toggle="tooltip"]').tooltip();
+
+	$('#deletestep1').on('click',function(){
+		$tr= $(this).closest('tr');
+		var data=$tr.children("td").map(function(){
+		return $(this).text();
+	}).get();
+	console.log("deletetaskfunction");
+		if(data[3]==""){
+			console.log("insideifcondition");
+			$('#deletetaskmodal1').modal('show');
+			$('#tguidd').val(data[0]);
+			$('#tsequenceidd').val(data[1]);}
+		});
+
+	$('.stpbtn12').on('click',function(){
+		$tr= $(this).closest('tr');
+	  var data=$tr.children("td").map(function(){
+	  return $(this).text();
+	  }).get();
+		var tguidstep23= data[0];
+		var taskid23= data[1].trim();
+		sessionStorage.setItem("taskid23", taskid23);
+		sessionStorage.setItem("tguidstep23", tguidstep23);
+		location.href = "taskstepsadd_del.php";
+
+
+		// var tasklist=[
+	 //
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"21",
+		// 		tstepdescription:"Kickoff"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"31",
+		// 		tstepdescription:"Requirement Gathering"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"41",
+		// 		tstepdescription:"Requirement Analysis"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"51",
+		// 		tstepdescription:"Estimation"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"61",
+		// 		tstepdescription:"Approval Step"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"71",
+		// 		tstepdescription:"Functional Specification (FSR)"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"81",
+		// 		tstepdescription:"Functional Design (FSD)"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"91",
+		// 		tstepdescription:"Technical Design (TSD) "
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"101",
+		// 		tstepdescription:"Code"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"111",
+		// 		tstepdescription:"Code Review"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"121",
+		// 		tstepdescription:"Technical Testing"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"131",
+		// 		tstepdescription:"Unit Testing (UT)"
+		// 		},
+	 //
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"141",
+		// 		tstepdescription:"Integration Testing (TIN)"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"151",
+		// 		tstepdescription:"User Acceptance Testing (UAT)"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"161",
+		// 		tstepdescription:"Non Regression Testing (NRT)"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"171",
+		// 		tstepdescription:"Cut Over"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"181",
+		// 		tstepdescription:"Go Live"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"191",
+		// 		tstepdescription:"Hypercare"
+		// 	},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"201",
+		// 		tstepdescription:"Bug Fix"
+		// 		},
+		// 	{	tguid:data[0],
+		// 		tsequenceid:"211",
+		// 		tstepdescription:"Closure"}
+	 //
+		//  ]
+	 //
+		//  $.ajax({
+	 // url: "tasksteps.php",
+	 // type:"POST",
+	 // data:{
+		//  tguidstep:tguidstep
+	 //
+	 //
+	 // },
+	 // cache: false,
+	 // success:function(dataResult){
+	 // var dataResult = JSON.parse(dataResult);
+	 // //console.log(dataResult);
+	 // $("#tbodystep23").empty();
+	 // $("#tbodylist23").empty();
+		// 	 var taskpresent=[];
+	 //
+	 //
+	 // $(dataResult).each(function (index, item) {
+	 //
+		// 					 var task1={
+		// 						 tguid:item.tguid,
+		// 						 tsequenceid:item.tsequenceid,
+		// 						 tstepdescription:item.tstepdescription
+	 //
+		// 					 }
+		// 					 taskpresent.push(task1);
+		// 					 //console.log(item);
+		// 					 //console.log(receipts[index]);
+		// 						 var pstartn="";
+		// 						 var pendn="";
+		// 						 var astartn="";
+		// 						 var aendn="";
+		// 						 var pstagen="";
+		// 						 if(item.pstart=="0000-00-00" || item.pstart=="NULL" || item.pstart=="null" || item.pstart==null) pstartn="";
+		// 						 else pstartn= item.pstart;
+		// 						 if(item.pend=="0000-00-00" || item.pend=="NULL" || item.pend=="null" || item.pend==null) pendn="";
+		// 						 else pendn= item.pendn;
+		// 						 if(item.astart=="0000-00-00" || item.astart=="NULL" || item.astart=="null" || item.astart==null) astartn="";
+		// 						 else astartn= item.astart;
+		// 						 if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null" || item.astart==null) aendn="";
+		// 						 else aendn= item.aend;
+		// 						 if(item.tstage=="1") pstagen="To be planned";
+		// 						 else if(item.tstage=="2" || item.stage==3) pstagen="In Progress";
+		// 						 else if(item.tstage=="4") pstagen="Completed";
+		// 						 else if(item.tstage=="5") pstagen="On Hold";
+		// 						 else pstagen="Awaiting";
+		// 					 $('[data-toggle="tooltip"]').tooltip();
+		// 					 $('#tsteps23 tbody').append(
+		// 							 '<tr><td >' + item.tguid +
+		// 							 '</td><td >' + item.tsequenceid +
+		// 							 '</td><td>' + item.tstepdescription +
+		// 							 '</td><td>' + pstartn +
+		// 							 '</td><td>' + pendn +
+		// 							 '</td><td>' + item.peffort +
+		// 							 '</td><td>' + astartn +
+		// 							 '</td><td>' + aendn +
+		// 							 '</td><td>' + item.aeffort +
+		// 							 '</td><td style="width: 160px;">' + pstagen +
+		// 							 '</td><td><button class="deletestep2" id="deletestep1" ><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash deletetstep" style="font-size:20px;" id="deletestep"></i></button>' +
+		// 							 '</td></tr>'
+	 //
+	 //
+		// 					 )
+	 //
+	 //
+		// 				 });
+	 //
+	 //
+	 //
+	 //
+	 //
+	 //
+	 //
+		// 			 // console.log(tasklist);
+		// 			 // console.log(taskpresent);
+	 //
+	 // $(tasklist).each(function (index, item) {
+	 //
+		//  let toSearch = item.tsequenceid;
+		//  let result = taskpresent.filter(o=> o.tsequenceid === toSearch);
+		//  var res= result.length;
+		//  //console.log(item);
+		//  //console.log(result);
+		//  //console.log(res);
+		//  if(res==0){
+		// 	 //console.log("true");
+		// 	 $('[data-toggle="tooltip"]').tooltip();
+		// 	 $('#tasksteplist23 tbody').append(
+		// 		 '<tr><td>' + item.tguid +
+		// 		 '</td><td>' + item.tsequenceid +
+		// 		 '</td><td>' + item.tstepdescription +
+		// 		 '</td><td><button class="addstep2" id="addstep1" ><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-plus" style="font-size:20px;" id="deletestep"></i></button>'+
+		// 		 '</td></tr>'
+		// 	 )
+	 //
+		//  }
+	 //
+	 //
+	 // });
+	 //
+	 //
+	 //
+	 // }
+	 // });
+
+
+
+	});
+
 	$('.stpbtn').on('click',function(){
 
 	  $tr= $(this).closest('tr');
@@ -30,65 +250,85 @@ $(document).ready(function() {
 		var tguidstep= data[0];
 		var tasklist=[
 
-			{	tsequenceid:"21",
+			{	tguid:data[0],
+				tsequenceid:"21",
 				tstepdescription:"Kickoff"
 				},
-			{	tsequenceid:"31",
+			{	tguid:data[0],
+				tsequenceid:"31",
 				tstepdescription:"Requirement Gathering"
 				},
-			{	tsequenceid:"41",
+			{	tguid:data[0],
+				tsequenceid:"41",
 				tstepdescription:"Requirement Analysis"
 				},
-			{	tsequenceid:"51",
+			{	tguid:data[0],
+				tsequenceid:"51",
 				tstepdescription:"Estimation"
 				},
-			{	tsequenceid:"61",
+			{	tguid:data[0],
+				tsequenceid:"61",
 				tstepdescription:"Approval Step"
 				},
-			{	tsequenceid:"71",
+			{	tguid:data[0],
+				tsequenceid:"71",
 				tstepdescription:"Functional Specification (FSR)"
 				},
-			{	tsequenceid:"81",
+			{	tguid:data[0],
+				tsequenceid:"81",
 				tstepdescription:"Functional Design (FSD)"
 				},
-			{	tsequenceid:"91",
+			{	tguid:data[0],
+				tsequenceid:"91",
 				tstepdescription:"Technical Design (TSD) "
 				},
-			{	tsequenceid:"101",
+			{	tguid:data[0],
+				tsequenceid:"101",
 				tstepdescription:"Code"
 				},
-			{	tsequenceid:"111",
+			{	tguid:data[0],
+				tsequenceid:"111",
 				tstepdescription:"Code Review"
 				},
-			{	tsequenceid:"121",
+			{	tguid:data[0],
+				tsequenceid:"121",
 				tstepdescription:"Technical Testing"
 				},
-			{	tsequenceid:"131",
+			{	tguid:data[0],
+				tsequenceid:"131",
 				tstepdescription:"Unit Testing (UT)"
 				},
 
-			{	tsequenceid:"141",
+			{	tguid:data[0],
+				tsequenceid:"141",
 				tstepdescription:"Integration Testing (TIN)"
 				},
-			{	tsequenceid:"151",
+			{	tguid:data[0],
+				tsequenceid:"151",
 				tstepdescription:"User Acceptance Testing (UAT)"
 				},
-			{	tsequenceid:"161",
+			{	tguid:data[0],
+				tsequenceid:"161",
 				tstepdescription:"Non Regression Testing (NRT)"
 				},
-			{	tsequenceid:"171",
+			{	tguid:data[0],
+				tsequenceid:"171",
 				tstepdescription:"Cut Over"
 				},
-			{	tsequenceid:"181",
+			{	tguid:data[0],
+				tsequenceid:"181",
 				tstepdescription:"Go Live"
 				},
-			{	tsequenceid:"191",
+			{	tguid:data[0],
+				tsequenceid:"191",
 				tstepdescription:"Hypercare"
 			},
-			{	tsequenceid:"201",
+			{	tguid:data[0],
+				tsequenceid:"201",
 				tstepdescription:"Bug Fix"
 				},
-			{	tsequenceid:"211",
+			{	tguid:data[0],
+				tsequenceid:"211",
 				tstepdescription:"Closure"}
 
 		 ]
@@ -112,19 +352,9 @@ $(document).ready(function() {
 
 
 				$(dataResult).each(function (index, item) {
-									$('.deletestep2').on('click',function(){
-										$tr= $(this).closest('tr');
-										var data=$tr.children("td").map(function(){
-										return $(this).text();
-									}).get();
-									console.log("deletetaskfunction");
-										if(data[3]==""){
-											console.log("insideifcondition");
-											$('#deletetaskmodal1').modal('show');
-											$('#tguidd').val(data[0]);
-											$('#tsequenceidd').val(data[1]);}
-										});
+
 										var task1={
+											tguid:item.tguid,
 											tsequenceid:item.tsequenceid,
 											tstepdescription:item.tstepdescription
 
@@ -137,13 +367,13 @@ $(document).ready(function() {
 											var astartn="";
 											var aendn="";
 											var pstagen="";
-											if(item.pstart=="0000-00-00" || item.pstart=="NULL" || item.pend=="null") pstartn="";
+											if(item.pstart=="0000-00-00" || item.pstart=="NULL" || item.pstart=="null" || item.pstart==null) pstartn="";
 											else pstartn= item.pstart;
-											if(item.pend=="0000-00-00" || item.pend=="NULL" || item.pend=="null") pendn="";
+											if(item.pend=="0000-00-00" || item.pend=="NULL" || item.pend=="null" || item.pend==null) pendn="";
 											else pendn= item.pendn;
-											if(item.astart=="0000-00-00" || item.astart=="NULL" || item.astart=="null") astartn="";
+											if(item.astart=="0000-00-00" || item.astart=="NULL" || item.astart=="null" || item.astart==null) astartn="";
 											else astartn= item.astart;
-											if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null") aendn="";
+											if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null" || item.astart==null) aendn="";
 											else aendn= item.aend;
 											if(item.tstage=="1") pstagen="To be planned";
 											else if(item.tstage=="2" || item.stage==3) pstagen="In Progress";
@@ -152,7 +382,7 @@ $(document).ready(function() {
 											else pstagen="Awaiting";
 										$('[data-toggle="tooltip"]').tooltip();
 										$('#tsteps tbody').append(
-                        '<tr><td style="display:none;">' + item.tguid +
+                        '<tr><td >' + item.tguid +
 												'</td><td >' + item.tsequenceid +
                         '</td><td>' + item.tstepdescription +
                         '</td><td>' + pstartn +
@@ -162,7 +392,7 @@ $(document).ready(function() {
 												'</td><td>' + aendn +
 												'</td><td>' + item.aeffort +
 												'</td><td style="width: 160px;">' + pstagen +
-												'</td><td style="width: 100px;" ><button class="deletestep2" id="deletestep1" ><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash deletetstep" style="font-size:20px;" id="deletestep"></i></button> &nbsp; &nbsp;<a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Update Task Step" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>' +
+												'</td><td><button class="deletestep2" id="deletestep1" ><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash deletetstep" style="font-size:20px;" id="deletestep"></i></button>' +
                         '</td></tr>'
 
 
@@ -192,9 +422,10 @@ $(document).ready(function() {
 						//console.log("true");
 						$('[data-toggle="tooltip"]').tooltip();
 						$('#tasksteplist tbody').append(
-							'<tr><td>' + item.tsequenceid +
+							'<tr><td>' + item.tguid +
+							'</td><td>' + item.tsequenceid +
 							'</td><td>' + item.tstepdescription +
-							'</td><td  ><a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-calendar-plus" style="font-size:20px;" id="deletestep"></i></a>'+
+							'</td><td><button class="addstep2" id="addstep1" ><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-plus" style="font-size:20px;" id="deletestep"></i></button>'+
 							'</td></tr>'
 						)
 

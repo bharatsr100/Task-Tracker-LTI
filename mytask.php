@@ -103,10 +103,10 @@ $arr = unserialize($_SESSION['arr']);
         font-weight: 400;
         background: white;
       }
-      #stepbtn1{
+      #stepbtn12{
         background: white;
       }
-      #stepbtn1:hover {
+      #stepbtn12:hover {
 
         color: white;
         }
@@ -466,8 +466,6 @@ $arr = unserialize($_SESSION['arr']);
     </div>
     <div class="modal-body">
 
-
-
       <div  class="form-group">
         <label  for="commentforward">Comment:
       </label>
@@ -582,7 +580,7 @@ $arr = unserialize($_SESSION['arr']);
               <thead>
               <tr>
                 <!-- <th scope="col">Select</th> -->
-                <th style="display:none;" scope="col">Task GUID</th>
+                <th scope="col">Task GUID</th>
                 <th scope="col">Task Sequence</th>
                 <!-- <th scope="col" style="display:none;">Task ID</th> -->
                 <!-- <th scope="col">Task Sequence No</th> -->
@@ -613,6 +611,7 @@ $arr = unserialize($_SESSION['arr']);
                 <table  class="table table-hover" id="tasksteplist">
                   <thead>
                   <tr>
+                    <th scope="col">Task GUID</th>
                     <th scope="col">Task Sequence</th>
                     <th scope="col">Task Step Description</th>
                     <th scope="col">Action </th>
@@ -714,7 +713,7 @@ $arr = unserialize($_SESSION['arr']);
           </div>
           <div class="modal-body">
 
-          <form id="delete_form" name="form1" method="post" >
+          <form id="delete_form2" name="form1" method="post" >
 
             <div  class="form-group">
               <label  for="tguidd">TGUID:
@@ -726,6 +725,7 @@ $arr = unserialize($_SESSION['arr']);
             </label>
               <input type="text" class="form-control" id="tsequenceidd" placeholder="TGUID" name="tsequenceidd">
             </div>
+
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -772,7 +772,7 @@ $arr = unserialize($_SESSION['arr']);
               <label  for="tstatus4">Task Status:
             </label>
             <select class="form-control" id="tstatus4" name="tstatus4">
-              <option selected="true" disabled>---Select Task Status---</option>
+              <option selected="true">---Select Task Status---</option>
                 <option>In Progress</option>
                 <option>Completed</option>
                 <option>On hold</option>
@@ -913,9 +913,9 @@ $arr = unserialize($_SESSION['arr']);
         </button></td>
 
         <td><?php echo $row['tdescription']; ?></td>
-         <td><button type="submit" class="btn btn-success stpbtn" id="stepbtn1" style="color: black;font-weight:700;text-decoration: underline; border-color:white"><?php echo $row['ttype']; ?></button></td>
+         <td><button  type="submit" class="btn btn-success stpbtn12" id="stepbtn12" style="color: black;font-weight:700;text-decoration: underline; border-color:white"><?php echo $row['ttype']; ?></button></td>
         <td><?php
-
+        //onclick="location.href = 'taskstepsadd_del.php';"
 
         if($row['pstart']=="0000-00-00") {echo "";}
         else {echo $row['pstart'];}

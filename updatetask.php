@@ -5,7 +5,48 @@ if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 
-if(isset($_POST['edittaskbtn'])){
+if(isset($_POST['deletetaskstp'])){
+
+  $uguid=$_SESSION['uguid'];
+  $tguid= $_POST['tguidd'];
+  $tsequenceid= $_POST['tsequenceidd'];
+  $pstart= $_POST['tpstart'];
+
+  if($pstart!="" && $pstart!="0000-00-00" && $pstart=="NULL"){
+  echo "<script type='text/javascript'>alert('Planned Task Step can not be deleted'); window.location.href = 'taskstepsadd_del.php';</script>";
+  exit();
+}
+else{
+
+  $s2 = "DELETE FROM tstep WHERE tguid=$tguid && tsequenceid=$tsequenceid ";
+  $res=mysqli_query($conn, $s2);
+  if($res) echo "<script type='text/javascript'>alert('Task Step deleted successfully'); window.location.href = 'taskstepsadd_del.php';</script>";
+  else echo "<script type='text/javascript'>alert('Error while deleting task step'); window.location.href = 'taskstepsadd_del.php';</script>";
+  exit();
+
+}
+
+}
+else if(isset($_POST['addtaskstp'])){
+
+
+  $tguid= $_POST['tguidd23'];
+  $tsequenceid= $_POST['tsequenceidd23'];
+  $tstage=1;
+  $assignto= $_SESSION['uguid'];
+  $tstepdescription= $_POST['tstepdescription23'];
+
+  $s2 = "INSERT INTO tstep (tguid,tsequenceid,tstage,assignto,tstepdescription)VALUES ('$tguid','$tsequenceid','$tstage','$assignto','$tstepdescription')";
+  $res=mysqli_query($conn, $s2);
+
+  if($res) echo "<script type='text/javascript'>alert('Task Step added successfully'); window.location.href = 'taskstepsadd_del.php';</script>";
+  else echo "<script type='text/javascript'>alert('Error while added task step'); window.location.href = 'taskstepsadd_del.php';</script>";
+  exit();
+
+}
+
+else if(isset($_POST['edittaskbtn'])){
+
 
  //echo "<script type='text/javascript'>alert('Hello Just Testing'); window.location.href = 'mytask.php';</script>";
 $uguid=$_SESSION['uguid'];
@@ -62,10 +103,11 @@ else if(isset($_POST['savecomment'])){
   $tsequenceid=11;
 
   $comment= $_POST['comment4'];
-  $assignto="";
+  $assignto=$_POST['userslist'];
   $tstagetext= $_POST['tstatus4'];
+
   if($assignto=="0" || $assignto=="") $assignto=$uguid;
-  else $assignto=$_POST['userslist'];
+  //else $assignto=$_POST['userslist'];
 	$s5= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid='$tsequenceid'");
   $row = mysqli_fetch_assoc($s5);
   $tstage=$row["tstage"];
