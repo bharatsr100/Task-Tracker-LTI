@@ -18,6 +18,7 @@ $pstart= $_POST['pstart1'];
 $pend= $_POST['pend1'];
 $peffort= $_POST['peffort1'];
 
+
 $s3= mysqli_query($conn,"select * from ttable where tid= '$tid' && tguid!='$tguid' && createdby='$uguid'");
 $n3= mysqli_num_rows($s3);
 
@@ -53,16 +54,18 @@ else if(isset($_POST['savecomment'])){
   date_default_timezone_set("Asia/Kolkata");
 
   $date1= date("Ymd");
-  $time1= date("his");
+  $time1= date("His");
 
   $updatedon=$date1;
   $updatedat=$time1;
   $updatedby=$uguid;
   $tsequenceid=11;
+
   $comment= $_POST['comment4'];
+  $assignto="";
   $tstagetext= $_POST['tstatus4'];
-
-
+  if($assignto=="0" || $assignto=="") $assignto=$uguid;
+  else $assignto=$_POST['userslist'];
 	$s5= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid='$tsequenceid'");
   $row = mysqli_fetch_assoc($s5);
   $tstage=$row["tstage"];
@@ -71,8 +74,8 @@ else if(isset($_POST['savecomment'])){
   $pstart=$row["pstart"];
 
   $r2="";
-  if($tstagetext=="Start Task") $tstage=3;
-  else if($tstagetext=="Complete Task") $tstage=4;
+  if($tstagetext=="In Progress") $tstage=3;
+  else if($tstagetext=="Completed") $tstage=4;
   else if($tstagetext=="On hold") $tstage=5;
   else if($tstagetext=="Awaiting") $tstage=6;
 
@@ -90,7 +93,7 @@ if($astart=="" || $astart=="NULL" || $astart=="0000-00-00" && $tstage==4){
       $astart=$date1;
       $aend="";
 
-      $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',astart='$astart' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+      $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',astart='$astart',assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
   }
   else if($tstage==4){
     $aend=$date1;
@@ -102,17 +105,20 @@ if($astart=="" || $astart=="NULL" || $astart=="0000-00-00" && $tstage==4){
 
     $aeffort= $days+1;
 
-    $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',aend='$aend',aeffort=$aeffort WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+    $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',aend='$aend',aeffort=$aeffort,assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
   }
 else{
-  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
 }
 
 
   $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
   $r3=mysqli_query($conn, $sql3);
 
-  if($r2 && $r3){
+  $r4=mysqli_query($conn,"UPDATE ttable SET createdby='$assignto' WHERE tguid='$tguid'");
+
+
+  if($r2 && $r3 && $r4){
     echo "<script type='text/javascript'>alert('Updated Successfully !'); window.location.href = 'mytask.php';</script>";
   }
   else{

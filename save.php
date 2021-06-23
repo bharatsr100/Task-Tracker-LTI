@@ -2,6 +2,33 @@
 	include 'database.php';
 	session_start();
 	if($_POST['type']==1){
+
+		$e_emailid= "e_emailid";
+		$sql="select c.*, p.* from userdata1 c,userdata2 p where c.uguid=p.uguid && p.type='$e_emailid' ";
+		$result = mysqli_query($conn, $sql);
+		$userdata=array();
+		$user = array (
+		          "uguid"=> "",
+		          "uname"=>"",
+		          "e_emailid"=>""
+		        );
+
+
+		 while($row=mysqli_fetch_assoc($result)){
+		  $user['uguid']= $row['uguid'];
+		  $user['uname']= $row['uname'];
+		  $user['e_emailid']= $row['value'];
+
+		  $userdata[]=$user;
+
+
+		}
+		$json_data = json_encode($userdata);
+		file_put_contents('employeelist.json', $json_data);
+
+
+
+
 		$arr = array (
 		        "uguid"=> "",
 		        "uname"=> "",

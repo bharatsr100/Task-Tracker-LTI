@@ -762,17 +762,19 @@ $arr = unserialize($_SESSION['arr']);
               <input type="text" class="form-control" id="tguid4" placeholder="TGUID" name="tguid4" style="display:none;">
             </div>
             <div  class="form-group">
-              <label  for="assignto4">Assign to:
+              <label  for="userslist">Assign to:
             </label>
-              <input type="text" class="form-control" id="assignto4" placeholder="Assign to" name="assignto4">
+            <select class="form-control" id="userslist" name="userslist">
+            </select>
+
             </div>
             <div  class="form-group">
               <label  for="tstatus4">Task Status:
             </label>
             <select class="form-control" id="tstatus4" name="tstatus4">
-              <option>---Select Task Status---</option>
-                <option>Start Task</option>
-                <option>Complete Task</option>
+              <option selected="true" disabled>---Select Task Status---</option>
+                <option>In Progress</option>
+                <option>Completed</option>
                 <option>On hold</option>
                 <option>Awaiting</option>
 

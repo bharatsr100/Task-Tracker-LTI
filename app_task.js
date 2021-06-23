@@ -1,8 +1,20 @@
 $(document).ready(function() {
+	let dropdown = $('#userslist');
+	dropdown.empty();
+	dropdown.append('<option selected="true" disabled value="0">Choose User Name</option>');
+	dropdown.prop('selectedIndex', 0);
+
+	const url = 'employeelist.json';
+
+	// Populate dropdown with list of provinces
+	$.getJSON(url, function (data) {
+	  $.each(data, function (key, entry) {
+	    dropdown.append($('<option></option>').attr('value', entry.uguid).text(entry.uname+"---"+entry.e_emailid));
+	  })
+	});
+
+
 	$('[data-toggle="tooltip"]').tooltip();
-
-
-
 	$('.stpbtn').on('click',function(){
 
 	  $tr= $(this).closest('tr');
@@ -219,7 +231,7 @@ $(document).ready(function() {
 		var pend=data[5];
 		var astart=data[7];
 		var aend=data[9];
-		
+
 	  $('#tguid4').val(data[0]);
 	  $('#commenttaskmodal').modal('show');
 	//console.log(data[0]);

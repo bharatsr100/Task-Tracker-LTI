@@ -5,6 +5,18 @@ header('location:index.php');
 }
 $arr = unserialize($_SESSION['arr']);
 $name="Hello  there!!";
+
+include 'database.php';
+// $myFile = "employeelist.txt";
+// $fo = fopen($myFile, 'w') or die("can't open file");
+
+// $sql = "SELECT * FROM userdata1";
+//$stringData="";
+
+
+ // fwrite($fo, $stringData);
+ // fclose($fo);
+
 ?>
 <html>
 
