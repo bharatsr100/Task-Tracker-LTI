@@ -3,31 +3,35 @@
 	session_start();
 	if($_POST['type']==1){
 
-		$e_emailid= "e_emailid";
-		$sql="select c.*, p.* from userdata1 c,userdata2 p where c.uguid=p.uguid && p.type='$e_emailid' ";
-		$result = mysqli_query($conn, $sql);
-		$userdata=array();
+		// $e_emailid= "e_emailid";
+		// $sql="select c.*, p.* from userdata1 c,userdata2 p where c.uguid=p.uguid && p.type='$e_emailid' ";
+		// $result = mysqli_query($conn, $sql);
+		// $userdata=array();
+		// $user = array (
+		//           "uguid"=> "",
+		//           "uname"=>"",
+		//           "e_emailid"=>""
+		//         );
+		//
+		//
+		//  while($row=mysqli_fetch_assoc($result)){
+		//   $user['uguid']= $row['uguid'];
+		//   $user['uname']= $row['uname'];
+		//   $user['e_emailid']= $row['value'];
+		//
+		//   $userdata[]=$user;
+		//
+		//
+		// }
+		// $json_data = json_encode($userdata);
+		// file_put_contents('employeelist.json', $json_data);
+
+
 		$user = array (
 		          "uguid"=> "",
 		          "uname"=>"",
 		          "e_emailid"=>""
 		        );
-
-
-		 while($row=mysqli_fetch_assoc($result)){
-		  $user['uguid']= $row['uguid'];
-		  $user['uname']= $row['uname'];
-		  $user['e_emailid']= $row['value'];
-
-		  $userdata[]=$user;
-
-
-		}
-		$json_data = json_encode($userdata);
-		file_put_contents('employeelist.json', $json_data);
-
-
-
 
 		$arr = array (
 		        "uguid"=> "",
@@ -72,6 +76,13 @@
 		$arr['p_emailid']="$p_emailid";
 		$arr['password']="$password";
 		$arr['cpassword']="$cpassword";
+
+		$user['uguid']="$uguid";
+		$user['uname']="$uname";
+		$user['e_emailid']="$e_emailid";
+		$current_data = file_get_contents('employeelist.json');
+		$array_data = json_decode($current_data, true);
+
 
 		$s1= mysqli_query($conn,"select * from userdata2 where type= '$t1' && value='$contact'");
 		$s2= mysqli_query($conn,"select * from userdata2 where type='$t2' && value='$employeeid'");
@@ -126,6 +137,10 @@
 
 		  $arr['statuscode']="s";
 		  $arr['description']="Account Created Successfully";
+
+			$array_data[] = $user;
+			$final_data = json_encode($array_data);
+			file_put_contents('employeelist.json', $final_data);
 
 		  echo json_encode($arr);
 
