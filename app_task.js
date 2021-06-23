@@ -1,5 +1,8 @@
 $(document).ready(function() {
 	$('[data-toggle="tooltip"]').tooltip();
+
+
+
 	$('.stpbtn').on('click',function(){
 
 	  $tr= $(this).closest('tr');
@@ -93,8 +96,22 @@ $(document).ready(function() {
 	      var dataResult = JSON.parse(dataResult);
 	      //console.log(dataResult);
 				$("#tbodystep").empty();
-						var taskpresent=[]
+						var taskpresent=[];
+
+
 				$(dataResult).each(function (index, item) {
+									$('.deletestep2').on('click',function(){
+										$tr= $(this).closest('tr');
+										var data=$tr.children("td").map(function(){
+										return $(this).text();
+									}).get();
+									console.log("deletetaskfunction");
+										if(data[3]==""){
+											console.log("insideifcondition");
+											$('#deletetaskmodal1').modal('show');
+											$('#tguidd').val(data[0]);
+											$('#tsequenceidd').val(data[1]);}
+										});
 										var task1={
 											tsequenceid:item.tsequenceid,
 											tstepdescription:item.tstepdescription
@@ -122,7 +139,7 @@ $(document).ready(function() {
 											else if(item.tstage=="5") pstagen="On Hold";
 											else pstagen="Awaiting";
 										$('[data-toggle="tooltip"]').tooltip();
-                    $('#tsteps tbody').append(
+										$('#tsteps tbody').append(
                         '<tr><td style="display:none;">' + item.tguid +
 												'</td><td >' + item.tsequenceid +
                         '</td><td>' + item.tstepdescription +
@@ -133,12 +150,21 @@ $(document).ready(function() {
 												'</td><td>' + aendn +
 												'</td><td>' + item.aeffort +
 												'</td><td style="width: 160px;">' + pstagen +
-												'</td><td style="width: 100px;" ><a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash" style="font-size:20px;" id="deletestep"></i></a> &nbsp; &nbsp;<a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Update Task Step" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>' +
+												'</td><td style="width: 100px;" ><button class="deletestep2" id="deletestep1" ><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash deletetstep" style="font-size:20px;" id="deletestep"></i></button> &nbsp; &nbsp;<a href="#"  data-toggle="modal" data-target="#"><i data-toggle="tooltip" data-placement="right" title="Update Task Step" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>' +
                         '</td></tr>'
+
+
                     )
 
 
-                });
+									});
+
+
+
+
+
+
+
 								// console.log(tasklist);
 								// console.log(taskpresent);
 
@@ -172,6 +198,12 @@ $(document).ready(function() {
 
 	});
 
+
+
+	$('.createbtn').on('click',function(){
+		$('#createtaskmodal').modal('show');
+	});
+
 	$('.commentbtn').on('click',function(){
 
 
@@ -183,7 +215,11 @@ $(document).ready(function() {
 	  }).get();
 
 		console.log(data[0]);
-
+		var pstart=data[4];
+		var pend=data[5];
+		var astart=data[7];
+		var aend=data[9];
+		
 	  $('#tguid4').val(data[0]);
 	  $('#commenttaskmodal').modal('show');
 	//console.log(data[0]);
@@ -241,7 +277,10 @@ $(document).ready(function() {
 	});
 
 
-
+// $('.deletetstep').on('click',function(){
+//
+//
+// });
 		$('.editbtn').on('click',function(){
 			$tr= $(this).closest('tr');
 			var data=$tr.children("td").map(function(){
@@ -360,22 +399,26 @@ $(document).ready(function() {
           var dataResult = JSON.parse(dataResult);
           console.log("Hello");
           console.log(dataResult);
-					if(dataResult.statuscode=="s"){
-						//$("#createtask").removeAttr("disabled");
-						//$('#task_form').find('input:text').val('');
-
-            alert(dataResult.description);
-						window.location.href = 'mytask.php';
-						// $("#success").show();
-						// $('#success').html('Successfully created task!');
-
-        }
-        else {
-          // $("#error").show();
-          // $('#error').html('Task Creation Unsuccessful');
-          alert(dataResult.description);
+					alert(dataResult.description);
 					window.location.href = 'mytask.php';
-        }
+
+
+				// 	if(dataResult.statuscode=="s"){
+				// 		$("#createtask").removeAttr("disabled");
+				// 		$('#task_form').find('input:text').val('');
+				//
+        //     alert(dataResult.description);
+				// 		window.location.href = 'mytask.php';
+				// 		 $("#success").show();
+				// 		 $('#success').html('Successfully created task!');
+				//
+        // }
+        // else {
+        //    $("#error").show();
+        //    $('#error').html('Task Creation Unsuccessful');
+        //   alert(dataResult.description);
+				// 	window.location.href = 'mytask.php';
+        // }
       }
       });
     }

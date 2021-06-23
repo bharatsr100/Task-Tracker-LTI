@@ -180,7 +180,7 @@ $arr = unserialize($_SESSION['arr']);
     </div>
     <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
     </div> -->
-    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#createtaskmodal">
+    <button onclick="location.href='#'" type="button" class="btn btn-secondary createbtn">
 
     <i class="fas fa-plus"></i>  Create Task
     </button>
@@ -233,7 +233,7 @@ $arr = unserialize($_SESSION['arr']);
               <input type="date" class="form-control" id="pend" placeholder="Planned End" name="pend">
             </div>
             <div  class="form-group">
-              <label  for="ttype">Planned Effort:
+              <label  for="peffort">Planned Effort:
             </label>
               <input type="text" class="form-control" id="peffort" placeholder="Planned Effort" name="peffort">
             </div>
@@ -241,17 +241,17 @@ $arr = unserialize($_SESSION['arr']);
             <div  class="form-group">
               <label  for="astart">Actual Start:
             </label>
-              <input type="date" class="form-control" id="astart" placeholder="Actual Start" name="astart">
+              <input type="date" class="form-control" id="astart" placeholder="Actual Start" name="astart" value="">
             </div>
             <div  class="form-group">
               <label  for="aend">Actual End:
             </label>
-              <input type="date" class="form-control" id="aend" placeholder="Actual End" name="aend">
+              <input type="date" class="form-control" id="aend" placeholder="Actual End" name="aend" value="">
             </div>
             <div  class="form-group">
               <label  for="aeffort">Actual Effort:
             </label>
-              <input type="text" class="form-control" id="aeffort" placeholder="Actual Effort" name="aeffort">
+              <input type="text" class="form-control" id="aeffort" placeholder="Actual Effort" name="aeffort" value="">
             </div>
           </div>
             <div  class="form-group">
@@ -701,6 +701,43 @@ $arr = unserialize($_SESSION['arr']);
         </div>
       </div>
     </div>
+    <!-- ######################################################################################################################################### -->
+  <!--Delete Task Step Modal -->
+    <div class="modal fade" id="deletetaskmodal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document" id="deletemodal1">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Do you want to delete this task step?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          <form id="delete_form" name="form1" method="post" >
+
+            <div  class="form-group">
+              <label  for="tguidd">TGUID:
+            </label>
+              <input type="text" class="form-control" id="tguidd" placeholder="Task Sequence ID" name="tguidd">
+            </div>
+            <div  class="form-group">
+              <label  for="tguidd">Task Sequence ID:
+            </label>
+              <input type="text" class="form-control" id="tsequenceidd" placeholder="TGUID" name="tsequenceidd">
+            </div>
+            <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
+            <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="submit" class="btn btn-primary" id="deletetaskd">Yes</button>
+          </form>
+
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
   <!-- ######################################################################################################################################### -->
       <!--Comment Modal -->
     <div class="modal fade" id="commenttaskmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -713,6 +750,9 @@ $arr = unserialize($_SESSION['arr']);
             </button>
           </div>
           <div class="modal-body">
+            <div class="alert alert-danger alert-dismissible" id="error12" style="display:none;">
+            </div>
+            <br>
 
           <form id="comment_form" name="form1" action="updatetask.php" method="post" >
 
@@ -720,6 +760,25 @@ $arr = unserialize($_SESSION['arr']);
               <label  for="tguid4" style="display:none;">TGUID:
             </label>
               <input type="text" class="form-control" id="tguid4" placeholder="TGUID" name="tguid4" style="display:none;">
+            </div>
+            <div  class="form-group">
+              <label  for="assignto4">Assign to:
+            </label>
+              <input type="text" class="form-control" id="assignto4" placeholder="Assign to" name="assignto4">
+            </div>
+            <div  class="form-group">
+              <label  for="tstatus4">Task Status:
+            </label>
+            <select class="form-control" id="tstatus4" name="tstatus4">
+              <option>---Select Task Status---</option>
+                <option>Start Task</option>
+                <option>Complete Task</option>
+                <option>On hold</option>
+                <option>Awaiting</option>
+
+              </select>
+
+              <!-- <input type="text" class="form-control" id="tstatus4" placeholder="Task Status" name="tstatus4"> -->
             </div>
             <div  class="form-group">
               <label  for="comment4">New Comment:
@@ -777,7 +836,7 @@ $arr = unserialize($_SESSION['arr']);
         <th scope="col">Actual Effort</th>
 
         <th scope="col" style="width: 160px;">Task Status</th>
-        <th scope="col" style="width: 150px;">Actions</th>
+        <th scope="col" style="width: 150px;display:none;">Actions</th>
         <!-- <th scope="col">Task Stage</th>
         <th scope="col">Created By</th> -->
       </tr>
@@ -880,7 +939,7 @@ $arr = unserialize($_SESSION['arr']);
          else if($row['tstage']==4) echo "<b><u>Completed</b></u>";
          else if($row['tstage']==5) echo "<b><u>On Hold</b></u>";
          else if($row['tstage']==6) echo "<b><u>Awaiting</b></u>"; ?></button></td>
-        <td >
+        <td style="display:none;">
           <!-- <a href="#updatetaskmodal"  data-toggle="modal" data-target="#updatetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Update Task" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>
           &nbsp;
           <a href="#plantaskmodal"  data-toggle="modal" data-target="#plantaskmodal"><i data-toggle="tooltip" data-placement="left" title="Plan Task" class="far fa-play-circle" style="font-size:20px;" id="plan"></i></a>
@@ -927,9 +986,8 @@ $arr = unserialize($_SESSION['arr']);
     <th scope="col">Actual Effort</th>
 
     <th scope="col">Task Status</th>
-    <th scope="col" style="display:none;">Actions</th>
     <!-- <th scope="col">Task Stage</th> -->
-    <th scope="col">Actions</th>
+    <th scope="col" style="display:none;">Actions</th>
   </tr>
   </thead>
   <?php
@@ -1023,7 +1081,7 @@ while($row=mysqli_fetch_assoc($result))
      else if($row['tstage']==4) echo "<b>Completed</b>";
      else if($row['tstage']==5) echo "<b>On Hold</b>";
      else if($row['tstage']==6) echo "<b>Awaiting</b>"; ?></td>
-    <td style="">
+    <td style="display:none;">
       <a href="#updatetaskmodal"  data-toggle="modal" data-target="#updatetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Update Task" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>
       &nbsp;
       <a href="#plantaskmodal"  data-toggle="modal" data-target="#plantaskmodal"><i data-toggle="tooltip" data-placement="left" title="Plan Task" class="far fa-play-circle" style="font-size:20px;" id="plan"></i></a>

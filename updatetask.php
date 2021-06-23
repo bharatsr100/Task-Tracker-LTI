@@ -49,7 +49,7 @@ else{
 else if(isset($_POST['savecomment'])){
   $tguid= $_POST['tguid4'];
   $uguid=$_SESSION['uguid'];
-
+  $tsequenceid=11;
   date_default_timezone_set("Asia/Kolkata");
 
   $date1= date("Ymd");
@@ -60,14 +60,63 @@ else if(isset($_POST['savecomment'])){
   $updatedby=$uguid;
   $tsequenceid=11;
   $comment= $_POST['comment4'];
+  $tstagetext= $_POST['tstatus4'];
+
+
+	$s5= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid='$tsequenceid'");
+  $row = mysqli_fetch_assoc($s5);
+  $tstage=$row["tstage"];
+  $aend=$row["aend"];
+  $astart=$row["astart"];
+  $pstart=$row["pstart"];
+
+  $r2="";
+  if($tstagetext=="Start Task") $tstage=3;
+  else if($tstagetext=="Complete Task") $tstage=4;
+  else if($tstagetext=="On hold") $tstage=5;
+  else if($tstagetext=="Awaiting") $tstage=6;
+
+if(($pstart=="" || $pstart=="NULL" || $pstart=="0000-00-00" && $tstage==4) || ($pstart=="" || $pstart=="NULL" || $pstart=="0000-00-00" && $tstage==3) ){
+  echo "<script type='text/javascript'>alert('Task needs to be planned first'); window.location.href = 'mytask.php';</script>";
+  exit("Task needs to be planned first");
+}
+if($astart=="" || $astart=="NULL" || $astart=="0000-00-00" && $tstage==4){
+  echo "<script type='text/javascript'>alert('Task can not be completed before starting it'); window.location.href = 'mytask.php';</script>";
+  exit("Task can not be completed before starting it");
+  // echo "<script type='text/javascript'>alert('Task can't be completed before starting it'); window.location.href = 'mytask.php';</script>";
+  // exit("Task can't be completed before starting it");
+}
+  if($tstage==3){
+      $astart=$date1;
+      $aend="";
+
+      $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',astart='$astart' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+  }
+  else if($tstage==4){
+    $aend=$date1;
+    $diff = abs(strtotime($aend) - strtotime($astart));
+
+    $years = floor($diff / (365*60*60*24));
+    $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+    $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+    $aeffort= $days+1;
+
+    $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',aend='$aend',aeffort=$aeffort WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+  }
+else{
+  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+}
+
 
   $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
   $r3=mysqli_query($conn, $sql3);
-  if($r3){
-    echo "<script type='text/javascript'>alert('Comment Created Successfully !'); window.location.href = 'mytask.php';</script>";
+
+  if($r2 && $r3){
+    echo "<script type='text/javascript'>alert('Updated Successfully !'); window.location.href = 'mytask.php';</script>";
   }
   else{
-    echo "<script type='text/javascript'>alert('Failed to create Comment !'); window.location.href = 'mytask.php';</script>";
+    echo "<script type='text/javascript'>alert('Failed to update !'); window.location.href = 'mytask.php';</script>";
   }
 
 
