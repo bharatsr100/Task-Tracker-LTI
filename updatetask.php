@@ -157,10 +157,10 @@ else{
   $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
   $r3=mysqli_query($conn, $sql3);
 
-  $r4=mysqli_query($conn,"UPDATE ttable SET createdby='$assignto' WHERE tguid='$tguid'");
+  //$r4=mysqli_query($conn,"UPDATE ttable SET createdby='$assignto' WHERE tguid='$tguid'");
 
 
-  if($r2 && $r3 && $r4){
+  if($r2 && $r3 ){
     echo "<script type='text/javascript'>alert('Updated Successfully !'); window.location.href = 'mytask.php';</script>";
   }
   else{

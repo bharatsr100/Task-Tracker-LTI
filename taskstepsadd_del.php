@@ -133,6 +133,7 @@ header('location:index.php');
         <!-- <th scope="col" style="display:none;">Task ID</th> -->
         <!-- <th scope="col">Task Sequence No</th> -->
         <th scope="col">Task Step Description</th>
+        <th scope="col">Assigned to</th>
         <th  scope="col">Planned Start</th>
         <th scope="col">Planned End</th>
         <th scope="col">Planned Effort</th>

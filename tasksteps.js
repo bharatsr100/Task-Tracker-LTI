@@ -203,6 +203,10 @@ var tasklist=[
 
                 i++;
                 newcell = row.insertCell(i);
+                newcell.innerHTML = item.assignto;
+
+                i++;
+                newcell = row.insertCell(i);
                 newcell.innerHTML = pstartn;
 
                 i++;

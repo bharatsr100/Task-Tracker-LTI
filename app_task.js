@@ -1,12 +1,13 @@
 $(document).ready(function() {
 	let dropdown = $('#userslist');
+	//let dropdown = $('#assignto');
 	dropdown.empty();
 	dropdown.append('<option selected="true" value="0">--Choose User Name--</option>');
 	dropdown.prop('selectedIndex', 0);
 
 	const url = 'employeelist.json';
 
-	// Populate dropdown with list of provinces
+
 	$.getJSON(url, function (data) {
 	  $.each(data, function (key, entry) {
 	    dropdown.append($('<option></option>').attr('value', entry.uguid).text(entry.uname+"---"+entry.e_emailid));
@@ -15,6 +16,38 @@ $(document).ready(function() {
 
 
 	$('[data-toggle="tooltip"]').tooltip();
+
+	let dropdown1 = $('#assignto');
+	//let dropdown = $('#assignto');
+	dropdown1.empty();
+	dropdown1.append('<option selected="true" value="0">--Choose User Name--</option>');
+	dropdown1.prop('selectedIndex', 0);
+
+	const url1 = 'employeelist.json';
+
+
+	$.getJSON(url1, function (data1) {
+		$.each(data1, function (key, entry) {
+			dropdown1.append($('<option></option>').attr('value', entry.uguid).text(entry.uname+"---"+entry.e_emailid));
+		})
+	});
+
+
+	let dropdown5 = $('#userslist5');
+	//let dropdown = $('#assignto');
+	dropdown5.empty();
+	dropdown5.append('<option selected="true" value="0">--Choose User Name--</option>');
+	dropdown5.prop('selectedIndex', 0);
+
+	const url5 = 'employeelist.json';
+
+
+	$.getJSON(url5, function (data5) {
+	  $.each(data5, function (key, entry) {
+	    dropdown5.append($('<option></option>').attr('value', entry.uguid).text(entry.uname+"---"+entry.e_emailid));
+	  })
+	});
+
 
 	$('#deletestep1').on('click',function(){
 		$tr= $(this).closest('tr');
@@ -446,6 +479,20 @@ $(document).ready(function() {
 	$('.createbtn').on('click',function(){
 		$('#createtaskmodal').modal('show');
 	});
+$('.tstepstage').on('click',function(){
+
+			$tr= $(this).closest('tr');
+			var data=$tr.children("td").map(function(){
+			return $(this).text();
+			}).get();
+
+			$('#tguid5').val(data[0]);
+			$('#tsequenceid4').val(data[1]);
+
+		  $('#commenttaskmodal5').modal('show');
+
+});
+
 
 	$('.commentbtn').on('click',function(){
 
@@ -482,7 +529,7 @@ $(document).ready(function() {
 	      //console.log(dataResult);
 				$("#tbodycomment").empty();
 				$(dataResult).each(function (index, item) {
-                    console.log(item);
+                    //onsole.log(item);
                     //console.log(receipts[index]);
 										// 	var pstartn="";
 										// 	var pendn="";
@@ -524,6 +571,78 @@ $(document).ready(function() {
 //
 //
 // });
+$('.stpedit12').on('click',function(){
+	$tr= $(this).closest('tr');
+	var data=$tr.children("td").map(function(){
+	return $(this).text();
+	}).get();
+
+	//console.log(data);
+	if(data[4]!=""){
+		$('#editstaskstepmodal').modal('show');
+		$('#tsequenceid3').val(data[1]);
+		$('#tguid3').val(data[0]);
+		$('#tid3').val(data[2].trim());
+		$('#tdescription3').val(data[3]);
+
+		$("#pstart3").val(data[4]);
+		$("#pend3").val(data[5]);
+		$("#peffort3").val(data[6]);
+
+		$("#edittaskstepbtn").hide();
+
+		$("#tid3").attr("readonly","readonly");
+		$("#tid3").attr("disabled", "disabled");
+		$("#tsequenceid3").attr("readonly","readonly");
+		$("#tsequenceid3").attr("disabled", "disabled");
+		$("#tdescription3").attr("readonly","readonly");
+		$("#tdescription3").attr("disabled", "disabled");
+		$("#pstart3").attr("readonly","readonly");
+		$("#pstart3").attr("disabled", "disabled");
+		$("#pend3").attr("readonly","readonly");
+		$("#pend3").attr("disabled", "disabled");
+		$("#peffort3").attr("readonly","readonly");
+		$("#peffort3").attr("disabled", "disabled");
+		$("#error3").show();
+		$('#error3').html("Task is already planned so please contact admin");
+
+
+	 }
+
+	 else{
+
+		$('#editstaskstepmodal').modal('show');
+		 $("#error3").hide();
+		 $('#tsequenceid3').val(data[1]);
+		 $('#tguid3').val(data[0]);
+		 $('#tid3').val(data[2].trim());
+		 $('#tdescription3').val(data[3]);
+
+		 $("#pstart3").val("");
+		 $("#pend3").val("");
+		 $("#peffort3").val("");
+
+
+		 $("#tid3").prop("readonly", false);
+		 $("#tid3").prop("disabled", false);
+		 $("#tsequenceid3").prop("readonly", false);
+		 $("#tsequenceid3").prop("disabled", false);
+		 $("#tdescription3").prop("readonly", false);
+		 $("#tdescription3").prop("disabled", false);
+		 $("#pstart3").prop("readonly", false);
+		 $("#pstart3").prop("disabled", false);
+		 $("#pend3").prop("readonly", false);
+		 $("#pend3").prop("disabled", false);
+		 $("#peffort3").prop("readonly", false);
+		 $("#peffort3").prop("disabled", false);
+
+		 $("#edittaskstepbtn").show();
+
+
+
+	 }
+
+});
 		$('.editbtn').on('click',function(){
 			$tr= $(this).closest('tr');
 			var data=$tr.children("td").map(function(){
@@ -600,76 +719,59 @@ $(document).ready(function() {
 
 		});
 
-		$('#createtask').on('click', function() {
-    //console. log("2");
-    var tid = $('#tid').val();
-    var tdescription = $('#tdescription').val();
-    var ttype = $('#ttype').val();
-    var assignto = $('#assignto').val();
-    var pstart = $('#pstart').val();
-    var pend = $('#pend').val();
-    var peffort = $('#peffort').val();
-    var astart = $('#astart').val();
-    var aend = $('#aend').val();
-    var aeffort = $('#aeffort').val();
-    var comment = $('#comment').val();
-
-    console. log("4");
-    if((tid!="" && tdescription!="" && pstart!="" && pend!="" && peffort!="") || (tid!="" && tdescription!="" && pstart=="" && pend=="" && peffort=="")  ){
-      console. log("3");
-
-      $.ajax({
-				url: "task.php",
-				type: "POST",
-        //dataType: "json",
-			  data:    {
-              type: 1,
-            	tid: tid,
-            	tdescription: tdescription,
-            	ttype: ttype,
-            	assignto: assignto,
-              pstart: pstart,
-              pend: pend,
-              peffort: peffort,
-              astart: astart,
-              aend: aend,
-              aeffort: aeffort,
-            	comment: comment
-            },
-
-				cache: false,
-				success: function(dataResult){
-          var dataResult = JSON.parse(dataResult);
-          console.log("Hello");
-          console.log(dataResult);
-					alert(dataResult.description);
-					window.location.href = 'mytask.php';
-
-
-				// 	if(dataResult.statuscode=="s"){
-				// 		$("#createtask").removeAttr("disabled");
-				// 		$('#task_form').find('input:text').val('');
-				//
-        //     alert(dataResult.description);
-				// 		window.location.href = 'mytask.php';
-				// 		 $("#success").show();
-				// 		 $('#success').html('Successfully created task!');
-				//
-        // }
-        // else {
-        //    $("#error").show();
-        //    $('#error').html('Task Creation Unsuccessful');
-        //   alert(dataResult.description);
-				// 	window.location.href = 'mytask.php';
-        // }
-      }
-      });
-    }
-    else {
-        alert('Please fill all the required field !');
-        //console. log("4");
-      }
-  });
+	// 	$('#createtask').on('click', function() {
+	//
+  //   var tid = $('#tid').val();
+  //   var tdescription = $('#tdescription').val();
+  //   var ttype = $('#ttype').val();
+  //   var assignto = $('#assignto').val();
+  //   var pstart = $('#pstart').val();
+  //   var pend = $('#pend').val();
+  //   var peffort = $('#peffort').val();
+  //   var astart = $('#astart').val();
+  //   var aend = $('#aend').val();
+  //   var aeffort = $('#aeffort').val();
+  //   var comment = $('#comment').val();
+	//
+  //   console. log("4");
+  //   if((tid!="" && tdescription!="" && pstart!="" && pend!="" && peffort!="") || (tid!="" && tdescription!="" && pstart=="" && pend=="" && peffort=="")  ){
+  //     console. log("3");
+	//
+  //     $.ajax({
+	// 			url: "task.php",
+	// 			type: "POST",
+	//
+	// 		  data:    {
+  //             type: 1,
+  //           	tid: tid,
+  //           	tdescription: tdescription,
+  //           	ttype: ttype,
+  //           	assignto: assignto,
+  //             pstart: pstart,
+  //             pend: pend,
+  //             peffort: peffort,
+  //             astart: astart,
+  //             aend: aend,
+  //             aeffort: aeffort,
+  //           	comment: comment
+  //           },
+	//
+	// 			cache: false,
+	// 			success: function(dataResult){
+  //         var dataResult = JSON.parse(dataResult);
+  //         console.log("Hello");
+	//
+	// 				alert(dataResult.description);
+	// 				window.location.href = 'mytask.php';
+	//
+  //     }
+  //     });
+  //   }
+  //   else {
+  //       alert('Please fill all the required field !');
+	//
+  //     }
+  // });
 
 
 

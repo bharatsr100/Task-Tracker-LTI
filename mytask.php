@@ -110,6 +110,14 @@ $arr = unserialize($_SESSION['arr']);
 
         color: white;
         }
+        #tsptepstage{
+          font-weight: 400;
+          background: white;
+        }
+        #tsptepstage:hover {
+
+          color: white;
+          }
       /* #taskstep{
          border: 1px solid #ddd;
           width: 90%;
@@ -180,7 +188,7 @@ $arr = unserialize($_SESSION['arr']);
     </div>
     <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
     </div> -->
-    <button onclick="location.href='#'" type="button" class="btn btn-secondary createbtn">
+    <button  type="button" class="btn btn-secondary createbtn">
 
     <i class="fas fa-plus"></i>  Create Task
     </button>
@@ -200,27 +208,32 @@ $arr = unserialize($_SESSION['arr']);
           </div>
           <div class="modal-body">
 
-          <form id="task_form" name="form1" method="post" >
+          <form id="task_form" name="form12" method="post" action="task.php" >
 
             <div  class="form-group">
               <label  for="tid">Task ID:
             </label>
-              <input type="text" class="form-control" id="tid" placeholder="Task ID" name="tid" required>
+              <input type="text" class="form-control" id="tid" placeholder="Task ID" name="tid" >
             </div>
             <div  class="form-group">
               <label  for="tdescription">Task Description:
             </label>
-              <input type="text" class="form-control" id="tdescription" placeholder="Task Description" name="tdescription" required>
+              <input type="text" class="form-control" id="tdescription" placeholder="Task Description" name="tdescription">
             </div>
             <div  class="form-group">
               <label  for="ttype">Task Type:
             </label>
               <input type="text" class="form-control" id="ttype" placeholder="Task Type" name="ttype">
             </div>
+
+
+
             <div  class="form-group">
               <label  for="assignto">Assign to
             </label>
-              <input type="text" class="form-control" id="assignto" placeholder="Assigned to" name="assignto">
+              <!-- <input type="text" class="form-control" id="assignto" placeholder="Assigned to" name="assignto"> -->
+              <select class="form-control" id="assignto" name="assignto" >
+              </select>
             </div>
             <div  class="form-group">
               <label  for="pstart">Planned Start
@@ -237,23 +250,23 @@ $arr = unserialize($_SESSION['arr']);
             </label>
               <input type="text" class="form-control" id="peffort" placeholder="Planned Effort" name="peffort">
             </div>
-            <div class="action" style="display:none">
+
             <div  class="form-group">
-              <label  for="astart">Actual Start:
+              <label  for="astart" style="display:none">Actual Start:
             </label>
-              <input type="date" class="form-control" id="astart" placeholder="Actual Start" name="astart" value="">
+              <input type="date" class="form-control" id="astart" placeholder="Actual Start" name="astart"  style="display:none">
             </div>
             <div  class="form-group">
-              <label  for="aend">Actual End:
+              <label  for="aend" style="display:none">Actual End:
             </label>
-              <input type="date" class="form-control" id="aend" placeholder="Actual End" name="aend" value="">
+              <input type="date" class="form-control" id="aend" placeholder="Actual End" name="aend" style="display:none">
             </div>
-            <div  class="form-group">
+            <div  class="form-group" style="display:none">
               <label  for="aeffort">Actual Effort:
             </label>
-              <input type="text" class="form-control" id="aeffort" placeholder="Actual Effort" name="aeffort" value="">
+              <input type="text" class="form-control" id="aeffort" placeholder="Actual Effort" name="aeffort" style="display:none">
             </div>
-          </div>
+
             <div  class="form-group">
               <label  for="ttype">Comment:
             </label>
@@ -263,7 +276,7 @@ $arr = unserialize($_SESSION['arr']);
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary createtask1" id="createtask">Create</button>
+            <button type="submit" class="btn btn-primary createtask1" name="createtask" id="createtask">Create</button>
           </form>
 
           </div>
@@ -521,7 +534,7 @@ $arr = unserialize($_SESSION['arr']);
             </div>
 
             <div  class="form-group">
-              <label  for="assignto">Assign to
+              <label  for="assignto1">Assign to
             </label>
               <input type="text" class="form-control" id="assignto1" placeholder="Assigned to" name="assignto1">
             </div>
@@ -764,7 +777,7 @@ $arr = unserialize($_SESSION['arr']);
             <div  class="form-group">
               <label  for="userslist">Assign to:
             </label>
-            <select class="form-control" id="userslist" name="userslist">
+            <select class="form-control" id="userslist"  name="userslist">
             </select>
 
             </div>
@@ -848,7 +861,7 @@ $arr = unserialize($_SESSION['arr']);
   $uguid=$_SESSION['uguid'];
   $sequence="11";
   //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
-  $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.createdby='$uguid' && c.tsequenceid='$sequence'";
+  $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid' && c.tsequenceid='$sequence'";
   //$sql3="select * from tstatus where tguid="
   //$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
   $result=mysqli_query($conn, $sql2);
@@ -861,10 +874,8 @@ $arr = unserialize($_SESSION['arr']);
         <th scope="row" style="font-weight:400;"><?php echo $row['createdon']; ?></th>
         <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
-        <td><button onclick="location.href='#'" type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
+        <td><button  type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
         <?php
-
-
         date_default_timezone_set("Asia/Kolkata");
         if($row['tstage']==1) echo "#BEBFCC";
         else if($row['tstage']==2 || $row['tstage']==3){
@@ -908,9 +919,9 @@ $arr = unserialize($_SESSION['arr']);
         }
 
 
-          ?>;" >
-        <?php echo $row['tid']; ?>
-        </button></td>
+          ?>;" >   <?php echo $row['tid']; ?>
+                  </button></td>
+
 
         <td><?php echo $row['tdescription']; ?></td>
          <td><button  type="submit" class="btn btn-success stpbtn12" id="stepbtn12" style="color: black;font-weight:700;text-decoration: underline; border-color:white"><?php echo $row['ttype']; ?></button></td>
@@ -966,16 +977,169 @@ $arr = unserialize($_SESSION['arr']);
   ?>
     </table>
 <br><br><br><h1 style="text-align:center;">My Task Steps</h1>
-<!-- ####################################################################################################################################################### -->
+<!-- ######################################################################################################################################### -->
+    <!--Edit Task Step Modal-->
+    <div class="modal fade" id="editstaskstepmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Task Step Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger alert-dismissible" id="error3" style="display:none;">
+            </div>
+            <form id="task_step_form1" name="form2" method="post" action="updatetask.php" >
+            <div  class="form-group">
+              <label  for="tguid3">Task GUID:
+            </label>
+              <input  type="text" class="form-control" id="tguid3" placeholder="Task GUID" name="tguid3" >
+            </div>
+            <div  class="form-group">
+              <label  for="tsequenceid3">Task Sequence ID:
+            </label>
+              <input  type="text" class="form-control" id="tsequenceid3" placeholder="Task Sequence ID" name="tsequenceid3" >
+            </div>
+            <div  class="form-group">
+              <label  for="tid3">Task ID:
+            </label>
+              <input type="text" class="form-control" id="tid3" placeholder="Task ID" name="tid3" >
+            </div>
+            <div  class="form-group">
+              <label  for="tdescription3">Task Description:
+            </label>
+              <input type="text" class="form-control" id="tdescription3" placeholder="Task Description" name="tdescription3" >
+            </div>
+
+
+            <div  class="form-group">
+              <label  for="pstart3">Planned Start
+            </label>
+              <input type="date" class="form-control" id="pstart3" placeholder="Planned Start" name="pstart3">
+            </div>
+            <div  class="form-group">
+              <label  for="pend3">Planned End:
+            </label>
+              <input type="date" class="form-control" id="pend3" placeholder="Planned End" name="pend3">
+            </div>
+            <div  class="form-group">
+              <label  for="peffort3">Planned Effort:
+            </label>
+              <input type="text" class="form-control" id="peffort3" placeholder="Planned Effort" name="peffort3">
+            </div>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="edittaskstepbtn" name="edittaskstepbtn" >Save</button>
+          </form>
+
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+<!--  -->
+<!-- ######################################################################################################################################### -->
+    <!--Step Comment Modal -->
+  <div class="modal fade" id="commenttaskmodal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ctmodal" role="document" id="commentmodal4">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger alert-dismissible" id="error5" style="display:none;">
+          </div>
+          <br>
+
+        <form id="comment_form" name="form5" action="updatetask.php" method="post" >
+
+          <div  class="form-group">
+            <label  for="tguid5" >Task GUID:
+          </label>
+            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5" >
+          </div>
+          <div  class="form-group">
+            <label  for="tsequenceid5" >Task Sequence ID:
+          </label>
+            <input type="text" class="form-control" id="tsequenceid5" placeholder="Task Sequence ID" name="tsequenceid5" >
+          </div>
+
+          <div  class="form-group">
+            <label  for="userslist5">Assign to:
+          </label>
+          <select class="form-control" id="userslist5"  name="userslist5">
+          </select>
+
+          </div>
+          <div  class="form-group">
+            <label  for="tstatus5">Task Status:
+          </label>
+          <select class="form-control" id="tstatus5" name="tstatus5">
+            <option selected="true">---Select Task Status---</option>
+              <option>In Progress</option>
+              <option>Completed</option>
+              <option>On hold</option>
+              <option>Awaiting</option>
+
+            </select>
+
+            <!-- <input type="text" class="form-control" id="tstatus4" placeholder="Task Status" name="tstatus4"> -->
+          </div>
+          <div  class="form-group">
+            <label  for="comment5">New Comment:
+          </label>
+            <input type="text" class="form-control" id="comment5" placeholder="New Comment" name="comment5">
+          </div>
+
+          <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
+          <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="savecomment5" name="savecomment5">Save Comment</button>
+        </form>
+        <br><br><br>
+        <center><h1 >Step Task Comment History</h1>
+        <br><br>
+        <div id="tcomments" style="display:contents">
+        <table class="table table-hover" id="commenttask5">
+
+          <thead>
+          <tr>
+
+            <th scope="col" >Commented On</th>
+            <th scope="col" >Commented At</th>
+            <th scope="col">Commment</th>
+          </tr>
+          </thead>
+
+          <tbody id="tbodycomment5">
+          </tbody>
+
+        </table>
+      </div>
+        </center>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ######################################################################################################################################### -->
+
 <!-- Task Sequence Table -->
 
-<table  class="table table-hover" id="taskdequencetable">
+<table  class="table" id="taskdequencetable">
   <thead>
   <tr>
     <th scope="col">Created On</th>
-    <th scope="col" style="display:none;">Task GUID</th>
+    <th scope="col" >Task GUID</th>
 
-
+    <th scope="col">Task Sequence ID</th>
     <th scope="col">Task ID</th>
     <!-- <th scope="col">Task Sequence No</th> -->
     <th scope="col">Task Step Description</th>
@@ -987,7 +1151,7 @@ $arr = unserialize($_SESSION['arr']);
     <th scope="col">Actual End</th>
     <th scope="col">Actual Effort</th>
 
-    <th scope="col">Task Status</th>
+    <th scope="col" style="width: 160px;">Task Status</th>
     <!-- <th scope="col">Task Stage</th> -->
     <th scope="col" style="display:none;">Actions</th>
   </tr>
@@ -997,7 +1161,7 @@ include 'database.php';
 $uguid=$_SESSION['uguid'];
 $sequence="11";
 //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
-$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.createdby='$uguid' ";
+$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid'&&c.tsequenceid!='$sequence' ";
 //$sql3="select * from tstatus where tguid="
 //$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
 $result=mysqli_query($conn, $sql2);
@@ -1006,13 +1170,61 @@ while($row=mysqli_fetch_assoc($result))
 {
 ?>
   <tr>
-    <th scope="row"><?php echo $row['createdon']; ?></th>
-    <td style="display:none;"><?php echo $row['tguid']; ?></td>
+    <th scope="row"  style="font-weight:400;"><?php echo $row['createdon']; ?></th>
+    <td ><?php echo $row['tguid']; ?></td>
+    <td><?php echo $row['tsequenceid']; ?></td>
 
-    <td><?php echo $row['tid']; ?></td>
-    <!-- <td><?php //echo $row['tsequenceid']; ?></td> -->
-    <td><?php echo $row['tstepdescription']; ?></td>
-     <!-- <td><?php //echo $row['ttype']; ?></td> -->
+<td><button  type="button" class="btn btn-success stpedit12" style="color: black;font-weight: 700;background-color:
+<?php
+
+
+date_default_timezone_set("Asia/Kolkata");
+if($row['tstage']==1) echo "#BEBFCC";
+else if($row['tstage']==2 || $row['tstage']==3){
+
+  $date1=$row['pend'];
+  $newdate1 = date("Ymd", strtotime($date1));
+  $datenow=date("Ymd");
+  $diff= $newdate1-$datenow;
+
+  if($diff>2) echo "#5FDB39";
+  else if($diff<=2 && $diff>=0) echo "#F39536";
+  else echo "#EC4819";
+
+ }
+else if($row['tstage']==4) echo "#4BF1F6";
+else if($row['tstage']==5) {
+
+  $date1=$row['pend'];
+  $newdate1 = date("Ymd", strtotime($date1));
+  $datenow=date("Ymd");
+  $diff= $newdate1-$datenow;
+
+  if($diff>2) echo "#EDE310";
+  else if($diff<=2 && $diff>=0) echo "#8C1BE0";
+  else echo "#2227E3";
+
+
+  }
+else if($row['tstage']==6) {
+
+  $date1=$row['pend'];
+  $newdate1 = date("Ymd", strtotime($date1));
+  $datenow=date("Ymd");
+  $diff= $newdate1-$datenow;
+
+  if($diff>2) echo "#F2EC82";
+  else if($diff<=2 && $diff>=0) echo "#C28BEA";
+  else echo "#878AE0";
+
+
+}
+
+
+  ?>;" >   <?php echo $row['tid']; ?>
+          </button></td>
+        <td><?php echo $row['tstepdescription']; ?></td>
+
     <td><?php
 
 
@@ -1033,56 +1245,15 @@ while($row=mysqli_fetch_assoc($result))
     if($row['aend']=="0000-00-00") echo "";
     else echo $row['aend']; ?></td>
     <td><?php echo $row['aeffort']; ?></td>
-     <td id="tstage2" bgcolor=<?php
-
-     date_default_timezone_set("Asia/Kolkata");
-     if($row['tstage']==1) echo "#BEBFCC";
-     else if($row['tstage']==2 || $row['tstage']==3){
-
-       $date1=$row['pend'];
-       $newdate1 = date("Ymd", strtotime($date1));
-       $datenow=date("Ymd");
-       $diff= $newdate1-$datenow;
-
-       if($diff>2) echo "#5FDB39";
-       else if($diff<=2 && $diff>=0) echo "#F39536";
-       else echo "#EC4819";
-
-      }
-     else if($row['tstage']==4) echo "#4BF1F6";
-     else if($row['tstage']==5) {
-
-       $date1=$row['pend'];
-       $newdate1 = date("Ymd", strtotime($date1));
-       $datenow=date("Ymd");
-       $diff= $newdate1-$datenow;
-
-       if($diff>2) echo "#EDE310";
-       else if($diff<=2 && $diff>=0) echo "#8C1BE0";
-       else echo "#2227E3";
 
 
-       }
-     else if($row['tstage']==6) {
-
-       $date1=$row['pend'];
-       $newdate1 = date("Ymd", strtotime($date1));
-       $datenow=date("Ymd");
-       $diff= $newdate1-$datenow;
-
-       if($diff>2) echo "#F2EC82";
-       else if($diff<=2 && $diff>=0) echo "#C28BEA";
-       else echo "#878AE0";
-
-
-     }
-     ?>><?php
+     <td><button  type="submit" class="btn btn-success tstepstage" id="tsptepstage" style="color: black; border-color:white;text-decoration: underline;"><?php
      if($row['tstage']==1) echo "<b>To be planned</b>";
-     else if($row['tstage']==2) echo "<b>Planned but not started</b>";
+     else if($row['tstage']==2) echo "<b>In Progresss</b>";
      else if($row['tstage']==3) echo "<b>In Progress</b>";
      else if($row['tstage']==4) echo "<b>Completed</b>";
      else if($row['tstage']==5) echo "<b>On Hold</b>";
-     else if($row['tstage']==6) echo "<b>Awaiting</b>"; ?></td>
+     else if($row['tstage']==6) echo "<b>Awaiting</b>"; ?></button></td>
     <td style="display:none;">
       <a href="#updatetaskmodal"  data-toggle="modal" data-target="#updatetaskmodal"><i data-toggle="tooltip" data-placement="left" title="Update Task" class="fas fa-edit" style="font-size:20px;" id="update"></i></a>
       &nbsp;
