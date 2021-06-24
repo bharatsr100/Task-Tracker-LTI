@@ -785,11 +785,11 @@ $arr = unserialize($_SESSION['arr']);
               <label  for="tstatus4">Task Status:
             </label>
             <select class="form-control" id="tstatus4" name="tstatus4">
-              <option selected="true">---Select Task Status---</option>
-                <option>In Progress</option>
-                <option>Completed</option>
-                <option>On hold</option>
-                <option>Awaiting</option>
+              <option selected="true" value=0>---Select Task Status---</option>
+                <option value=3>In Progress (Start)</option>
+                <option value=4>Completed</option>
+                <option value=5>On hold</option>
+                <option value=6>Awaiting</option>
 
               </select>
 
@@ -1081,11 +1081,11 @@ $arr = unserialize($_SESSION['arr']);
             <label  for="tstatus5">Task Status:
           </label>
           <select class="form-control" id="tstatus5" name="tstatus5">
-            <option selected="true">---Select Task Status---</option>
-              <option>In Progress</option>
-              <option>Completed</option>
-              <option>On hold</option>
-              <option>Awaiting</option>
+            <option selected="true"  value=0>---Select Task Status---</option>
+              <option value=3>In Progress (Start)</option>
+              <option value=4>Completed</option>
+              <option value=5>On hold</option>
+              <option value=6>Awaiting</option>
 
             </select>
 
@@ -1105,7 +1105,7 @@ $arr = unserialize($_SESSION['arr']);
         <br><br><br>
         <center><h1 >Step Task Comment History</h1>
         <br><br>
-        <div id="tcomments" style="display:contents">
+        <div id="tcomments5" style="display:contents">
         <table class="table table-hover" id="commenttask5">
 
           <thead>

@@ -487,9 +487,40 @@ $('.tstepstage').on('click',function(){
 			}).get();
 
 			$('#tguid5').val(data[0]);
-			$('#tsequenceid4').val(data[1]);
+			$('#tsequenceid5').val(data[1]);
 
 		  $('#commenttaskmodal5').modal('show');
+
+			var tguids= data[0];
+			var tsequenceids= data[1];
+			$.ajax({
+		url: "showcomment.php",
+		type:"POST",
+		data:{
+			type:2,
+			tguids:tguids,
+			tsequenceids:tsequenceids
+
+
+		},
+		cache: false,
+		success:function(dataResult){
+		var dataResult = JSON.parse(dataResult);
+		console.log(dataResult);
+		$("#tbodycomment5").empty();
+		$(dataResult).each(function (index, item) {
+
+								 $('#tcomments5 tbody').append(
+										 '<tr><td >' + item.createdon +
+										'</td><td >' + item.createdat +
+
+										'</td><td>' + item.comment +
+										 '</td></tr>'
+								 )
+
+						});
+		}
+		});
 
 });
 
@@ -519,6 +550,7 @@ $('.tstepstage').on('click',function(){
 	      url: "showcomment.php",
 	      type:"POST",
 	      data:{
+					type:1,
 	        tguid:tguid
 
 
@@ -529,48 +561,23 @@ $('.tstepstage').on('click',function(){
 	      //console.log(dataResult);
 				$("#tbodycomment").empty();
 				$(dataResult).each(function (index, item) {
-                    //onsole.log(item);
-                    //console.log(receipts[index]);
-										// 	var pstartn="";
-										// 	var pendn="";
-										// 	var astartn="";
-										// 	var aendn="";
-										// 	if(item.pstart=="0000-00-00" || item.pstart=="NULL" || item.pend=="null") pstartn="";
-										// 	else pstartn= item.pstart;
-										// 	if(item.pend=="0000-00-00" || item.pend=="NULL" || item.pend=="null") pendn="";
-										// 	else pendn= item.pendn;
-										// 	if(item.astart=="0000-00-00" || item.astart=="NULL" || item.astart=="null") astartn="";
-										// 	else astartn= item.astart;
-										// 	if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null") aendn="";
-										// 	else aendn= item.aend;
+
                      $('#tcomments tbody').append(
                          '<tr><td >' + item.createdon +
 										 		'</td><td >' + item.createdat +
-                    //     '</td><td>' + item.tstepdescription +
-                    //     '</td><td>' + pstartn +
-                    //     '</td><td>' + pendn +
-										// 		'</td><td>' + item.peffort +
-										// 		'</td><td>' + astartn +
-										// 		'</td><td>' + aendn +
-										// 		'</td><td>' + item.aeffort +
+
 										 		'</td><td>' + item.comment +
                          '</td></tr>'
                      )
 
                 });
-
-
-
 	      }
 	      });
 
 	});
 
 
-// $('.deletetstep').on('click',function(){
-//
-//
-// });
+
 $('.stpedit12').on('click',function(){
 	$tr= $(this).closest('tr');
 	var data=$tr.children("td").map(function(){
