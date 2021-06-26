@@ -17,6 +17,7 @@ function deletetaskstep(tguid,tsequenceid,pstart){
 
 }
 
+
 function addtaskstep(tguid,tsequenceid,tstepdescription){
 
   console.log("Inside addmodalfunction");
@@ -173,7 +174,7 @@ var tasklist=[
                   if(item.pstart=="0000-00-00" || item.pstart=="NULL" || item.pstart=="null" || item.pstart==null) pstartn="";
                   else pstartn= item.pstart;
                   if(item.pend=="0000-00-00" || item.pend=="NULL" || item.pend=="null" || item.pend==null) pendn="";
-                  else pendn= item.pendn;
+                  else pendn= item.pend;
                   if(item.astart=="0000-00-00" || item.astart=="NULL" || item.astart=="null" || item.astart==null) astartn="";
                   else astartn= item.astart;
                   if(item.aend=="0000-00-00" || item.aend=="NULL" || item.aend=="null" || item.astart==null) aendn="";

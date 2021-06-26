@@ -796,6 +796,19 @@ $arr = unserialize($_SESSION['arr']);
               <!-- <input type="text" class="form-control" id="tstatus4" placeholder="Task Status" name="tstatus4"> -->
             </div>
             <div  class="form-group">
+              <label  > Effort given for this task:
+            </label>
+            <br>
+              <select type="number" class="form-control" id="efforth" placeholder="Hours" name="efforth" style="max-width:35%;float:left;" >
+
+
+              </select>
+              <select type="number" class="form-control" id="effortm" placeholder="Minuites" name="effortm" style="max-width:35%;">
+
+              </select>
+            </div>
+
+            <div  class="form-group">
               <label  for="comment4">New Comment:
             </label>
               <input type="text" class="form-control" id="comment4" placeholder="New Comment" name="comment4">
@@ -817,6 +830,7 @@ $arr = unserialize($_SESSION['arr']);
 
               <th scope="col" >Commented On</th>
               <th scope="col" >Commented At</th>
+              <th scope="col" >Commented by</th>
               <th scope="col">Commment</th>
             </tr>
             </thead>
@@ -839,6 +853,7 @@ $arr = unserialize($_SESSION['arr']);
       <thead>
       <tr>
         <th scope="col">Task Creation Date</th>
+        <th scope="col">Assigned to</th>
         <th scope="col" style="display:none;" >Task GUID</th>
         <th scope="col">Task ID</th>
         <th scope="col">Task Description</th>
@@ -859,23 +874,43 @@ $arr = unserialize($_SESSION['arr']);
       <?php
   include 'database.php';
   $uguid=$_SESSION['uguid'];
-  $sequence="11";
+  $sequence=0;
+  $stagecompleted=4;
   //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
-  $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid' && c.tsequenceid='$sequence'";
+  //$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid' && c.tsequenceid='$sequence'";
+  $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid='$sequence' && c.tstage!='$stagecompleted'";
+  //&& c.assignto='$uguid'
   //$sql3="select * from tstatus where tguid="
   //$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
   $result=mysqli_query($conn, $sql2);
 
   while($row=mysqli_fetch_assoc($result))
-  {
+  { $tguid3= $row['tguid'];
+    $sql3= mysqli_query($conn,"select * from tstep where tguid='$tguid3' && assignto='$uguid'");
+    $n3 =mysqli_num_rows($sql3);
+    if($n3){
+
+
+
   ?>
       <tr>
 
         <th scope="row" style="font-weight:400;"><?php echo $row['createdon']; ?></th>
+        <th scope="row" style="font-weight:400;"><?php
+
+
+         $user= $row['assignto'];
+         $seq=mysqli_query($conn, "select * from userdata1 where uguid='$user'");
+         $row1= mysqli_fetch_assoc($seq);
+         echo $row1['uname'];
+
+         ?></th>
         <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
         <td><button  type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
+
         <?php
+
         date_default_timezone_set("Asia/Kolkata");
         if($row['tstage']==1) echo "#BEBFCC";
         else if($row['tstage']==2 || $row['tstage']==3){
@@ -902,7 +937,6 @@ $arr = unserialize($_SESSION['arr']);
           else if($diff<=2 && $diff>=0) echo "#8C1BE0";
           else echo "#2227E3";
 
-
           }
         else if($row['tstage']==6) {
 
@@ -918,8 +952,7 @@ $arr = unserialize($_SESSION['arr']);
 
         }
 
-
-          ?>;" >   <?php echo $row['tid']; ?>
+          ?>;">   <?php echo $row['tid']; ?>
                   </button></td>
 
 
@@ -974,6 +1007,9 @@ $arr = unserialize($_SESSION['arr']);
       </tr>
       <?php
   }
+
+}
+
   ?>
     </table>
 <br><br><br><h1 style="text-align:center;">My Task Steps</h1>
@@ -993,16 +1029,16 @@ $arr = unserialize($_SESSION['arr']);
             </div>
             <form id="task_step_form1" name="form2" method="post" action="updatetask.php" >
             <div  class="form-group">
-              <label  for="tguid3">Task GUID:
+              <label  for="tguid3"style="display:none;">Task GUID:
             </label>
-              <input  type="text" class="form-control" id="tguid3" placeholder="Task GUID" name="tguid3" >
+              <input  type="text" class="form-control" id="tguid3" placeholder="Task GUID" name="tguid3" style="display:none;">
             </div>
             <div  class="form-group">
               <label  for="tsequenceid3">Task Sequence ID:
             </label>
               <input  type="text" class="form-control" id="tsequenceid3" placeholder="Task Sequence ID" name="tsequenceid3" >
             </div>
-            <div  class="form-group">
+            <div  class="form-group" >
               <label  for="tid3">Task ID:
             </label>
               <input type="text" class="form-control" id="tid3" placeholder="Task ID" name="tid3" >
@@ -1057,17 +1093,17 @@ $arr = unserialize($_SESSION['arr']);
           </div>
           <br>
 
-        <form id="comment_form" name="form5" action="updatetask.php" method="post" >
+        <form id="comment_form2" name="form5" action="updatetask.php" method="post" >
 
           <div  class="form-group">
-            <label  for="tguid5" >Task GUID:
+            <label  for="tguid5" style="display:none;">Task GUID:
           </label>
-            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5" >
+            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5" style="display:none;">
           </div>
           <div  class="form-group">
             <label  for="tsequenceid5" >Task Sequence ID:
           </label>
-            <input type="text" class="form-control" id="tsequenceid5" placeholder="Task Sequence ID" name="tsequenceid5" >
+            <input type="text" class="form-control" id="tsequenceid5" placeholder="Task Sequence ID" name="tsequenceid5" readonly>
           </div>
 
           <div  class="form-group">
@@ -1091,6 +1127,7 @@ $arr = unserialize($_SESSION['arr']);
 
             <!-- <input type="text" class="form-control" id="tstatus4" placeholder="Task Status" name="tstatus4"> -->
           </div>
+
           <div  class="form-group">
             <label  for="comment5">New Comment:
           </label>
@@ -1113,6 +1150,7 @@ $arr = unserialize($_SESSION['arr']);
 
             <th scope="col" >Commented On</th>
             <th scope="col" >Commented At</th>
+            <th scope="col" >Commented By</th>
             <th scope="col">Commment</th>
           </tr>
           </thead>
@@ -1137,9 +1175,9 @@ $arr = unserialize($_SESSION['arr']);
   <thead>
   <tr>
     <th scope="col">Created On</th>
-    <th scope="col" >Task GUID</th>
+    <th scope="col" style="display:none;">Task GUID</th>
 
-    <th scope="col">Task Sequence ID</th>
+    <th scope="col" style="display:none;">Task Sequence ID</th>
     <th scope="col">Task ID</th>
     <!-- <th scope="col">Task Sequence No</th> -->
     <th scope="col">Task Step Description</th>
@@ -1159,7 +1197,7 @@ $arr = unserialize($_SESSION['arr']);
   <?php
 include 'database.php';
 $uguid=$_SESSION['uguid'];
-$sequence="11";
+$sequence="0";
 //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
 $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid'&&c.tsequenceid!='$sequence' ";
 //$sql3="select * from tstatus where tguid="
@@ -1171,13 +1209,11 @@ while($row=mysqli_fetch_assoc($result))
 ?>
   <tr>
     <th scope="row"  style="font-weight:400;"><?php echo $row['createdon']; ?></th>
-    <td ><?php echo $row['tguid']; ?></td>
-    <td><?php echo $row['tsequenceid']; ?></td>
+    <td style="display:none;"><?php echo $row['tguid']; ?></td>
+    <td style="display:none;"><?php echo $row['tsequenceid']; ?></td>
 
 <td><button  type="button" class="btn btn-success stpedit12" style="color: black;font-weight: 700;background-color:
 <?php
-
-
 date_default_timezone_set("Asia/Kolkata");
 if($row['tstage']==1) echo "#BEBFCC";
 else if($row['tstage']==2 || $row['tstage']==3){

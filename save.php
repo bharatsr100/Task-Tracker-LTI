@@ -130,7 +130,7 @@
 		}
 		else{
 		  $sql1 = "INSERT INTO userdata1 (uguid,uname,shortname,password,a_status)VALUES ('$uguid','$uname','$shortname','$password','$a_status')";
-		  $sql2 = "INSERT INTO userdata2 (type,value,uguid)VALUES ('employeeid','$employeeid',$uguid),('contact','$contact',$uguid),('e_emailid','$e_emailid',$uguid),('p_emailid','$p_emailid',$uguid)";
+		  $sql2 = "INSERT INTO userdata2 (type,value,uguid)VALUES ('employeeid','$employeeid','$uguid'),('contact','$contact','$uguid'),('e_emailid','$e_emailid','$uguid'),('p_emailid','$p_emailid','$uguid')";
 
 		  $r1=mysqli_query($conn, $sql1);
 		  $r2=mysqli_query($conn, $sql2);

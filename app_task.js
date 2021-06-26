@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	let dropdown = $('#userslist');
-	//let dropdown = $('#assignto');
 	dropdown.empty();
 	dropdown.append('<option selected="true" value="0">--Choose User Name--</option>');
 	dropdown.prop('selectedIndex', 0);
@@ -32,13 +31,12 @@ $(document).ready(function() {
 		})
 	});
 
-
 	let dropdown5 = $('#userslist5');
 	//let dropdown = $('#assignto');
 	dropdown5.empty();
 	dropdown5.append('<option selected="true" value="0">--Choose User Name--</option>');
-	dropdown5.prop('selectedIndex', 0);
 
+	dropdown5.prop('selectedIndex', 0);
 	const url5 = 'employeelist.json';
 
 
@@ -47,6 +45,27 @@ $(document).ready(function() {
 	    dropdown5.append($('<option></option>').attr('value', entry.uguid).text(entry.uname+"---"+entry.e_emailid));
 	  })
 	});
+
+
+	let dropdown3 = $('#efforth');
+	//let dropdown = $('#assignto');
+	dropdown3.empty();
+	dropdown3.append('<option selected="true" value=0>--Hours--</option>');
+	dropdown3.prop('selectedIndex', 0);
+
+	for(var i=1;i<101;i++){
+		dropdown3.append($('<option></option>').attr('value', i).text(i));
+	}
+
+	let dropdown4 = $('#effortm');
+	//let dropdown = $('#assignto');
+	dropdown4.empty();
+	dropdown4.append('<option selected="true" value=0>--Minuites--</option>');
+	dropdown4.prop('selectedIndex', 0);
+
+	for(var i=1;i<61;i++){
+		dropdown4.append($('<option></option>').attr('value', i).text(i));
+	}
 
 
 	$('#deletestep1').on('click',function(){
@@ -513,7 +532,7 @@ $('.tstepstage').on('click',function(){
 								 $('#tcomments5 tbody').append(
 										 '<tr><td >' + item.createdon +
 										'</td><td >' + item.createdat +
-
+										'</td><td >' + item.createdby +
 										'</td><td>' + item.comment +
 										 '</td></tr>'
 								 )
@@ -561,11 +580,11 @@ $('.tstepstage').on('click',function(){
 	      //console.log(dataResult);
 				$("#tbodycomment").empty();
 				$(dataResult).each(function (index, item) {
-
+					//console.log(item);
                      $('#tcomments tbody').append(
                          '<tr><td >' + item.createdon +
 										 		'</td><td >' + item.createdat +
-
+												'</td><td >' + item.createdby +
 										 		'</td><td>' + item.comment +
                          '</td></tr>'
                      )
@@ -630,11 +649,11 @@ $('.stpedit12').on('click',function(){
 		 $("#peffort3").val("");
 
 
-		 $("#tid3").prop("readonly", false);
+		 $("#tid3").prop("readonly", true);
 		 $("#tid3").prop("disabled", false);
-		 $("#tsequenceid3").prop("readonly", false);
+		 $("#tsequenceid3").prop("readonly", true);
 		 $("#tsequenceid3").prop("disabled", false);
-		 $("#tdescription3").prop("readonly", false);
+		 $("#tdescription3").prop("readonly", true);
 		 $("#tdescription3").prop("disabled", false);
 		 $("#pstart3").prop("readonly", false);
 		 $("#pstart3").prop("disabled", false);

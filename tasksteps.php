@@ -23,7 +23,7 @@ $arrstep = array (
         );
 
 $arrs=array();
-$sequenceid=11;
+$sequenceid=0;
 $s1= mysqli_query($conn,"select * from tstep where tguid= '$tguid' && tsequenceid!='$sequenceid'");
 while($row=mysqli_fetch_assoc($s1)){
     //$arr['uname']=$row["uname"];

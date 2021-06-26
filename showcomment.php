@@ -13,18 +13,25 @@ $arrcomment = array (
           "tguid"=> "",
           "createdon"=>"",
           "createdat"=>"",
+          "createdby"=>"",
           "comment"=>""
 
         );
         $arrs=array();
-        $sequenceid=11;
+        $sequenceid=0;
         $s1= mysqli_query($conn,"select * from tstatus where tguid= '$tguid' && tsequenceid='$sequenceid'");
         while($row=mysqli_fetch_assoc($s1)){
             $arrcomment['tguid']= $tguid;
             $arrcomment['createdon']= $row['updatedon'];
             $arrcomment['createdat']= $row['updatedat'];
-            $arrcomment['comment']= $row['comment'];
 
+            $arrcomment['comment']= $row['comment'];
+             $user= $row['updatedby'];
+             $res2= mysqli_query($conn, "select * from userdata1 where uguid='$user'");
+             $row2= mysqli_fetch_assoc($res2);
+
+
+             $arrcomment['createdby']= $row2['uname'];
             $arrs[]=$arrcomment;
         }
         echo json_encode($arrs);
@@ -40,6 +47,7 @@ $arrcomment = array (
           "tguid"=> "",
           "createdon"=>"",
           "createdat"=>"",
+          "createdby"=>"",
           "comment"=>""
 
         );
@@ -50,7 +58,14 @@ $arrcomment = array (
             $arrcomment['tguid']= $tguid;
             $arrcomment['createdon']= $row['updatedon'];
             $arrcomment['createdat']= $row['updatedat'];
+
             $arrcomment['comment']= $row['comment'];
+             $user= $row['updatedby'];
+             $res2= mysqli_query($conn, "select * from userdata1 where uguid='$user'");
+             $row2= mysqli_fetch_assoc($res2);
+
+
+             $arrcomment['createdby']= $row2['uname'];
 
             $arrs[]=$arrcomment;
         }

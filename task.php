@@ -87,7 +87,7 @@ $arr2 = array (
 
     $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby')";
     $r1=mysqli_query($conn, $sql1);
-    $tsequenceid=11;
+    $tsequenceid=0;
     $tstage=0;
 
     if($pstart==""){
