@@ -251,7 +251,7 @@ $arr = unserialize($_SESSION['arr']);
               <input type="text" class="form-control" id="peffort" placeholder="Planned Effort" name="peffort">
             </div>
 
-            <div  class="form-group">
+            <!-- <div  class="form-group">
               <label  for="astart" style="display:none">Actual Start:
             </label>
               <input type="date" class="form-control" id="astart" placeholder="Actual Start" name="astart"  style="display:none">
@@ -265,10 +265,10 @@ $arr = unserialize($_SESSION['arr']);
               <label  for="aeffort">Actual Effort:
             </label>
               <input type="text" class="form-control" id="aeffort" placeholder="Actual Effort" name="aeffort" style="display:none">
-            </div>
+            </div> -->
 
             <div  class="form-group">
-              <label  for="ttype">Comment:
+              <label  for="comment">Comment:
             </label>
               <input type="text" class="form-control" id="comment" placeholder="Comment" name="comment">
             </div>
@@ -301,9 +301,9 @@ $arr = unserialize($_SESSION['arr']);
           <form id="update_form" name="form1" method="post" >
 
             <div  class="form-group">
-              <label  for="ttype">Comment:
+              <label  for="comment1">Comment:
             </label>
-              <input type="text" class="form-control" id="comment1" placeholder="Comment" name="comment">
+              <input type="text" class="form-control" id="comment1" placeholder="Comment" name="comment1">
             </div>
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
@@ -334,19 +334,19 @@ $arr = unserialize($_SESSION['arr']);
           <form id="plan_form" name="form1" method="post" >
 
             <div  class="form-group">
-              <label  for="pstart">Planned Start:
+              <label  for="pstart2">Planned Start:
             </label>
-              <input type="date" class="form-control" id="pstart2" placeholder="Planned Start" name="pstart">
+              <input type="date" class="form-control" id="pstart2" placeholder="Planned Start" name="pstart2">
             </div>
             <div  class="form-group">
-              <label  for="ttype">Planned End:
+              <label  for="pend2">Planned End:
             </label>
-              <input type="date" class="form-control" id="pend2" placeholder="Planned End" name="pend">
+              <input type="date" class="form-control" id="pend2" placeholder="Planned End" name="pend2">
             </div>
             <div  class="form-group">
-              <label  for="comment">Comment:
+              <label  for="comment2">Comment:
             </label>
-              <input type="text" class="form-control" id="comment2" placeholder="Comment" name="comment">
+              <input type="text" class="form-control" id="comment2" placeholder="Comment" name="comment2">
             </div>
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
@@ -377,9 +377,9 @@ $arr = unserialize($_SESSION['arr']);
           <form id="hold_form" name="form1" method="post" >
 
             <div  class="form-group">
-              <label  for="ttype">Comment:
+              <label  for="comment3">Comment:
             </label>
-              <input type="text" class="form-control" id="comment3" placeholder="Comment" name="comment">
+              <input type="text" class="form-control" id="comment3" placeholder="Comment" name="comment3">
             </div>
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
@@ -410,9 +410,9 @@ $arr = unserialize($_SESSION['arr']);
         <form id="start_form" name="form1" method="post" >
 
           <div  class="form-group">
-            <label  for="ttype">Comment:
+            <label  for="commentstart">Comment:
           </label>
-            <input type="text" class="form-control" id="commentstart" placeholder="Comment" name="comment">
+            <input type="text" class="form-control" id="commentstart" placeholder="Comment" name="commentstart">
           </div>
 
           <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
@@ -518,17 +518,17 @@ $arr = unserialize($_SESSION['arr']);
               <input style="display:none;" type="text" class="form-control" id="tguid1" placeholder="Task GUID" name="tguid1" >
             </div>
             <div  class="form-group">
-              <label  for="tid">Task ID:
+              <label  for="tid1">Task ID:
             </label>
               <input type="text" class="form-control" id="tid1" placeholder="Task ID" name="tid1" >
             </div>
             <div  class="form-group">
-              <label  for="tdescription">Task Description:
+              <label  for="tdescription1">Task Description:
             </label>
               <input type="text" class="form-control" id="tdescription1" placeholder="Task Description" name="tdescription1" >
             </div>
             <div  class="form-group">
-              <label  for="ttype">Task Type:
+              <label  for="ttype1">Task Type:
             </label>
               <input type="text" class="form-control" id="ttype1" placeholder="Task Type" name="ttype1">
             </div>
@@ -539,17 +539,17 @@ $arr = unserialize($_SESSION['arr']);
               <input type="text" class="form-control" id="assignto1" placeholder="Assigned to" name="assignto1">
             </div>
             <div  class="form-group">
-              <label  for="pstart">Planned Start
+              <label  for="pstart1">Planned Start
             </label>
               <input type="date" class="form-control" id="pstart1" placeholder="Planned Start" name="pstart1">
             </div>
             <div  class="form-group">
-              <label  for="pend">Planned End:
+              <label  for="pend1">Planned End:
             </label>
               <input type="date" class="form-control" id="pend1" placeholder="Planned End" name="pend1">
             </div>
             <div  class="form-group">
-              <label  for="ttype">Planned Effort:
+              <label  for="ttype1">Planned Effort:
             </label>
               <input type="text" class="form-control" id="peffort1" placeholder="Planned Effort" name="peffort1">
             </div>
@@ -663,9 +663,9 @@ $arr = unserialize($_SESSION['arr']);
           <form id="await_form" name="form1" method="post" >
 
             <div  class="form-group">
-              <label  for="ttype">Comment:
+              <label  for="comment6">Comment:
             </label>
-              <input type="text" class="form-control" id="comment6" placeholder="Comment" name="comment">
+              <input type="text" class="form-control" id="comment6" placeholder="Comment" name="comment6">
             </div>
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
@@ -696,9 +696,9 @@ $arr = unserialize($_SESSION['arr']);
           <form id="delete_form" name="form1" method="post" >
 
             <div  class="form-group">
-              <label  for="ttype">Comment:
+              <label  for="comment7">Comment:
             </label>
-              <input type="text" class="form-control" id="comment7" placeholder="Comment" name="comment">
+              <input type="text" class="form-control" id="comment7" placeholder="Comment" name="comment7">
             </div>
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">

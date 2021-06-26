@@ -497,6 +497,7 @@ $(document).ready(function() {
 
 	$('.createbtn').on('click',function(){
 		$('#createtaskmodal').modal('show');
+
 	});
 $('.tstepstage').on('click',function(){
 

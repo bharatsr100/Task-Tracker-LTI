@@ -15,9 +15,9 @@ $arr2 = array (
          "pstart"=> "",
         "pend"=> "",
         "peffort"=> "",
-        "astart"=> "",
-        "aend"=> "",
-        "aeffort"=>"",
+        // "astart"=> "",
+        // "aend"=> "",
+        // "aeffort"=>"",
         "comment"=>"",
         "statuscode"=>"e",
         "description"=>"Error while creating task"
@@ -42,9 +42,9 @@ $arr2 = array (
     $pstart= $_POST['pstart'];
     $pend= $_POST['pend'];
     $peffort= $_POST['peffort'];
-    $astart= $_POST['astart'];
-    $aend= $_POST['aend'];
-    $aeffort= $_POST['aeffort'];
+    // $astart= $_POST['astart'];
+    // $aend= $_POST['aend'];
+    // $aeffort= $_POST['aeffort'];
     $comment= $_POST['comment'];
     $createdon=$date1;
     $createdat=$time2;
@@ -61,9 +61,9 @@ $arr2 = array (
      $arr2['pstart']="$pstart";
     $arr2['pend']="$pend";
     $arr2['peffort']="$peffort";
-    $arr2['astart']="$astart";
-    $arr2['aend']="$aend";
-    $arr2['aeffort']="$aeffort";
+    // $arr2['astart']="$astart";
+    // $arr2['aend']="$aend";
+    // $arr2['aeffort']="$aeffort";
     $arr2['comment']="$comment";
 
     if($assignto=="" || $assignto=="0" || $assignto== NULL ) $assignto=$uguid;
@@ -98,7 +98,7 @@ $arr2 = array (
     }
 
 
-    $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
+    $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort')";
     $r2=mysqli_query($conn, $sql2);
     $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
     $r3=mysqli_query($conn, $sql3);
