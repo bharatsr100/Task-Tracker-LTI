@@ -54,7 +54,7 @@ $(document).ready(function() {
 				success: function(dataResult){
 
 					var dataResult = JSON.parse(dataResult);
-          console.log(dataResult);
+          //console.log(dataResult);
 					if(dataResult.statuscode=="s"){
 						$("#butsave").removeAttr("disabled");
 						$('#register_form').find('input:text').val('');

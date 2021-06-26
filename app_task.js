@@ -1,4 +1,6 @@
+
 $(document).ready(function() {
+
 	let dropdown = $('#userslist');
 	dropdown.empty();
 	dropdown.append('<option selected="true" value="0">--Choose User Name--</option>');
@@ -496,7 +498,9 @@ $(document).ready(function() {
 
 
 	$('.createbtn').on('click',function(){
-		$('#createtaskmodal').modal('show');
+	//	$('#createtaskmodal').modal('show');
+		$('#createtaskmodal').modal({backdrop: 'static', keyboard: false}) ;
+
 
 	});
 $('.tstepstage').on('click',function(){
@@ -746,60 +750,86 @@ $('.stpedit12').on('click',function(){
 
 		});
 
-	// 	$('#createtask').on('click', function() {
-	//
-  //   var tid = $('#tid').val();
-  //   var tdescription = $('#tdescription').val();
-  //   var ttype = $('#ttype').val();
-  //   var assignto = $('#assignto').val();
-  //   var pstart = $('#pstart').val();
-  //   var pend = $('#pend').val();
-  //   var peffort = $('#peffort').val();
-  //   var astart = $('#astart').val();
-  //   var aend = $('#aend').val();
-  //   var aeffort = $('#aeffort').val();
-  //   var comment = $('#comment').val();
-	//
-  //   console. log("4");
-  //   if((tid!="" && tdescription!="" && pstart!="" && pend!="" && peffort!="") || (tid!="" && tdescription!="" && pstart=="" && pend=="" && peffort=="")  ){
-  //     console. log("3");
-	//
-  //     $.ajax({
-	// 			url: "task.php",
-	// 			type: "POST",
-	//
-	// 		  data:    {
-  //             type: 1,
-  //           	tid: tid,
-  //           	tdescription: tdescription,
-  //           	ttype: ttype,
-  //           	assignto: assignto,
-  //             pstart: pstart,
-  //             pend: pend,
-  //             peffort: peffort,
-  //             astart: astart,
-  //             aend: aend,
-  //             aeffort: aeffort,
-  //           	comment: comment
-  //           },
-	//
-	// 			cache: false,
-	// 			success: function(dataResult){
-  //         var dataResult = JSON.parse(dataResult);
-  //         console.log("Hello");
-	//
-	// 				alert(dataResult.description);
-	// 				window.location.href = 'mytask.php';
-	//
-  //     }
-  //     });
-  //   }
-  //   else {
-  //       alert('Please fill all the required field !');
-	//
-  //     }
-  // });
+		$('#createtask').on('click', function() {
+			event.preventDefault();
 
+	    var tid = $('#tid').val();
+	    var tdescription = $('#tdescription').val();
+	    var ttype = $('#ttype').val();
+	    var assignto = $('#assignto').val();
+	    var pstart = $('#pstart').val();
+	    var pend = $('#pend').val();
+	    var peffort = $('#peffort').val();
+	    var comment = $('#comment').val();
+			var type= "1";
+			var ajaxResult=[];
+    	//console. log("4");
+      //console. log("3");
+				//alert("Submit the form?");
+	      $.ajax({
+					url: "task.php",
+					type: "POST",
+
+				  data:    {
+	              type: type,
+	            	tid: tid,
+	            	tdescription: tdescription,
+	            	ttype: ttype,
+	            	assignto: assignto,
+	              pstart: pstart,
+	              pend: pend,
+	              peffort: peffort,
+	            	comment: comment
+	            },
+					cache: false,
+					success: function(dataResult){
+						//console. log("success");
+	          var dataResult = JSON.parse(dataResult);
+						ajaxResult.push(dataResult);
+	          //console.log("Hello");
+						console.log(dataResult);
+						console.log("Data Result loaded");
+
+
+						//alert(dataResult.description);
+						//window.location.href = 'mytask.php';
+						if(dataResult.statuscode=="s"){
+							console. log("display s message");
+							//window.location.href = 'mytask.php';
+							//$("#createtask").removeAttr("disabled");
+
+							//$('#task_form').find('input:text').val('');
+							$("#task_form")[0].reset();
+							$("#errortask").hide();
+							$("#successtask").show();
+							$('#successtask').html(dataResult.description);
+							//alert(dataResult.description);
+							//window.location.href = 'mytask.php';
+						}
+						else {
+							console. log("display e message");
+							//window.location.href = 'mytask.php';
+							$("#successtask").hide();
+							$("#errortask").show();
+							$('#errortask').html(dataResult.description);
+							//window.location.href = 'mytask.php';
+							//alert(dataResult.description);
+						}
+
+	      },
+				complete: function(){
+                //after completed request then this method will be called.
+								//console.log(ajaxResult[0]);
+								// $("#errortask").show();
+								// $('#errortask').html(ajaxResult[0].description);
+
+            }
+
+
+	      });
+
+
+	  });
 
 
 });

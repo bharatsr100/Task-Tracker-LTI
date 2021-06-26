@@ -194,6 +194,7 @@ $arr = unserialize($_SESSION['arr']);
     </button>
     <br>
 
+    <br>
     <!-- ######################################################################################################################################### -->
     <!--Create Task Modal -->
 
@@ -208,7 +209,7 @@ $arr = unserialize($_SESSION['arr']);
           </div>
           <div class="modal-body">
 
-          <form id="task_form" name="form12" method="post" action="task.php" >
+          <form id="task_form" method="get">
 
             <div  class="form-group">
               <label  for="tid">Task ID:
@@ -279,8 +280,17 @@ $arr = unserialize($_SESSION['arr']);
             <button type="submit" class="btn btn-primary createtask1" name="createtask" id="createtask">Create</button>
           </form>
 
+          <div class="alert alert-success alert-dismissible" id="successtask" style="display:none;" >
+          
           </div>
-          <div class="modal-footer">
+          <div class="alert alert-danger alert-dismissible" id="errortask" style="display:none;">
+
+          </div>
+          </div>
+
+          <div class="modal-footer" align="center" >
+
+
           </div>
         </div>
       </div>

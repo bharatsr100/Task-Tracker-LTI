@@ -256,7 +256,12 @@ else if(isset($_POST['savecomment'])){
   $prev_astart=$row['astart'];
   $prev_aend=$row['aend'];
 
-  $aeffort= $prev_aeffort+60*$efforth+$effortm;
+  if($prev_aeffort=="") $prev_aeffort=0;
+  if($efforth=="") $efforth=0;
+  if($effortm=="") $effortm=0;
+
+  $aeffort= $prev_aeffort+ 60*$efforth+ $effortm;
+  if($aeffort==0) $aeffort="";
 
   if($assignto==0) $assignto=$prev_assignto;
   if($tstage==0) $tstage=$prev_tstage;
