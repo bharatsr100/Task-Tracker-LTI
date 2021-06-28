@@ -42,11 +42,15 @@ header('location:index.php');
 
   </head>
   <body>
-
-    <div id="container">
+    <div id="home"><button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; display:none">Home</button>
+    </div>
+    <br><br>
+    <div id="container" style="margin-top:50px;">
       <div id="header">
         <div id="monthDisplay"></div>
         <div>
+          <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
+
           <button id="todayButton" class="btn btn-primary">Today</button>
           <button id="backButton" class="btn btn-secondary">Back</button>
           <button id="nextButton" class="btn btn-secondary">Next</button>
@@ -54,13 +58,13 @@ header('location:index.php');
       </div>
 
       <div id="weekdays">
-        <div>Sunday</div>
-        <div>Monday</div>
-        <div>Tuesday</div>
-        <div>Wednesday</div>
-        <div>Thursday</div>
-        <div>Friday</div>
-        <div>Saturday</div>
+        <div class="weekdaysin" id="weekday1">Sunday</div>
+        <div class="weekdaysin">Monday</div>
+        <div class="weekdaysin">Tuesday</div>
+        <div class="weekdaysin">Wednesday</div>
+        <div class="weekdaysin">Thursday</div>
+        <div class="weekdaysin">Friday</div>
+        <div class="weekdaysin">Saturday</div>
       </div>
 
       <div id="calendar"></div>

@@ -56,23 +56,72 @@ function load() {
     daySquare.classList.add('day');
 
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
-
+    var day2=`${i - paddingDays}`;
+    var month2=`${month + 1}`;
+    if(parseInt(day2)<10 && parseInt(day2)>=0){
+      day2= "0"+day2;
+      //day2= `0${i - paddingDays}`;
+    }
+    if(parseInt(month2)<"10"){
+      month2="0"+month2;
+      month2=`0${month + 1}`;
+    }
+    const dayString2 = `${year}-${month2}-${day2}`;
+    //console.log(dayString2);
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
-      const eventForDay = events.find(e => e.date === dayString);
 
+      var type= "3";
+
+      $.ajax({
+        url: "updatetask1.php",
+        type: "POST",
+
+        data:    {
+              type: type,
+              date: dayString2
+            },
+        cache: false,
+        success: function(dataResult){
+          var dataResult = JSON.parse(dataResult);
+          console.log("Result for "+ dayString2);
+          console.log(dataResult);
+          console.log("Result loaded");
+          var reslength= dataResult.length;
+          console.log(reslength);
+          if(reslength){
+
+
+              $(dataResult).each(function (index, item) {
+              var eventDiv = document.createElement('div');
+              eventDiv.classList.add('event');
+              eventDiv.innerText = item.tid;
+              daySquare.appendChild(eventDiv);
+            });
+
+          }
+
+
+        }
+      });
+
+
+
+
+      // const eventForDay = events.find(e => e.date === dayString);
+      //
       if (i - paddingDays === day && nav === 0) {
         daySquare.id = 'currentDay';
       }
-
-      if (eventForDay) {
-        const eventDiv = document.createElement('div');
-        eventDiv.classList.add('event');
-        eventDiv.innerText = eventForDay.title;
-        daySquare.appendChild(eventDiv);
-      }
-
-      daySquare.addEventListener('click', () => openModal(dayString));
+      //
+      // if (eventForDay) {
+      //   const eventDiv = document.createElement('div');
+      //   eventDiv.classList.add('event');
+      //   eventDiv.innerText = eventForDay.title;
+      //   daySquare.appendChild(eventDiv);
+      // }
+      //
+      //  daySquare.addEventListener('click', () => openModal(dayString));
     } else {
       daySquare.classList.add('padding');
     }

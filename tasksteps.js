@@ -382,6 +382,7 @@ $('.deletetaskstp').on('click',function(){
    var tsequenceid = $('#tsequenceidd').val();
    var pstart = $('#tpstart').val();
    var type= "1";
+   var resultarr=[];
 
    $.ajax({
      url: "updatetask1.php",
@@ -397,7 +398,9 @@ $('.deletetaskstp').on('click',function(){
      cache: false,
      success: function(dataResult){
        var dataResult = JSON.parse(dataResult);
-       console.log(dataResult);
+       resultarr.push(dataResult);
+       //console.log(dataResult);
+       console.log("inside ajax call");
        if(dataResult.statuscode=="s"){
           console. log("display s message");
           //$("#task_form")[0].reset();
@@ -422,9 +425,9 @@ $('.deletetaskstp').on('click',function(){
    });
 
 
-
-
-
+// console.log("resultarr before");
+// console.log(resultarr);
+// console.log("resultarr after");
 
 
 });
