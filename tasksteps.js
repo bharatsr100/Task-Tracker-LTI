@@ -7,7 +7,9 @@ function deletetaskstep(tguid,tsequenceid,pstart){
   return $(this).text();
 }).get();
 
-  $('#deletetaskmodal1').modal('show');
+  //$('#deletetaskmodal1').modal('show');
+  $('#deletetaskmodal1').modal({backdrop: 'static', keyboard: false}) ;
+
   $('#tguidd').val(tguid);
   $('#tsequenceidd').val(tsequenceid);
   $('#tpstart').val(pstart);
@@ -27,7 +29,8 @@ function addtaskstep(tguid,tsequenceid,tstepdescription){
   return $(this).text();
 }).get();
 
-  $('#addtaskmodal1').modal('show');
+  //$('#addtaskmodal1').modal('show');
+  	$('#addtaskmodal1').modal({backdrop: 'static', keyboard: false}) ;
   $('#tguidd23').val(tguid);
   $('#tsequenceidd23').val(tsequenceid);
   $('#tstepdescription23').val(tstepdescription);
@@ -39,6 +42,24 @@ function addtaskstep(tguid,tsequenceid,tstepdescription){
 // });
 
 $(document).ready(function() {
+  $('.close').on('click',function(){
+  window.location.reload();
+  //window.location.href = 'mytask.php';
+  });
+  $('.close1').on('click',function(){
+  window.location.reload();
+  //window.location.href = 'mytask.php';
+  });
+
+
+
+  function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+    var x = parseInt(a[key]); var y = parseInt(b[key]);
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+});
+}
+
 
 var tguidstep = sessionStorage.getItem("tguidstep23");
 // console.log("External Script tguidstep");
@@ -142,6 +163,7 @@ var tasklist=[
     cache: false,
     success:function(dataResult){
     var dataResult = JSON.parse(dataResult);
+    dataResult = sortByKey(dataResult, 'tsequenceid');
     //console.log(dataResult);
     $("#tbodystep23").empty();
     $("#tbodylist23").empty();
@@ -204,7 +226,7 @@ var tasklist=[
 
                 i++;
                 newcell = row.insertCell(i);
-                newcell.innerHTML = item.assignto;
+                newcell.innerHTML = item.assigntoname;
 
                 i++;
                 newcell = row.insertCell(i);
@@ -308,7 +330,104 @@ var tasklist=[
     }
     });
 
+$('.addtaskstp').on('click',function(){
+event.preventDefault();
+var tguid = $('#tguidd23').val();
+var tsequenceid = $('#tsequenceidd23').val();
+var tstepdescription = $('#tstepdescription23').val();
+var type= "2";
 
+$.ajax({
+  url: "updatetask1.php",
+  type: "POST",
+
+  data:    {
+        type: type,
+        tguid: tguid,
+        tsequenceid: tsequenceid,
+        tstepdescription:tstepdescription
+
+      },
+  cache: false,
+  success: function(dataResult){
+    var dataResult = JSON.parse(dataResult);
+    console.log(dataResult);
+    if(dataResult.statuscode=="s"){
+       console. log("display s message");
+       //$("#task_form")[0].reset();
+       $('.addtaskstp').prop('disabled', true);
+       $("#errordelete").hide();
+       $("#successdelete").show();
+       $('#successdelete').html(dataResult.description);
+
+     }
+     else {
+
+       console. log("display e message");
+       $('.addtaskstp').prop('disabled', true);
+       $("#successdelete").hide();
+       $("#errordelete").show();
+       $('#errordelete').html(dataResult.description);
+
+     }
+
+  }
+
+});
+});
+
+$('.deletetaskstp').on('click',function(){
+  event.preventDefault();
+   var tguid = $('#tguidd').val();
+   var tsequenceid = $('#tsequenceidd').val();
+   var pstart = $('#tpstart').val();
+   var type= "1";
+
+   $.ajax({
+     url: "updatetask1.php",
+     type: "POST",
+
+     data:    {
+           type: type,
+           tguid: tguid,
+           tsequenceid: tsequenceid,
+           pstart:pstart
+
+         },
+     cache: false,
+     success: function(dataResult){
+       var dataResult = JSON.parse(dataResult);
+       console.log(dataResult);
+       if(dataResult.statuscode=="s"){
+          console. log("display s message");
+          //$("#task_form")[0].reset();
+          $('.deletetaskstp').prop('disabled', true);
+          $("#erroradd").hide();
+          $("#successadd").show();
+          $('#successadd').html(dataResult.description);
+
+        }
+        else {
+
+          console. log("display e message");
+          $('.deletetaskstp').prop('disabled', true);
+          $("#successadd").hide();
+          $("#erroradd").show();
+          $('#erroradd').html(dataResult.description);
+
+        }
+
+     }
+
+   });
+
+
+
+
+
+
+
+});
 
 
 });

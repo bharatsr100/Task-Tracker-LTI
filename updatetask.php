@@ -5,47 +5,9 @@ if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 
-if(isset($_POST['deletetaskstp'])){
-
-  $uguid=$_SESSION['uguid'];
-  $tguid= $_POST['tguidd'];
-  $tsequenceid= $_POST['tsequenceidd'];
-  $pstart= $_POST['tpstart'];
-
-  if($pstart!="" && $pstart!="0000-00-00" && $pstart=="NULL"){
-  echo "<script type='text/javascript'>alert('Planned Task Step can not be deleted'); window.location.href = 'taskstepsadd_del.php';</script>";
-  exit();
-}
-else{
-
-  $s2 = "DELETE FROM tstep WHERE tguid=$tguid && tsequenceid=$tsequenceid ";
-  $res=mysqli_query($conn, $s2);
-  if($res) echo "<script type='text/javascript'>alert('Task Step deleted successfully'); window.location.href = 'taskstepsadd_del.php';</script>";
-  else echo "<script type='text/javascript'>alert('Error while deleting task step'); window.location.href = 'taskstepsadd_del.php';</script>";
-  exit();
-
-}
-
-}
-else if(isset($_POST['addtaskstp'])){
 
 
-  $tguid= $_POST['tguidd23'];
-  $tsequenceid= $_POST['tsequenceidd23'];
-  $tstage=1;
-  $assignto= $_SESSION['uguid'];
-  $tstepdescription= $_POST['tstepdescription23'];
-
-  $s2 = "INSERT INTO tstep (tguid,tsequenceid,tstage,assignto,tstepdescription)VALUES ('$tguid','$tsequenceid','$tstage','$assignto','$tstepdescription')";
-  $res=mysqli_query($conn, $s2);
-
-  if($res) echo "<script type='text/javascript'>alert('Task Step added successfully'); window.location.href = 'taskstepsadd_del.php';</script>";
-  else echo "<script type='text/javascript'>alert('Error while added task step'); window.location.href = 'taskstepsadd_del.php';</script>";
-  exit();
-
-}
-
-else if(isset($_POST['edittaskbtn'])){
+if(isset($_POST['edittaskbtn'])){
 
 
  //echo "<script type='text/javascript'>alert('Hello Just Testing'); window.location.href = 'mytask.php';</script>";

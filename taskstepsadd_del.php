@@ -44,8 +44,8 @@ header('location:index.php');
               </button>
             </div>
             <div class="modal-body">
-
-            <form id="delete_form2" name="deleteform2" method="post" action="updatetask.php" >
+              <!-- action="updatetask.php" -->
+            <form id="delete_form2" name="deleteform2" method="post"  >
 
               <div  class="form-group">
                 <label  for="tguidd" style="display:none;">TGUID:
@@ -58,16 +58,21 @@ header('location:index.php');
                 <input type="text" class="form-control" id="tsequenceidd" placeholder="TGUID" name="tsequenceidd" style="display:none;">
               </div>
               <div  class="form-group">
-                <label  for="tpstart" style="display:none;">Planned Start Date:
+                <label  for="tpstart" style="display:none;" >Planned Start Date:
               </label>
                 <input type="date" class="form-control" id="tpstart" placeholder="Planned Start Date" name="tpstart" style="display:none;">
               </div>
               <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
               <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-              <button type="submit" class="btn btn-primary" id="deletetaskstp" name="deletetaskstp">Yes</button>
+              <button type="button" class="btn btn-secondary close1" data-dismiss="modal">No</button>
+              <button type="submit" class="btn btn-primary deletetaskstp" id="deletetaskstp" name="deletetaskstp">Yes</button>
             </form>
+            <div class="alert alert-success alert-dismissible" id="successadd" style="display:none;" >
 
+            </div>
+            <div class="alert alert-danger alert-dismissible" id="erroradd" style="display:none;">
+
+            </div>
             </div>
             <div class="modal-footer">
             </div>
@@ -87,7 +92,7 @@ header('location:index.php');
             </div>
             <div class="modal-body">
 
-            <form id="add_form2" name="addform2" method="post" action="updatetask.php">
+            <form id="add_form2" name="addform2" method="post" >
 
               <div  class="form-group">
                 <label  for="tguidd23" style="display:none;">TGUID:
@@ -106,10 +111,15 @@ header('location:index.php');
               </div>
               <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
               <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-              <button type="submit" class="btn btn-primary" id="addtaskstp" name="addtaskstp">Yes</button>
+              <button type="button" class="btn btn-secondary close1" data-dismiss="modal">No</button>
+              <button type="submit" class="btn btn-primary addtaskstp" id="addtaskstp" name="addtaskstp">Yes</button>
             </form>
+            <div class="alert alert-success alert-dismissible" id="successdelete" style="display:none;" >
 
+            </div>
+            <div class="alert alert-danger alert-dismissible" id="errordelete" style="display:none;">
+
+            </div>
             </div>
             <div class="modal-footer">
             </div>
@@ -175,7 +185,13 @@ header('location:index.php');
     <script>
     var taskid = sessionStorage.getItem("taskid23");
     var tguidstep = sessionStorage.getItem("tguidstep23");
-    $("#headone").html("Task Steps for: "+taskid);
+
+    var tidd= taskid.trim();
+    var l= tidd.length;
+    var tids = tidd.substring(0, l/2);
+    tids =tids.trim();
+
+    $("#headone").html("Task Steps for: "+tids);
 
     </script>
   </body>

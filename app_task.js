@@ -1,6 +1,27 @@
 
 $(document).ready(function() {
 
+
+$('#mytasktable').DataTable({
+	"paging":   false,
+	"ordering": true,
+	"info":     false,
+	"order": [[ 3, "asc" ]]
+
+});
+$('#taskdequencetable').DataTable({
+	"paging":   false,
+	//"ordering": true,
+	"info":     false,
+	"order": [[3,"asc"]]
+
+});
+
+//$('.dataTables_length').addClass('bs-select');
+
+
+
+
 	let dropdown = $('#userslist');
 	dropdown.empty();
 	dropdown.append('<option selected="true" value="0">--Choose User Name--</option>');
@@ -495,7 +516,14 @@ $(document).ready(function() {
 
 	});
 
-
+	$('.close').on('click',function(){
+	window.location.reload();
+	//window.location.href = 'mytask.php';
+	});
+	$('.close1').on('click',function(){
+	window.location.reload();
+	//window.location.href = 'mytask.php';
+	});
 
 	$('.createbtn').on('click',function(){
 	//	$('#createtaskmodal').modal('show');
@@ -559,14 +587,21 @@ $('.tstepstage').on('click',function(){
 	  return $(this).text();
 	  }).get();
 
+		var tidd= data[1].trim();
+		var l= tidd.length;
+		var tids = tidd.substring(0, l/2);
+		tids =tids.trim();
+
 		console.log(data[0]);
 		var pstart=data[4];
 		var pend=data[5];
 		var astart=data[7];
 		var aend=data[9];
+		var tid1= data[1];
 
 	  $('#tguid4').val(data[0]);
 	  $('#commenttaskmodal').modal('show');
+			$('#commenttaskhead').html("Comment History for : "+tids);
 	//console.log(data[0]);
 		var tguid= data[0];
 		//console.log(tguidstep);
@@ -608,13 +643,22 @@ $('.stpedit12').on('click',function(){
 	return $(this).text();
 	}).get();
 
+
+			var tidd= data[2].trim();
+			var l= tidd.length;
+			var tids = tidd.substring(0, l/2);
+			tids =tids.trim();
+
 	//console.log(data);
 	if(data[4]!=""){
 		$('#editstaskstepmodal').modal('show');
 		$('#tsequenceid3').val(data[1]);
 		$('#tguid3').val(data[0]);
-		$('#tid3').val(data[2].trim());
-		$('#tdescription3').val(data[3]);
+		$('#tid3').val(tids);
+		var s = data[3].replace(/\d+/g, '');
+		//s.replace(/\d+/g, '');
+		$('#tdescription3').val(s);
+		//data[3]
 
 		$("#pstart3").val(data[4]);
 		$("#pend3").val(data[5]);
@@ -646,8 +690,11 @@ $('.stpedit12').on('click',function(){
 		 $("#error3").hide();
 		 $('#tsequenceid3').val(data[1]);
 		 $('#tguid3').val(data[0]);
-		 $('#tid3').val(data[2].trim());
-		 $('#tdescription3').val(data[3]);
+		 $('#tid3').val(tids);
+		 //var s = data[3];
+		 var s = data[3].replace(/\d+/g, '');
+		 $('#tdescription3').val(s);
+		 //data[3]
 
 		 $("#pstart3").val("");
 		 $("#pend3").val("");
@@ -680,14 +727,19 @@ $('.stpedit12').on('click',function(){
 			return $(this).text();
 			}).get();
 
-
+			var tidd= data[1].trim();
+			var l= tidd.length;
+			var tids = tidd.substring(0, l/2);
+			tids =tids.trim();
 
 			if(data[4]!=""){
 				$('#editmodal').modal('show');
 				$('#tguid1').val(data[0]);
 				$('#tdescription1').val(data[2]);
 				$('#ttype1').val(data[3]);
-				$('#tid1').val(data[1].trim());
+
+				//data[1].trim()
+				$('#tid1').val(tids);
 				$("#pstart1").val(data[4]);
 				$("#pend1").val(data[5]);
 				$("#peffort1").val(data[6]);
@@ -719,7 +771,7 @@ $('.stpedit12').on('click',function(){
 				 $('#editmodal').modal('show');
 				 $("#error").hide();
 				 $('#tguid1').val(data[0]);
-				 $('#tid1').val(data[1].trim());
+				 $('#tid1').val(tids);
 				 $('#tdescription1').val(data[2]);
 				 $('#ttype1').val(data[3]);
 				 $("#pstart1").val("");

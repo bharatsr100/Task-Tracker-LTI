@@ -28,13 +28,15 @@ $arr = unserialize($_SESSION['arr']);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    <link red="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
     <script src="app_task.js"></script>
     <title>my tasks</title>
 
     <style>
+
+
     #mytasktable{
       margin:auto;
 
@@ -276,12 +278,12 @@ $arr = unserialize($_SESSION['arr']);
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary createtask1" name="createtask" id="createtask">Create</button>
           </form>
 
           <div class="alert alert-success alert-dismissible" id="successtask" style="display:none;" >
-          
+
           </div>
           <div class="alert alert-danger alert-dismissible" id="errortask" style="display:none;">
 
@@ -830,7 +832,7 @@ $arr = unserialize($_SESSION['arr']);
             <button type="submit" class="btn btn-primary" id="savecomment" name="savecomment">Save Comment</button>
           </form>
           <br><br><br>
-          <center><h1 >Comment History</h1>
+          <center><h1 id="commenttaskhead">Comment History</h1>
           <br><br>
           <div id="tcomments" style="display:contents">
           <table class="table table-hover" id="commenttask3">
@@ -888,7 +890,7 @@ $arr = unserialize($_SESSION['arr']);
   $stagecompleted=4;
   //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
   //$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid' && c.tsequenceid='$sequence'";
-  $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid='$sequence' && c.tstage!='$stagecompleted'";
+  $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid='$sequence' && c.tstage!='$stagecompleted' order by p.tid";
   //&& c.assignto='$uguid'
   //$sql3="select * from tstatus where tguid="
   //$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
@@ -917,7 +919,7 @@ $arr = unserialize($_SESSION['arr']);
          ?></th>
         <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
-        <td><button  type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
+        <td><div style="display:none;"><?php echo $row['tid']; ?></div><button  type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
 
         <?php
 
@@ -963,7 +965,9 @@ $arr = unserialize($_SESSION['arr']);
         }
 
           ?>;">   <?php echo $row['tid']; ?>
-                  </button></td>
+                  </button>
+
+                </td>
 
 
         <td><?php echo $row['tdescription']; ?></td>
@@ -1179,7 +1183,7 @@ $arr = unserialize($_SESSION['arr']);
   </div>
   <!-- ######################################################################################################################################### -->
 
-<!-- Task Sequence Table -->
+<!-- Task Step Table -->
 
 <table  class="table" id="taskdequencetable">
   <thead>
@@ -1209,7 +1213,7 @@ include 'database.php';
 $uguid=$_SESSION['uguid'];
 $sequence="0";
 //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
-$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid'&&c.tsequenceid!='$sequence' ";
+$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid'&&c.tsequenceid!='$sequence' order by p.tid";
 //$sql3="select * from tstatus where tguid="
 //$result=mysql_query("SELECT ttable.* , tstatus.* FROM tbl_categories c,tbl_products p WHERE c.cat_id=p.cat_id");
 $result=mysqli_query($conn, $sql2);
@@ -1222,7 +1226,7 @@ while($row=mysqli_fetch_assoc($result))
     <td style="display:none;"><?php echo $row['tguid']; ?></td>
     <td style="display:none;"><?php echo $row['tsequenceid']; ?></td>
 
-<td><button  type="button" class="btn btn-success stpedit12" style="color: black;font-weight: 700;background-color:
+<td><div style="display:none;"><?php echo $row['tid']; ?></div><button  type="button" class="btn btn-success stpedit12" style="color: black;font-weight: 700;background-color:
 <?php
 date_default_timezone_set("Asia/Kolkata");
 if($row['tstage']==1) echo "#BEBFCC";
@@ -1269,7 +1273,11 @@ else if($row['tstage']==6) {
 
   ?>;" >   <?php echo $row['tid']; ?>
           </button></td>
-        <td><?php echo $row['tstepdescription']; ?></td>
+        <td><div style="display:none;"><?php
+
+        $sequence= $row['tsequenceid'];
+        echo (int)$sequence;
+        ?></div><?php echo $row['tstepdescription']; ?></td>
 
     <td><?php
 
