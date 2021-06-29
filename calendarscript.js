@@ -89,11 +89,11 @@ function load() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-          //console.log("Result for "+ dayString2);
-          //console.log(dataResult);
+          console.log("Result for "+ dayString2);
+          console.log(dataResult);
           //console.log("Result loaded");
-          var reslength= dataResult.length;
-        //  console.log(reslength);
+          var reslength= dataResult[0].length;
+          console.log(reslength);
           if(reslength){
             var eventDiv = document.createElement('div');
             eventDiv.addEventListener("click", function() {
@@ -102,7 +102,7 @@ function load() {
                 $("#stage1list").html("");
                 $("#stage1title").append("To be Planned Tasks ("+ dayString2 +")");
 
-                $(dataResult).each(function (index, item) {
+                $(dataResult[0]).each(function (index, item) {
                   $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"</li>");
 
                 });

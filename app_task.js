@@ -555,7 +555,7 @@ $('.tstepstage').on('click',function(){
 		  $('#commenttaskmodal5').modal('show');
 
 			var tguids= data[0];
-			var tsequenceids= data[1];
+			var tsequenceids= data[2];
 			$.ajax({
 		url: "showcomment.php",
 		type:"POST",
@@ -822,6 +822,8 @@ $('.stpedit12').on('click',function(){
 	    var assignto = $('#assignto').val();
 	    var pstart = $('#pstart').val();
 	    var pend = $('#pend').val();
+			var astart = "0000-00-00";
+			var aend = "0000-00-00";
 	    var peffort = $('#peffort').val();
 	    var comment = $('#comment').val();
 			var type= "1";
@@ -841,6 +843,8 @@ $('.stpedit12').on('click',function(){
 	            	assignto: assignto,
 	              pstart: pstart,
 	              pend: pend,
+								astart: astart,
+								aend: aend,
 	              peffort: peffort,
 	            	comment: comment
 	            },

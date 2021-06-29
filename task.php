@@ -14,6 +14,8 @@ $arr2 = array (
         "assignto"=> "",
          "pstart"=> "",
         "pend"=> "",
+        "astart"=> "",
+       "aend"=> "",
         "peffort"=> "",
         "comment"=>"",
         "statuscode"=>"e",
@@ -38,7 +40,10 @@ $arr2 = array (
     $assignto= $_POST['assignto'];
     $pstart= $_POST['pstart'];
     $pend= $_POST['pend'];
+    $astart= $_POST['astart'];
+    $aend= $_POST['aend'];
     $peffort= $_POST['peffort'];
+    $aeffort="";
     // $astart= $_POST['astart'];
     // $aend= $_POST['aend'];
     // $aeffort= $_POST['aeffort'];
@@ -57,6 +62,8 @@ $arr2 = array (
     $arr2['assignto']="$assignto";
      $arr2['pstart']="$pstart";
     $arr2['pend']="$pend";
+    $arr2['astart']="$astart";
+    $arr2['aend']="$aend";
     $arr2['peffort']="$peffort";
     $arr2['comment']="$comment";
 
@@ -88,7 +95,7 @@ $arr2 = array (
         }
 
 
-        $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort')";
+        $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
         $r2=mysqli_query($conn, $sql2);
         $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
         $r3=mysqli_query($conn, $sql3);
