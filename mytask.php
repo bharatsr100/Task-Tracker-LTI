@@ -1112,7 +1112,7 @@ $arr = unserialize($_SESSION['arr']);
           <div  class="form-group">
             <label  for="tguid5" style="display:none;">Task GUID:
           </label>
-            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5" style="display:none;">
+            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5"style="display:none;">
           </div>
           <div  class="form-group">
             <label  for="tsequenceid5" >Task Sequence ID:
@@ -1191,8 +1191,9 @@ $arr = unserialize($_SESSION['arr']);
     <th scope="col">Created On</th>
     <th scope="col" style="display:none;">Task GUID</th>
 
-    <th scope="col" style="display:none;">Task Sequence ID</th>
+
     <th scope="col">Task ID</th>
+      <th scope="col" style="display:none;">Task Sequence ID</th>
     <!-- <th scope="col">Task Sequence No</th> -->
     <th scope="col">Task Step Description</th>
     <!-- <th scope="col">Task Type</th> -->
@@ -1202,7 +1203,7 @@ $arr = unserialize($_SESSION['arr']);
     <th scope="col">Actual Start</th>
     <th scope="col">Actual End</th>
     <th scope="col">Actual Effort</th>
-
+    <th scope="col" style="display:none;">TID (2)</th>
     <th scope="col" style="width: 160px;">Task Status</th>
     <!-- <th scope="col">Task Stage</th> -->
     <th scope="col" style="display:none;">Actions</th>
@@ -1224,7 +1225,7 @@ while($row=mysqli_fetch_assoc($result))
   <tr>
     <th scope="row"  style="font-weight:400;"><?php echo $row['createdon']; ?></th>
     <td style="display:none;"><?php echo $row['tguid']; ?></td>
-    <td style="display:none;"><?php echo $row['tsequenceid']; ?></td>
+
 
 <td><div style="display:none;"><?php echo $row['tid']; ?></div><button  type="button" class="btn btn-success stpedit12" style="color: black;font-weight: 700;background-color:
 <?php
@@ -1273,11 +1274,8 @@ else if($row['tstage']==6) {
 
   ?>;" >   <?php echo $row['tid']; ?>
           </button></td>
-        <td><div style="display:none;"><?php
-
-        $sequence= $row['tsequenceid'];
-        echo (int)$sequence;
-        ?></div><?php echo $row['tstepdescription']; ?></td>
+          <td style="display:none;"><?php echo (int)$row['tsequenceid']; ?></td>
+        <td><?php echo $row['tstepdescription']; ?></td>
 
     <td><?php
 
@@ -1299,7 +1297,7 @@ else if($row['tstage']==6) {
     if($row['aend']=="0000-00-00") echo "";
     else echo $row['aend']; ?></td>
     <td><?php echo $row['aeffort']; ?></td>
-
+    <td style="display:none;"><?php echo $row['tid']; ?></td>
 
      <td><button  type="submit" class="btn btn-success tstepstage" id="tsptepstage" style="color: black; border-color:white;text-decoration: underline;"><?php
      if($row['tstage']==1) echo "<b>To be planned</b>";
