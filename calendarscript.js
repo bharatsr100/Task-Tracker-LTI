@@ -1,3 +1,8 @@
+$('.eventstage1').click(function(){
+  alert('Clicked !!');
+});
+
+
 let nav = 0;
 let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
@@ -84,20 +89,37 @@ function load() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-          console.log("Result for "+ dayString2);
-          console.log(dataResult);
-          console.log("Result loaded");
+          //console.log("Result for "+ dayString2);
+          //console.log(dataResult);
+          //console.log("Result loaded");
           var reslength= dataResult.length;
-          console.log(reslength);
+        //  console.log(reslength);
           if(reslength){
+            var eventDiv = document.createElement('div');
+            eventDiv.addEventListener("click", function() {
+                $('#showstage1tasks').modal('show');
+                $("#stage1title").html("");
+                $("#stage1list").html("");
+                $("#stage1title").append("To be Planned Tasks ("+ dayString2 +")");
 
+                $(dataResult).each(function (index, item) {
+                  $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"</li>");
 
-              $(dataResult).each(function (index, item) {
-              var eventDiv = document.createElement('div');
-              eventDiv.classList.add('event');
-              eventDiv.innerText = item.tid;
-              daySquare.appendChild(eventDiv);
+                });
+
+               //alert("You clicked this div");
             });
+            eventDiv.classList.add('eventstage1');
+            eventDiv.innerText = reslength;
+            daySquare.appendChild(eventDiv);
+
+
+            //   $(dataResult).each(function (index, item) {
+            //   var eventDiv = document.createElement('div');
+            //   eventDiv.classList.add('eventstage1');
+            //   eventDiv.innerText = item.tid;
+            //   daySquare.appendChild(eventDiv);
+            // });
 
           }
 

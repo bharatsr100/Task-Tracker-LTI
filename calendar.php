@@ -69,6 +69,50 @@ header('location:index.php');
 
       <div id="calendar"></div>
     </div>
+    <!-- ######################################################################################################################################### -->
+  <!--Delete Task Modal -->
+    <div class="modal fade" id="showstage1tasks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document" id="deletemodal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="stage1title">To be Planned tasks</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group" id="stage1list">
+            <li class="list-group-item ">Cras justo odio</li>
+            
+          </ul>
+          <br><br>
+
+
+            <!-- <h3 id="headstage1" style="text-align:center;">To be Planned Tasks </h3> -->
+
+          <!-- <form id="delete_form" name="form1" method="post" >
+
+            <div  class="form-group">
+              <label  for="comment7">Comment:
+            </label>
+              <input type="text" class="form-control" id="comment7" placeholder="Comment" name="comment7">
+            </div>
+            </form> -->
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="submit" class="btn btn-primary" id="deletetask">Yes</button> -->
+
+
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- ######################################################################################################################################### -->
 
     <div id="newEventModal">
       <h2>New Event</h2>
@@ -90,6 +134,8 @@ header('location:index.php');
 
     <div id="modalBackDrop" ></div>
     <script src="calendarscript.js"></script>
+
+
 
   </body>
 </html>
