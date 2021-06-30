@@ -55,6 +55,20 @@ function load() {
   for(let i = 1; i <= paddingDays + daysInMonth; i++) {
     const daySquare = document.createElement('div');
     daySquare.classList.add('day');
+    daySquare.addEventListener("click", function() {
+        $('#vacationplanmodal').modal('show');
+
+        $("#vacationplantitle").html("");
+
+        $("#vacationplantitle").append("Out of Office/Vacation Planner ("+ dayString2 +")");
+        //
+        // $(dataResult[0]).each(function (index, item) {
+        //   $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"</li>");
+        //
+        // });
+
+    });
+
 
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
     var day2=`${i - paddingDays}`;
@@ -102,6 +116,7 @@ function load() {
             var eventDiv = document.createElement('div');
             eventDiv.addEventListener("click", function() {
                 $('#showstage1tasks').modal('show');
+                event.stopPropagation();
                 $("#stage1title").html("");
                 $("#stage1list").html("");
                 $("#stage1title").append("To be Planned Tasks ("+ dayString2 +")");
@@ -122,6 +137,7 @@ function load() {
             var eventDiv1 = document.createElement('div');
             eventDiv1.addEventListener("click", function() {
                 $('#showssafetasks').modal('show');
+                event.stopPropagation();
                 $("#safetitle").html("");
                 $("#safelist").html("");
                 $("#safetitle").append("Safe Tasks ("+ dayString2 +")");
@@ -144,6 +160,7 @@ function load() {
             var eventDiv2 = document.createElement('div');
             eventDiv2.addEventListener("click", function() {
                 $('#showsdeadlineapptasks').modal('show');
+                event.stopPropagation();
                 $("#deadlineapptitle").html("");
                 $("#deadlineapplist").html("");
                 $("#deadlineapptitle").append("Deadline Approaching Tasks ("+ dayString2 +")");
@@ -166,6 +183,7 @@ function load() {
             var eventDiv3 = document.createElement('div');
             eventDiv3.addEventListener("click", function() {
                 $('#showsdeadlinepasstasks').modal('show');
+                event.stopPropagation();
                 $("#deadlinepasstitle").html("");
                 $("#deadlinepasslist").html("");
                 $("#deadlinepasstitle").append("Deadline Passed Tasks ("+ dayString2 +")");
@@ -189,6 +207,7 @@ function load() {
             var eventDiv4 = document.createElement('div');
             eventDiv4.addEventListener("click", function() {
                 $('#showalltasks').modal('show');
+                event.stopPropagation();
                 $("#alltaskstitle").html("");
                 $("#alltaskslist").html("");
                 $("#alltaskstitle").append("All Tasks ("+ dayString2 +")");
