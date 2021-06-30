@@ -363,7 +363,7 @@ $arr2['createdby']="$createdby";
 
 if($vid!="" && $vstart!="" && $vend!="" && $vremark!="" && $vid!=$viddefault ){
 
-  $r2= mysqli_query($conn,"select * from vtable where  (vstart <='$vstart' && vend>= '$vstart') || (vstart <='$vend' && vend>= '$vend')");
+  $r2= mysqli_query($conn,"select * from vtable where ( (vstart <='$vstart' && vend>= '$vstart') || (vstart <='$vend' && vend>= '$vend')) && action!='cancel'");
   $n2= mysqli_num_rows($r2);
   //$n2=1;
 

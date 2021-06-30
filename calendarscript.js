@@ -1,17 +1,19 @@
 $(document).ready(function() {
 
   $('.close2').on('click',function(){
-	window.location.reload();
+	//window.location.reload();
+  load();
 
 	});
 	$('.close1').on('click',function(){
-	window.location.reload();
+	//window.location.reload();
+  load();
 
 	});
 
 
 
-let nav = 0;
+var nav = 0;
 let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 
@@ -245,6 +247,10 @@ function load() {
                $('#remarksmodal').modal({backdrop: 'static', keyboard: false}) ;
                  event.stopPropagation();
                 $("#remarkstitle").html("");
+                $("#remarkslist").html("");
+                $("#cerror").hide();
+                $("#csuccess").hide();
+                
                 $("#vguid").val(dataResult[5][0].vguid);
 
                 $("#remarkstitle").append("Vacation Remarks History & Action ("+ dayString2 +")");
@@ -272,6 +278,12 @@ function load() {
 
                $("#vstart").val(dayString2);
                $("#vend").val(dayString2);
+               $("#reason").val(0);
+               $("#remark").val("");
+               $("#errorooo").hide();
+               $("#successooo").hide();
+
+
 
 
                 $('#vstart').prop('disabled', false);
@@ -288,7 +300,7 @@ function load() {
                    $("#vend").val(item.vend);
                    $("#reason").val(item.vid);
                    $("#remark").val(item.vremark);
-                   $("#errorooo").hide();
+                   //$("#errorooo").hide();
 
                  });
 
@@ -297,6 +309,7 @@ function load() {
                  $('#reason').prop('disabled', true);
                  $('#remark').prop('disabled', true);
                  $('#createooo').hide();
+                 $("#successooo").hide();
                  $("#errorooo").show();
                  $('#errorooo').html("Vacation already Planned");
 
