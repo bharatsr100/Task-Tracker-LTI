@@ -1,7 +1,3 @@
-$('.eventstage1').click(function(){
-  alert('Clicked !!');
-});
-
 
 let nav = 0;
 let clicked = null;
@@ -89,11 +85,19 @@ function load() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-          console.log("Result for "+ dayString2);
-          console.log(dataResult);
+          //console.log("Result for "+ dayString2);
+          //console.log(dataResult);
           //console.log("Result loaded");
           var reslength= dataResult[0].length;
-          console.log(reslength);
+          var safeprogress= dataResult[1].length;
+          var alertprogress= dataResult[2].length;
+          var dangerprogress= dataResult[3].length;
+          var alltasks= dataResult[4].length;
+
+          //console.log("to do tasks: "+reslength);
+          //console.log("safe tasks: "+safeprogress);
+          //console.log("deadline approaching tasks: "+alertprogress);
+          //console.log("danger tasks: "+dangerprogress);
           if(reslength){
             var eventDiv = document.createElement('div');
             eventDiv.addEventListener("click", function() {
@@ -107,19 +111,100 @@ function load() {
 
                 });
 
-               //alert("You clicked this div");
             });
             eventDiv.classList.add('eventstage1');
             eventDiv.innerText = reslength;
             daySquare.appendChild(eventDiv);
 
 
-            //   $(dataResult).each(function (index, item) {
-            //   var eventDiv = document.createElement('div');
-            //   eventDiv.classList.add('eventstage1');
-            //   eventDiv.innerText = item.tid;
-            //   daySquare.appendChild(eventDiv);
-            // });
+          }
+          if(safeprogress){
+            var eventDiv1 = document.createElement('div');
+            eventDiv1.addEventListener("click", function() {
+                $('#showssafetasks').modal('show');
+                $("#safetitle").html("");
+                $("#safelist").html("");
+                $("#safetitle").append("Safe Tasks ("+ dayString2 +")");
+
+                $(dataResult[1]).each(function (index, item) {
+                  $("#safelist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+
+                });
+
+            });
+            eventDiv1.classList.add('eventprogress');
+            //eventDiv1.className="eventprogress";
+            eventDiv1.innerText = safeprogress;
+            daySquare.appendChild(eventDiv1);
+
+
+          }
+          if(alertprogress){
+            var eventDiv2 = document.createElement('div');
+            eventDiv2.addEventListener("click", function() {
+                $('#showsdeadlineapptasks').modal('show');
+                $("#deadlineapptitle").html("");
+                $("#deadlineapplist").html("");
+                $("#deadlineapptitle").append("Deadline Approaching Tasks ("+ dayString2 +")");
+
+                $(dataResult[2]).each(function (index, item) {
+                  $("#deadlineapplist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+
+                });
+
+            });
+            eventDiv2.classList.add('alertprogress');
+            //eventDiv1.className="eventprogress";
+            eventDiv2.innerText = alertprogress;
+            daySquare.appendChild(eventDiv2);
+
+
+          }
+          if(dangerprogress){
+            var eventDiv3 = document.createElement('div');
+            eventDiv3.addEventListener("click", function() {
+                $('#showsdeadlinepasstasks').modal('show');
+                $("#deadlinepasstitle").html("");
+                $("#deadlinepasslist").html("");
+                $("#deadlinepasstitle").append("Deadline Passed Tasks ("+ dayString2 +")");
+
+                $(dataResult[3]).each(function (index, item) {
+                  $("#deadlinepasslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+
+                });
+
+            });
+            eventDiv3.classList.add('dangerprogress');
+            //eventDiv1.className="eventprogress";
+            eventDiv3.innerText = dangerprogress;
+            daySquare.appendChild(eventDiv3);
+
+
+          }
+
+          if(alltasks){
+            var eventDiv4 = document.createElement('div');
+            eventDiv4.addEventListener("click", function() {
+                $('#showalltasks').modal('show');
+                $("#alltaskstitle").html("");
+                $("#alltaskslist").html("");
+                $("#alltaskstitle").append("All Tasks ("+ dayString2 +")");
+
+                $(dataResult[4]).each(function (index, item) {
+                  $("#alltaskslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+
+                });
+
+            });
+            eventDiv4.classList.add('alltasksstyle');
+            //eventDiv1.className="eventprogress";
+            eventDiv4.innerText = alltasks;
+            daySquare.appendChild(eventDiv4);
+
 
           }
 

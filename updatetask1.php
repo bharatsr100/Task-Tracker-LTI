@@ -108,7 +108,13 @@ else if($_POST['type']=="2"){
 
 }
 else if($_POST['type']=="3"){
+
   $pendingtasks=array();
+  $safeinprogressall=array();
+  $alertinprogressall=array();
+  $dangerinprogressall=array();
+  $allprogresstasks=array();
+
   $alltasks=array();
   $uguid=$_SESSION['uguid'];
   $date= $_POST['date'];
@@ -127,6 +133,9 @@ else if($_POST['type']=="3"){
       $safeinprogress = array (
               "date"=>$date,
               "tid"=>"",
+              "pstart"=>"",
+              "pend"=>"",
+              "pdiff"=>"",
               "createdon"=>"",
               "tguid"=> "",
               "tsequenceid"=> "",
@@ -182,10 +191,53 @@ $result=mysqli_query($conn, $sql1);
   $pendingtasks[]=$todotask;
 }
 
+$alltasks[]=$pendingtasks;
 
 
+$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid!='$sequence' && c.tstage!='1' && c.tstage!='4' && c.pstart <='$date' && c.assignto='$uguid'  order by p.tid";
+$result2=mysqli_query($conn, $sql2);
 
-  $alltasks[]=$pendingtasks;
+while($row=mysqli_fetch_assoc($result2)){
+ $safeinprogress['tguid']= $row['tguid'];
+ $safeinprogress['tid']= $row['tid'];
+ $safeinprogress['pstart']= $row['pstart'];
+ $safeinprogress['pend']= $row['pend'];
+
+ //$date2=$row['pend'];
+ // $newdate1 = date("Ymd", strtotime($date1));
+ // $datenow=$date;
+ // $datenow1=date("Ymd",strtotime($datenow));
+ // $diff= $newdate1-$datenow1;
+
+ //$date1=$date;
+ $date2=date_create($row['pend']);
+ $date1=date_create($date);
+ $diff=date_diff($date1,$date2);
+ $pdiff1= $diff->format("%R%a");
+ $pdiff2= (int)$pdiff1;
+ $safeinprogress['pdiff']= $pdiff2;
+
+ $safeinprogress['createdon']= $row['createdon'];
+ $safeinprogress['tsequenceid']= $row['tsequenceid'];
+ $safeinprogress['tstage']= $row['tstage'];
+ $safeinprogress['tstepdescription']= $row['tstepdescription'];
+ $safeinprogress['tstage']= $row['tstage'];
+ $safeinprogress['statuscode']= "s";
+ $safeinprogress['description']= "Task successfully loaded";
+
+ $allprogresstasks[]=$safeinprogress;
+
+ if($pdiff2>=2) $safeinprogressall[]=$safeinprogress;
+ else if($pdiff2<2 && $pdiff2>=0) $alertinprogressall[]=$safeinprogress;
+ else $dangerinprogressall[]=$safeinprogress;
+
+}
+$alltasks[]=$safeinprogressall;
+$alltasks[]=$alertinprogressall;
+$alltasks[]=$dangerinprogressall;
+$alltasks[]=$allprogresstasks;
+
+
 
 echo json_encode($alltasks);
 mysqli_close($conn);

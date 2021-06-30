@@ -50,6 +50,8 @@ body {
   flex-wrap: wrap;
 }
 .day {
+  position: relative;
+
   width: 100px;
   padding: 5px;
   height: 100px;
@@ -70,21 +72,129 @@ body {
   background-color:#CBE1F9;
   border: 2px solid black;
 }
+.alltaskm{
+  max-width: 50%;
+}
 .eventstage1 {
+  position: absolute;
+  right:3px;
+  bottom:44px;
+
+  height: 18px;
+  width: 30px;
+
+  vertical-align: middle;
+  text-align: center;
+
   font-size: 10px;
   font-weight: 800;
   padding: 3px;
-  margin: 0.5px;
-  max-width: 40px;
   background-color: #BEBFCC;
   color: black;
   border-radius: 5px;
-  max-height: 20px;
   overflow: hidden;
 }
 .eventstage1:hover {
   border: 2px solid black;
 }
+.alltasksstyle {
+  position: absolute;
+  right:3px;
+  bottom:22px;
+
+  height: 18px;
+  width: 30px;
+
+  vertical-align: middle;
+  text-align: center;
+
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px;
+  background-color: #89ECE2;
+  color: black;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.alltasksstyle:hover {
+  border: 2px solid black;
+}
+
+.eventprogress {
+  position: absolute;
+  left:3px;
+  bottom:44px;
+
+  height: 18px;
+  width: 30px;
+
+  vertical-align: middle;
+  text-align: center;
+
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px;
+
+  background-color: #5FDB39;
+  color: white;
+  border-radius: 5px;
+
+  overflow: hidden;
+}
+.eventprogress:hover {
+  border: 2px solid black;
+}
+
+.alertprogress {
+  position: absolute;
+  left:3px;
+  bottom:22px;
+
+  height: 18px;
+  width: 30px;
+
+  vertical-align: middle;
+  text-align: center;
+
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px;
+
+  background-color: #F39536;
+  color: white;
+  border-radius: 5px;
+
+  overflow: hidden;
+}
+.alertprogress:hover {
+  border: 2px solid black;
+}
+
+.dangerprogress {
+  position: absolute;
+  left:3px;
+  bottom:0px;
+
+  height: 18px;
+  width: 30px;
+
+  vertical-align: middle;
+  text-align: center;
+
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px;
+
+  background-color: #EC4819;
+  color: white;
+  border-radius: 5px;
+
+  overflow: hidden;
+}
+.dangerprogress:hover {
+  border: 2px solid black;
+}
+
 .padding {
   cursor: default !important;
   background-color: #FFFCFF !important;

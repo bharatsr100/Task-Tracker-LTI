@@ -1236,8 +1236,9 @@ else if($row['tstage']==2 || $row['tstage']==3){
   $date1=$row['pend'];
   $newdate1 = date("Ymd", strtotime($date1));
   $datenow=date("Ymd");
-  $diff= $newdate1-$datenow;
-
+  $datenow1=date("Ymd",strtotime($datenow));
+  $diff= $newdate1-$datenow1;
+  //$diff= $date1-$datenow;
   if($diff>2) echo "#5FDB39";
   else if($diff<=2 && $diff>=0) echo "#F39536";
   else echo "#EC4819";
