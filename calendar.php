@@ -262,6 +262,60 @@ header('location:index.php');
                 </div>
               </div>
 
+              <!-- ######################################################################################################################################### -->
+              <!-- Remarks modal -->
+              <div class="modal fade" id="remarksmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog alltaskm" role="document" >
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="remarkstitle">Remarks</h5>
+                      <button type="button" class="close close2" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="cancel_form" method="get">
+                        <div  class="form-group">
+                          <label  for="vguid" style="display:none;">VGUID
+                        </label>
+                          <input type="text" class="form-control" id="vguid" placeholder="VGUID" name="vguid" style="display:none;">
+                        </div>
+
+                        <div  class="form-group">
+                          <label  for="vremark">Remark
+                        </label>
+                          <input type="text" class="form-control" id="vremark" placeholder="Remark" name="vremark">
+                        </div>
+
+                        <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger cancelooo" name="cancelooo" id="cancelooo">Cancel Vacation</button>
+
+                      </form>
+                      <br><br>
+                      <h3 style="text-align: center;"><b>Remarks History</b></h3>
+                      <ul class="list-group" id="remarkslist">
+
+
+                    </ul>
+
+                    </div>
+
+                      <div class="alert alert-success alert-dismissible" id="csuccess" style="display:none;" >
+
+                      </div>
+                      <div class="alert alert-danger alert-dismissible" id="cerror" style="display:none;">
+
+                      </div>
+
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<!-- #############################################################################             -->
+
     <div id="newEventModal">
       <h2>New Event</h2>
 

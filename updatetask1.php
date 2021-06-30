@@ -120,6 +120,7 @@ else if($_POST['type']=="3"){
   $dangerinprogressall=array();
   $allprogresstasks=array();
   $allvacations=array();
+  $allremarks=array();
 
   $alltasks=array();
   $uguid=$_SESSION['uguid'];
@@ -158,6 +159,7 @@ else if($_POST['type']=="3"){
                 "vremark"=>"",
                 "vstart"=>"",
                 "vend"=>"",
+                "action"=>"",
 
                 "createdon"=>"",
                 "createdat"=> "",
@@ -167,6 +169,21 @@ else if($_POST['type']=="3"){
                 "description"=>"Error while loading vacations"
 
             );
+          $remark = array (
+                  "date"=>$date,
+                  "vguid"=>"",
+                  "vsequenceid"=>"",
+                  "vremark"=>"",
+
+                  "updatedon"=>"",
+                  "updatedat"=> "",
+                  "updatedby"=> "",
+
+                  "statuscode"=>"e",
+                  "description"=>"Error while loading remarks"
+
+              );
+
 
 
 
@@ -183,6 +200,8 @@ $result=mysqli_query($conn, $sql1);
   $todotask['tstage']= $row['tstage'];
   $todotask['tstepdescription']= $row['tstepdescription'];
   $todotask['tstage']= $row['tstage'];
+
+
   $todotask['statuscode']= "s";
   $todotask['description']= "Task successfully loaded";
 
@@ -231,9 +250,10 @@ while($row=mysqli_fetch_assoc($result2)){
  else $dangerinprogressall[]=$safeinprogress;
 
 }
-
-$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' ");
-// $n2= mysqli_num_rows($r2);
+$vguid="";
+$action="cancel";
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action'");
+$n2= mysqli_num_rows($r2);
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];
   $vacation['vid']= $row['vid'];
@@ -243,6 +263,8 @@ while($row=mysqli_fetch_assoc($r2)){
   $vacation['createdon']= $row['createdon'];
   $vacation['createdat']= $row['createdat'];
   $vacation['createdby']= $row['createdby'];
+
+  $vacation['action']= $row['action'];
   $vacation['statuscode']= "s";
   $vacation['description']= "vacation loaded successfully";
 
@@ -250,6 +272,30 @@ while($row=mysqli_fetch_assoc($r2)){
 
 
 }
+  $vguid=$vacation['vguid'];
+
+if($n2){
+ $r4= mysqli_query($conn,"select * from vstatus where vguid='$vguid'");
+while($row=mysqli_fetch_assoc($r4)){
+$remark['vguid']= $row['vguid'];
+$remark['vsequenceid']= $row['vsequenceid'];
+$remark['vremark']= $row['vremark'];
+$remark['updatedon']= $row['updatedon'];
+$remark['updatedat']= $row['updatedat'];
+$userid=$row['updatedby'];
+$seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+//$r6= mysqli_query($conn,"select * from userdata1 where uguid='$userid'");
+$row2=mysqli_fetch_assoc($seq);
+$remark['updatedby']= $row2['uname'];
+
+
+$remark['statuscode']= "s";
+$remark['description']= "Remarks loaded successfully";
+
+$allremarks[]=$remark;
+}
+}
+
 
 
 $alltasks[]=$safeinprogressall;
@@ -257,6 +303,7 @@ $alltasks[]=$alertinprogressall;
 $alltasks[]=$dangerinprogressall;
 $alltasks[]=$allprogresstasks;
 $alltasks[]=$allvacations;
+$alltasks[]=$allremarks;
 
 
 echo json_encode($alltasks);
@@ -276,6 +323,7 @@ else if($_POST['type']=="4"){
   "createdon"=> "",
   "createdat"=> "",
   "createdby"=> "",
+  "action"=>"",
   "statuscode"=>"e",
   "description"=>"Error occured while adding vacation plan"
 
@@ -301,6 +349,7 @@ $createdon=$date1;
 $createdat=$time2;
 $createdby=$uguid;
 $vsequenceid = "ooo";
+$action="";
 
 $arr2['vguid']="$vguid";
 $arr2['vid']="$vid";
@@ -325,7 +374,7 @@ if($n2){
   mysqli_close($conn);
 
 }
-else {  $r1=mysqli_query($conn, "INSERT INTO vtable (vguid,vid,vstart,vend,vremark,createdon,createdat,createdby)VALUES ('$vguid','$vid','$vstart','$vend','$vremark','$createdon','$createdat','$createdby')");
+else {  $r1=mysqli_query($conn, "INSERT INTO vtable (vguid,vid,vstart,vend,vremark,createdon,createdat,createdby,action)VALUES ('$vguid','$vid','$vstart','$vend','$vremark','$createdon','$createdat','$createdby','$action')");
   $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$createdon','$createdat','$createdby','$vremark')");
 
   if($r1 && $r2)
@@ -346,6 +395,55 @@ else{
   echo json_encode($arr2);
   mysqli_close($conn);
 }
+
+}
+// ######################################################################################################################
+// Function for cancelling vacation plan
+else if($_POST['type']=="5"){
+  $vguid= $_POST['vguid'];
+  $vremark= $_POST['vremark'];
+
+  $arr2 = array (
+  "vguid"=> "",
+  "statuscode"=>"e",
+  "description"=>"Error occured while cancelling vacation plan"
+
+);
+
+  date_default_timezone_set("Asia/Kolkata");
+  $date1= date("Ymd");
+  $time1= date("hsiv");
+  $time2= date("his");
+
+  $uguid=$_SESSION['uguid'];
+  $createdon=$date1;
+  $createdat=$time2;
+  $createdby=$uguid;
+  $vsequenceid = "ooo";
+
+  $arr2['vguid']=$vguid;
+//"UPDATE userdata2 SET value='$contact' WHERE uguid= '$uguid' && type='$t1'"
+  $action= 'cancel';
+if($vremark!=""){
+  $r1=mysqli_query($conn, "UPDATE vtable SET action='$action' where vguid='$vguid'");
+  $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$createdon','$createdat','$createdby','$vremark')");
+
+
+if($r1 && $r2){
+  $arr2['statuscode']="s";
+  $arr2['description']="Vacation cancelled Successfully";
+
+}
+}
+else{
+  $arr2['description']="Please enter some cancellation remark";
+}
+
+
+echo json_encode($arr2);
+mysqli_close($conn);
+
+
 
 }
 

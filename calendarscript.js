@@ -6,7 +6,7 @@ $(document).ready(function() {
 	});
 	$('.close1').on('click',function(){
 	window.location.reload();
-	//window.location.href = 'mytask.php';
+
 	});
 
 
@@ -110,16 +110,16 @@ function load() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-          //console.log("Result for "+ dayString2);
-          //console.log(dataResult);
-          //console.log("Result loaded");
+          // console.log("Result for "+ dayString2);
+          // console.log(dataResult);
+          // console.log("Result loaded");
           var reslength= dataResult[0].length;
           var safeprogress= dataResult[1].length;
           var alertprogress= dataResult[2].length;
           var dangerprogress= dataResult[3].length;
           var alltasks= dataResult[4].length;
           var vacations= dataResult[5].length;
-
+          //var remarks= dataResult[6].length;
           //console.log("to do tasks: "+reslength);
           //console.log("safe tasks: "+safeprogress);
           //console.log("deadline approaching tasks: "+alertprogress);
@@ -153,7 +153,7 @@ function load() {
                 event.stopPropagation();
                 $("#safetitle").html("");
                 $("#safelist").html("");
-                $("#safetitle").append("Safe Tasks ("+ dayString2 +")");
+                $("#safetitle").append("Tasks under control ("+ dayString2 +")");
 
                 $(dataResult[1]).each(function (index, item) {
                   $("#safelist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
@@ -242,17 +242,18 @@ function load() {
            if(vacations){
              var eventDiv5 = document.createElement('div');
              eventDiv5.addEventListener("click", function() {
-            //     $('#showalltasks').modal('show');
+               $('#remarksmodal').modal({backdrop: 'static', keyboard: false}) ;
                  event.stopPropagation();
-            //     $("#alltaskstitle").html("");
-            //     $("#alltaskslist").html("");
-            //     $("#alltaskstitle").append("All Tasks ("+ dayString2 +")");
-            //
-            //     $(dataResult[4]).each(function (index, item) {
-            //       $("#alltaskslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-            //       +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
-            //
-            //     });
+                $("#remarkstitle").html("");
+                $("#vguid").val(dataResult[5][0].vguid);
+
+                $("#remarkstitle").append("Vacation Remarks History & Action ("+ dayString2 +")");
+
+                 $(dataResult[6]).each(function (index, item) {
+                   $("#remarkslist").append("  <li class='list-group-item'>["+item.updatedon+"&nbsp;&nbsp;"
+                  +item.updatedat +"]&nbsp;&nbsp;"+item.vremark +"&nbsp;&nbsp;(<b>Remark by:</b> "+item.updatedby +" )</li>");
+
+                 });
 
             });
              eventDiv5.classList.add('vacationsstyle');
@@ -440,6 +441,55 @@ function initButtons() {
 
 
   });
+
+	$('.cancelooo').on('click', function() {
+  event.preventDefault();
+
+  var vguid = $('#vguid').val();
+  var vremark = $('#vremark').val();
+  var type= "5";
+  console.log("Vacation cancellation function");
+
+  $.ajax({
+    url: "updatetask1.php",
+    type: "POST",
+
+    data:    {
+          type: type,
+          vguid: vguid,
+          vremark: vremark
+
+        },
+        cache: false,
+        success: function(dataResult){
+          var dataResult = JSON.parse(dataResult);
+          console.log(dataResult);
+          console.log("Vacation Cacellation file loaded");
+          if(dataResult.statuscode=="s"){
+            	console. log("display s message");
+              $("#cancel_form")[0].reset();
+              $('.cancelooo').prop('disabled', true);
+              $("#cerror").hide();
+              $("#csuccess").show();
+              $('#csuccess').html(dataResult.description);
+
+            }
+          else{
+              console. log("display e message");
+              //$('.cancelooo').prop('disabled', true);
+              $("#csuccess").hide();
+              $("#cerror").show();
+              $('#cerror').html(dataResult.description);
+
+          }
+
+
+        }
+      });
+
+
+  });
+
 initButtons();
 load();
 });
