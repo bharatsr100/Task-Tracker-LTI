@@ -1,3 +1,15 @@
+$(document).ready(function() {
+
+  $('.close2').on('click',function(){
+	window.location.reload();
+
+	});
+	$('.close1').on('click',function(){
+	window.location.reload();
+	//window.location.href = 'mytask.php';
+	});
+
+
 
 let nav = 0;
 let clicked = null;
@@ -47,41 +59,40 @@ function load() {
   });
   const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
 
+
   document.getElementById('monthDisplay').innerText =
     `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
 
   calendar.innerHTML = '';
 
   for(let i = 1; i <= paddingDays + daysInMonth; i++) {
+
+
+    // const dayString4 = `${year}/${month2}/${day2}`;
+    // const dayString3 = `${day2}-${month2}-${year}`;
     const daySquare = document.createElement('div');
     daySquare.classList.add('day');
-    daySquare.addEventListener("click", function() {
-        $('#vacationplanmodal').modal('show');
 
-        $("#vacationplantitle").html("");
-
-        $("#vacationplantitle").append("Out of Office/Vacation Planner ("+ dayString2 +")");
-        //
-        // $(dataResult[0]).each(function (index, item) {
-        //   $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"</li>");
-        //
-        // });
-
-    });
 
 
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+
+
+
     var day2=`${i - paddingDays}`;
     var month2=`${month + 1}`;
+
+
     if(parseInt(day2)<10 && parseInt(day2)>=0){
       day2= "0"+day2;
       //day2= `0${i - paddingDays}`;
     }
     if(parseInt(month2)<"10"){
       month2="0"+month2;
-      month2=`0${month + 1}`;
+      //month2=`0${month + 1}`;
     }
     const dayString2 = `${year}-${month2}-${day2}`;
+
     //console.log(dayString2);
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
@@ -107,6 +118,7 @@ function load() {
           var alertprogress= dataResult[2].length;
           var dangerprogress= dataResult[3].length;
           var alltasks= dataResult[4].length;
+          var vacations= dataResult[5].length;
 
           //console.log("to do tasks: "+reslength);
           //console.log("safe tasks: "+safeprogress);
@@ -116,6 +128,7 @@ function load() {
             var eventDiv = document.createElement('div');
             eventDiv.addEventListener("click", function() {
                 $('#showstage1tasks').modal('show');
+                //$('#showstage1tasks').modal({backdrop: 'static', keyboard: false}) ;
                 event.stopPropagation();
                 $("#stage1title").html("");
                 $("#stage1list").html("");
@@ -144,7 +157,7 @@ function load() {
 
                 $(dataResult[1]).each(function (index, item) {
                   $("#safelist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
 
                 });
 
@@ -167,7 +180,7 @@ function load() {
 
                 $(dataResult[2]).each(function (index, item) {
                   $("#deadlineapplist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
 
                 });
 
@@ -190,7 +203,7 @@ function load() {
 
                 $(dataResult[3]).each(function (index, item) {
                   $("#deadlinepasslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
 
                 });
 
@@ -214,7 +227,7 @@ function load() {
 
                 $(dataResult[4]).each(function (index, item) {
                   $("#alltaskslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Planned End Date:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
 
                 });
 
@@ -226,6 +239,74 @@ function load() {
 
 
           }
+           if(vacations){
+             var eventDiv5 = document.createElement('div');
+             eventDiv5.addEventListener("click", function() {
+            //     $('#showalltasks').modal('show');
+                 event.stopPropagation();
+            //     $("#alltaskstitle").html("");
+            //     $("#alltaskslist").html("");
+            //     $("#alltaskstitle").append("All Tasks ("+ dayString2 +")");
+            //
+            //     $(dataResult[4]).each(function (index, item) {
+            //       $("#alltaskslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
+            //       +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+            //
+            //     });
+
+            });
+             eventDiv5.classList.add('vacationsstyle');
+
+             eventDiv5.innerText = "V";
+             daySquare.appendChild(eventDiv5);
+
+
+           }
+          daySquare.addEventListener("click", function() {
+
+              if(!vacations){
+              $('#vacationplanmodal').modal({backdrop: 'static', keyboard: false}) ;
+              $("#vacationplantitle").html("");
+              $("#vacationplantitle").append("Out of Office/Vacation Planner ");
+
+               $("#vstart").val(dayString2);
+               $("#vend").val(dayString2);
+
+
+                $('#vstart').prop('disabled', false);
+                $('#vend').prop('disabled', false);
+                $('#reason').prop('disabled', false);
+                $('#remark').prop('disabled', false);
+                $('#createooo').show();
+
+             }
+               else{
+                 $('#vacationplanmodal').modal('show');
+                 $(dataResult[5]).each(function (index, item) {
+                   $("#vstart").val(item.vstart);
+                   $("#vend").val(item.vend);
+                   $("#reason").val(item.vid);
+                   $("#remark").val(item.vremark);
+                   $("#errorooo").hide();
+
+                 });
+
+                 $('#vstart').prop('disabled', true);
+                 $('#vend').prop('disabled', true);
+                 $('#reason').prop('disabled', true);
+                 $('#remark').prop('disabled', true);
+                 $('#createooo').hide();
+                 $("#errorooo").show();
+                 $('#errorooo').html("Vacation already Planned");
+
+               }
+
+
+
+
+          });
+
+
 
 
         }
@@ -308,6 +389,57 @@ function initButtons() {
   document.getElementById('deleteButton').addEventListener('click', deleteEvent);
   document.getElementById('closeButton').addEventListener('click', closeModal);
 }
+	$('.createooo1').on('click', function() {
+    event.preventDefault();
 
+    var vstart = $('#vstart').val();
+    var vend = $('#vend').val();
+    var vid = $('#reason').val();
+    var vremark = $('#remark').val();
+    var type= "4";
+    console.log("Vacation create function");
+    //console.log(vstart+" "+vend+" "+vid+" "+vremark+" "+type);
+    $.ajax({
+      url: "updatetask1.php",
+      type: "POST",
+
+      data:    {
+            type: type,
+            vid: vid,
+            vstart: vstart,
+            vend: vend,
+            vremark: vremark
+
+          },
+          cache: false,
+          success: function(dataResult){
+
+   var dataResult = JSON.parse(dataResult);
+   console.log(dataResult);
+   console.log("Vacation Result loaded");
+ if(dataResult.statuscode=="s"){
+   	console. log("display s message");
+    $("#ooo_form")[0].reset();
+    $('.createooo1').prop('disabled', true);
+    $("#errorooo").hide();
+    $("#successooo").show();
+    $('#successooo').html(dataResult.description);
+ }
+ else{
+   console. log("display e message");
+   $('.createooo1').prop('disabled', true);
+   $("#successooo").hide();
+   $("#errorooo").show();
+   $('#errorooo').html(dataResult.description);
+
+ }
+
+          }
+        });
+
+
+
+  });
 initButtons();
 load();
+});

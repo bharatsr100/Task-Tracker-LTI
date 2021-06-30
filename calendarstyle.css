@@ -18,7 +18,7 @@ body {
 
 #header {
   padding: 10px;
-  color: #d36c6c;
+  color: #133A79;
   font-size: 26px;
   font-family: sans-serif;
   display: flex;
@@ -70,7 +70,7 @@ body {
 
 .day + #currentDay {
   background-color:#CBE1F9;
-  border: 2px solid black;
+  outline: 2px solid black;
 }
 .alltaskm{
   max-width: 50%;
@@ -119,10 +119,32 @@ body {
 .alltasksstyle:hover {
   border: 2px solid black;
 }
+.vacationsstyle {
+  position: absolute;
+  right:3px;
+  bottom:0px;
+
+  height: 18px;
+  width: 30px;
+
+  vertical-align: middle;
+  text-align: center;
+
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px;
+  background-color: #9A0EF7;
+  color: black;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.vacationsstyle:hover {
+  border: 2px solid black;
+}
 
 .eventprogress {
   position: absolute;
-  left:3px;
+  left:33px;
   bottom:44px;
 
   height: 18px;
@@ -147,7 +169,7 @@ body {
 
 .alertprogress {
   position: absolute;
-  left:3px;
+  left:33px;
   bottom:22px;
 
   height: 18px;
@@ -172,7 +194,7 @@ body {
 
 .dangerprogress {
   position: absolute;
-  left:3px;
+  left:33px;
   bottom:0px;
 
   height: 18px;

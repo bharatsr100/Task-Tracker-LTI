@@ -4,7 +4,8 @@ include 'database.php';
 if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
-
+// ######################################################################################################################
+// Function for deleting task steps
 if($_POST['type']=="1"){
 
   $arr2 = array (
@@ -58,6 +59,8 @@ else{
  //echo "<script type='text/javascript'>alert('Task Step deleted successfully'); window.location.href = 'taskstepsadd_del.php';</script>";
 
 }
+// ######################################################################################################################
+// Function for adding task steps
 else if($_POST['type']=="2"){
 
  $arr2 = array (
@@ -107,6 +110,8 @@ else if($_POST['type']=="2"){
  //exit();
 
 }
+// ######################################################################################################################
+// Function for loading events into calendar
 else if($_POST['type']=="3"){
 
   $pendingtasks=array();
@@ -114,6 +119,7 @@ else if($_POST['type']=="3"){
   $alertinprogressall=array();
   $dangerinprogressall=array();
   $allprogresstasks=array();
+  $allvacations=array();
 
   $alltasks=array();
   $uguid=$_SESSION['uguid'];
@@ -145,30 +151,23 @@ else if($_POST['type']=="3"){
               "description"=>"Error while loading tasks"
 
           );
-      $alertinprogress = array (
-              "date"=>$date,
-              "tid"=>"",
-              "createdon"=>"",
-              "tguid"=> "",
-              "tsequenceid"=> "",
-              "tstage"=>"",
-              "tstepdescription"=>"",
-              "statuscode"=>"e",
-              "description"=>"Error while loading tasks"
-
-          );
-        $dangerinprogress = array (
+        $vacation = array (
                 "date"=>$date,
-                "tid"=>"",
+                "vguid"=>"",
+                "vid"=>"",
+                "vremark"=>"",
+                "vstart"=>"",
+                "vend"=>"",
+
                 "createdon"=>"",
-                "tguid"=> "",
-                "tsequenceid"=> "",
-                "tstage"=>"",
-                "tstepdescription"=>"",
+                "createdat"=> "",
+                "createdby"=> "",
+
                 "statuscode"=>"e",
-                "description"=>"Error while loading tasks"
+                "description"=>"Error while loading vacations"
 
             );
+
 
 
 $sequence= 0;
@@ -232,15 +231,121 @@ while($row=mysqli_fetch_assoc($result2)){
  else $dangerinprogressall[]=$safeinprogress;
 
 }
+
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' ");
+// $n2= mysqli_num_rows($r2);
+while($row=mysqli_fetch_assoc($r2)){
+  $vacation['vguid']= $row['vguid'];
+  $vacation['vid']= $row['vid'];
+  $vacation['vremark']= $row['vremark'];
+  $vacation['vstart']= $row['vstart'];
+  $vacation['vend']= $row['vend'];
+  $vacation['createdon']= $row['createdon'];
+  $vacation['createdat']= $row['createdat'];
+  $vacation['createdby']= $row['createdby'];
+  $vacation['statuscode']= "s";
+  $vacation['description']= "vacation loaded successfully";
+
+  $allvacations[]=$vacation;
+
+
+}
+
+
 $alltasks[]=$safeinprogressall;
 $alltasks[]=$alertinprogressall;
 $alltasks[]=$dangerinprogressall;
 $alltasks[]=$allprogresstasks;
-
+$alltasks[]=$allvacations;
 
 
 echo json_encode($alltasks);
 mysqli_close($conn);
+
+}
+// ######################################################################################################################
+// Function for saving vacation plan
+else if($_POST['type']=="4"){
+
+  $arr2 = array (
+  "vguid"=> "",
+  "vid"=> "",
+  "vstart"=>"",
+  "vend"=>"",
+  "vremark"=>"",
+  "createdon"=> "",
+  "createdat"=> "",
+  "createdby"=> "",
+  "statuscode"=>"e",
+  "description"=>"Error occured while adding vacation plan"
+
+);
+
+date_default_timezone_set("Asia/Kolkata");
+$date1= date("Ymd");
+$time1= date("hsiv");
+$time2= date("his");
+$digits = 4;
+$ran= rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+$vguid=$date1.$time1.$ran;
+$uguid=$_SESSION['uguid'];
+
+$vid= $_POST['vid'];
+$viddefault=0;
+$vstart= $_POST['vstart'];
+$vend= $_POST['vend'];
+$vremark= $_POST['vremark'];
+
+$createdon=$date1;
+$createdat=$time2;
+$createdby=$uguid;
+$vsequenceid = "ooo";
+
+$arr2['vguid']="$vguid";
+$arr2['vid']="$vid";
+$arr2['vstart']="$vstart";
+$arr2['vend']="$vend";
+$arr2['vremark']="$vremark";
+$arr2['createdon']="$createdon";
+$arr2['createdat']="$createdat";
+$arr2['createdby']="$createdby";
+
+
+if($vid!="" && $vstart!="" && $vend!="" && $vremark!="" && $vid!=$viddefault ){
+
+  $r2= mysqli_query($conn,"select * from vtable where  (vstart <='$vstart' && vend>= '$vstart') || (vstart <='$vend' && vend>= '$vend')");
+  $n2= mysqli_num_rows($r2);
+  //$n2=1;
+
+if($n2){
+  $arr2['description']="Can not have more than one vacation plan on a particular date. Please check already existing vacation plans";
+
+  echo json_encode($arr2);
+  mysqli_close($conn);
+
+}
+else {  $r1=mysqli_query($conn, "INSERT INTO vtable (vguid,vid,vstart,vend,vremark,createdon,createdat,createdby)VALUES ('$vguid','$vid','$vstart','$vend','$vremark','$createdon','$createdat','$createdby')");
+  $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$createdon','$createdat','$createdby','$vremark')");
+
+  if($r1 && $r2)
+  {$arr2['statuscode']="s";
+  $arr2['description']="Vacation plannded Successfully";}
+  else{
+
+  }
+
+  echo json_encode($arr2);
+  mysqli_close($conn);
+}
+
+}
+else{
+  $arr2['statuscode']="e";
+  $arr2['description']="Please fill all the details to plan vacation";
+  echo json_encode($arr2);
+  mysqli_close($conn);
+}
 
 }
 

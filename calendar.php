@@ -179,7 +179,7 @@ header('location:index.php');
               <div class="modal-dialog alltaskm" role="document" >
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="alltaskstitle"></h5>All tasks</h5>
+                    <h5 class="modal-title" id="alltaskstitle">All tasks</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -199,14 +199,16 @@ header('location:index.php');
                 </div>
               </div>
             </div>
-          
+
+
               <!-- ######################################################################################################################################### -->
+              <!-- Vacation / Out of office modal -->
               <div class="modal fade" id="vacationplanmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document" >
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="vacationplantitle">Out of Office/Vacation Planner</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <button type="button" class="close close2" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
@@ -227,7 +229,7 @@ header('location:index.php');
                         <label  for="reason">Reason
                       </label>
                       <select class="form-control" id="reason" name="reason">
-                        <option selected="true" value=0>Select Reason</option>
+                        <option selected="true" value=0>--Select Reason--</option>
                           <option value="spld">Special Day</option>
                           <option value="sick">Sick Leave</option>
                           <option value="emeg">Emergency</option>
@@ -237,7 +239,7 @@ header('location:index.php');
                       </div>
 
                         <div  class="form-group">
-                          <label  for="remark">Remark:
+                          <label  for="remark">Remark
                         </label>
                           <input type="text" class="form-control" id="remark" placeholder="Remark" name="remark">
                         </div>
