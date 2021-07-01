@@ -268,13 +268,16 @@ else if($tstage==3){
       $astart=$date1;
       $aend="0000-00-00";
 
-      $r6= mysqli_query($conn,"select MIN(astart) AS min from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!='0000-00-00' ");
+      //select MIN(astart) AS min from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!=''
+      //$r6= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!='0000-00-00' order by astart desc LIMIT 1");
+      $r6= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!='0000-00-00' order by astart asc LIMIT 1");
+
       $n6= mysqli_num_rows($r6);
       if($n6){
-        $row6=mysqli_fetch_array($r6);
-        $astart=$row6['min'];
-      }
+        $row6=mysqli_fetch_assoc($r6);
+        $astart=$row6['astart'];
 
+      }
 
       //$r1= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && (astart!='0000-00-00' && astart!='' &astart!=NULL)");
       //$n1= mysqli_num_rows($r1);
