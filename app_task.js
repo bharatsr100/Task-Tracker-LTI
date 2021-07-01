@@ -588,7 +588,7 @@ $('.tstepstage').on('click',function(){
 		cache: false,
 		success:function(dataResult){
 		var dataResult = JSON.parse(dataResult);
-		console.log(dataResult);
+		//console.log(dataResult);
 		$("#tbodycomment5").empty();
 		$(dataResult).each(function (index, item) {
 
