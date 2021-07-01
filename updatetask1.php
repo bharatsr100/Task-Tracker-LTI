@@ -252,7 +252,7 @@ while($row=mysqli_fetch_assoc($result2)){
 }
 $vguid="";
 $action="cancel";
-$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action'");
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdby='$uguid'");
 $n2= mysqli_num_rows($r2);
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];

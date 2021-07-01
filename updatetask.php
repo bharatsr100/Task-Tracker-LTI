@@ -94,11 +94,15 @@ echo "<script type='text/javascript'>alert('UnSuccessful - Task Step Not Updated
 
 }
 else if(isset($_POST['savecomment5'])){
+  $uguid=$_SESSION['uguid'];
 
   $tguid= $_POST['tguid5'];
-
-  $uguid=$_SESSION['uguid'];
   $tsequenceid=$_POST['tsequenceid5'];
+  $efforth5=$_POST['efforth5'];
+  $effortm5=$_POST['effortm5'];
+  $comment= $_POST['comment5'];
+  $assignto=$_POST['userslist5'];
+  $tstage=$_POST['tstatus5'];
 
   date_default_timezone_set("Asia/Kolkata");
   $date1= date("Ymd");
@@ -109,14 +113,9 @@ else if(isset($_POST['savecomment5'])){
   $updatedby=$uguid;
 
 
-  $comment= $_POST['comment5'];
-  $assignto=$_POST['userslist5'];
-  //$tstagetext= $_POST['tstatus4'];
-  $tstage=$_POST['tstatus5'];
-
 
   if($assignto=="0" || $assignto=="") $assignto=$uguid;
-  //else $assignto=$_POST['userslist'];
+
 	$s5= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid='$tsequenceid'");
   $row = mysqli_fetch_assoc($s5);
 
@@ -124,57 +123,82 @@ else if(isset($_POST['savecomment5'])){
   $astart=$row["astart"];
   $pstart=$row["pstart"];
 
-  $r2="";
-  // if($tstagetext=="In Progress") $tstage=3;
-  // else if($tstagetext=="Completed") $tstage=4;
-  // else if($tstagetext=="On hold") $tstage=5;
-  // else if($tstagetext=="Awaiting") $tstage=6;
+  $prev_assignto=$row["assignto"];
+  $prev_tstage=$row['tstage'];
+  $prev_aeffort=$row['aeffort'];
+  $prev_astart=$row['astart'];
+  $prev_aend=$row['aend'];
 
-if(($pstart=="" || $pstart=="NULL" || $pstart=="0000-00-00" && $tstage==4) || ($pstart=="" || $pstart=="NULL" || $pstart=="0000-00-00" && $tstage==3) ){
+
+
+
+  if($prev_aeffort=="") $prev_aeffort=0;
+  if($efforth5=="") $efforth5=0;
+  if($effortm5=="") $effortm5=0;
+
+  $aeffort= $prev_aeffort+ 60*$efforth5+ $effortm5;
+
+
+  $r2="";
+  $r4="";
+
+  $s7= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid='0'");
+  $row7 = mysqli_fetch_assoc($s7);
+  $aeffortprev_main=$row7["aeffort"];
+  $aeffortnew_main=$aeffortprev_main+ 60*$efforth5+ $effortm5;
+
+  if($aeffortnew_main==0) $aeffortnew_main="";
+  $r4= mysqli_query($conn,"UPDATE tstep SET aeffort='$aeffortnew_main' WHERE tguid='$tguid' && tsequenceid='0'");
+
+
+  if($aeffort==0) $aeffort="";
+  if($assignto==0) $assignto=$prev_assignto;
+
+
+
+if(( $pstart=="0000-00-00" && $tstage==4) || ($pstart=="0000-00-00" && $tstage==3) ){
   echo "<script type='text/javascript'>alert('Task needs to be planned first'); window.location.href = 'mytask.php';</script>";
   exit("Task needs to be planned first");
 }
-if(($astart=="" || $astart=="NULL" || $astart=="0000-00-00") && $tstage==4){
+if(( $astart=="0000-00-00") && $tstage==4){
   echo "<script type='text/javascript'>alert('Task can not be completed before starting it'); window.location.href = 'mytask.php';</script>";
   exit("Task can not be completed before starting it");
-  // echo "<script type='text/javascript'>alert('Task can't be completed before starting it'); window.location.href = 'mytask.php';</script>";
-  // exit("Task can't be completed before starting it");
+
 }
+if($tstage==0 && $prev_tstage==2 && $aeffort!='') $tstage=3;
+if($tstage==0) $tstage=$prev_tstage;
+if($tstage==$prev_tstage){
 
+  $r2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto' ,aeffort='$aeffort' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
 
-if($tstage==0){
-  $r2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
 }
 else if($tstage==3){
       $astart=$date1;
-      $aend="";
+      $aend="0000-00-00";
 
-      $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',astart='$astart',assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+      $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',astart='$astart',assignto='$assignto',aeffort='$aeffort',aend='$aend' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
   }
   else if($tstage==4){
     $aend=$date1;
-    $diff = abs(strtotime($aend) - strtotime($astart));
 
-    $years = floor($diff / (365*60*60*24));
-    $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-    $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-
-    $aeffort= $days+1;
+    //$diff = abs(strtotime($aend) - strtotime($astart));
+    // $years = floor($diff / (365*60*60*24));
+    // $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+    // $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+    // $aeffort= $days+1;
 
     $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',aend='$aend',aeffort=$aeffort,assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
   }
 else{
-  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',assignto='$assignto',aeffort=$aeffort WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
 }
 
 
   $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
   $r3=mysqli_query($conn, $sql3);
 
-  //$r4=mysqli_query($conn,"UPDATE ttable SET createdby='$assignto' WHERE tguid='$tguid'");
 
-
-  if($r2 && $r3 ){
+  if($r2 && $r3 && $r4){
     echo "<script type='text/javascript'>alert('Updated Successfully !'); window.location.href = 'mytask.php';</script>";
   }
   else{
@@ -255,11 +279,12 @@ if($tstage==$prev_tstage){
   $astart=$date1;
   $aend="0000-00-00";
 
-  $r6= mysqli_query($conn,"select MIN(astart) AS min from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!='0000-00-00' ");
+  //$r6= mysqli_query($conn,"select MIN(astart) AS min from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!='0000-00-00' ");
+  $r6= mysqli_query($conn,"select * from tstep where tguid='$tguid' && tsequenceid!='$tsequenceid' && astart!='0000-00-00' order by astart asc LIMIT 1");
   $n6= mysqli_num_rows($r6);
   if($n6){
     $row6=mysqli_fetch_array($r6);
-    $astart=$row6['min'];
+    $astart=$row6['astart'];
   }
 
   $r2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto',aeffort='$aeffort',astart='$astart',aend='$aend' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");

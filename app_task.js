@@ -94,11 +94,30 @@ $('#taskdequencetable').DataTable({
 	let dropdown4 = $('#effortm');
 	//let dropdown = $('#assignto');
 	dropdown4.empty();
-	dropdown4.append('<option selected="true" value=0>--Minuites--</option>');
+	dropdown4.append('<option selected="true" value=0>--Minutes--</option>');
 	dropdown4.prop('selectedIndex', 0);
 
 	for(var i=1;i<61;i++){
 		dropdown4.append($('<option></option>').attr('value', i).text(i));
+	}
+
+	let dropdown7 = $('#efforth5');
+	//let dropdown = $('#assignto');
+	dropdown7.empty();
+	dropdown7.append('<option selected="true" value=0>--Hours--</option>');
+	dropdown7.prop('selectedIndex', 0);
+
+	for(var i=1;i<101;i++){
+		dropdown7.append($('<option></option>').attr('value', i).text(i));
+	}
+	let dropdown6 = $('#effortm5');
+	//let dropdown = $('#assignto');
+	dropdown6.empty();
+	dropdown6.append('<option selected="true" value=0>--Minutes--</option>');
+	dropdown6.prop('selectedIndex', 0);
+
+	for(var i=1;i<61;i++){
+		dropdown6.append($('<option></option>').attr('value', i).text(i));
 	}
 
 

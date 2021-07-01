@@ -58,10 +58,13 @@ $(document).ready(function() {
 					if(dataResult.statuscode=="s"){
 						$("#butsave").removeAttr("disabled");
 						$('#register_form').find('input:text').val('');
+						$("#error").hide();
 						$("#success").show();
 						$('#success').html('Registration successful !');
 					}
 					else {
+						$("#butsave").prop('disabled', false);
+						$("#success").hide();
 						$("#error").show();
 						$('#error').html(dataResult.description);
 					}

@@ -250,14 +250,14 @@ function load() {
                 $("#remarkslist").html("");
                 $("#cerror").hide();
                 $("#csuccess").hide();
-                
+
                 $("#vguid").val(dataResult[5][0].vguid);
 
                 $("#remarkstitle").append("Vacation Remarks History & Action ("+ dayString2 +")");
 
                  $(dataResult[6]).each(function (index, item) {
-                   $("#remarkslist").append("  <li class='list-group-item'>["+item.updatedon+"&nbsp;&nbsp;"
-                  +item.updatedat +"]&nbsp;&nbsp;"+item.vremark +"&nbsp;&nbsp;(<b>Remark by:</b> "+item.updatedby +" )</li>");
+                   $("#remarkslist").append("<li class='list-group-item'>["+ item.updatedon +";&nbsp;&nbsp;"
+                  +item.updatedat +";&nbsp;&nbsp;"+item.updatedby+ "]&nbsp;&nbsp;"+item.vremark +"</li>");
 
                  });
 

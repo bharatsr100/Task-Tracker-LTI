@@ -1143,6 +1143,19 @@ $arr = unserialize($_SESSION['arr']);
           </div>
 
           <div  class="form-group">
+            <label  > Effort given for this task step:
+          </label>
+          <br>
+            <select type="number" class="form-control" id="efforth5" placeholder="Hours" name="efforth5" style="max-width:35%;float:left;" >
+
+
+            </select>
+            <select type="number" class="form-control" id="effortm5" placeholder="Minuites" name="effortm5" style="max-width:35%;">
+
+            </select>
+          </div>
+
+          <div  class="form-group">
             <label  for="comment5">New Comment:
           </label>
             <input type="text" class="form-control" id="comment5" placeholder="New Comment" name="comment5">
