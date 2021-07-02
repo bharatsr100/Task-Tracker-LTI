@@ -29,7 +29,7 @@ header('location:index.php');
     </style>
   </head>
   <body>
-    <button onclick="location.href='mytask.php';" type="button" class="btn btn-primary" >Back</button>
+    <!-- <button onclick="location.href='mytask.php';" type="button" class="btn btn-primary" >Back</button> -->
     <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float: right;">Log Out</button>
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; margin-right:10px;">Home</button>
     <br><br><br>

@@ -3,19 +3,8 @@ session_start();
 if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
-$arr = unserialize($_SESSION['arr']);
 
-// if( isset($_POST['tguidstep']) ){
-// $tguidstep= $_POST['tguidstep'];
-//
-// $arr = array (
-//           "tguidstep"=> ""
-//         );
-// $arr['tguidstep']=$tguidstep;
-// $_SESSION['taskguid']=$arr['tguidstep'];
-//  echo json_encode($arr);
-//  exit;
-// }
+$allusers = unserialize($_SESSION['allusers']);
 ?>
 <html lang="en" dir="ltr">
   <head>
@@ -144,7 +133,7 @@ $arr = unserialize($_SESSION['arr']);
     <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float: right;">Log Out</button>
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; margin-right:10px;">Home</button>
     <br><br><br>
-    <h1 style="text-align:center;">My Tasks</h1>
+    <h1 style="text-align:center;">My Team Tasks</h1>
     <!-- Default dropleft button -->
 <div class="btn-group dropleft" style="float: right;">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -885,7 +874,11 @@ $arr = unserialize($_SESSION['arr']);
       </thead>
       <?php
   include 'database.php';
-  $uguid=$_SESSION['uguid'];
+
+   for($i = 0; $i < count($allusers); $i++) {
+   $uguid=$allusers[$i]["uguid"];
+
+  //$uguid=$_SESSION['uguid'];
   $sequence=0;
   $stagecompleted=4;
   //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
@@ -1023,10 +1016,11 @@ $arr = unserialize($_SESSION['arr']);
   }
 
 }
+}
 
   ?>
     </table>
-<br><br><br><h1 style="text-align:center;">My Task Steps</h1>
+<br><br><br><h1 style="text-align:center;">My Team Task Steps</h1>
 <!-- ######################################################################################################################################### -->
     <!--Edit Task Step Modal-->
     <div class="modal fade" id="editstaskstepmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1224,7 +1218,11 @@ $arr = unserialize($_SESSION['arr']);
   </thead>
   <?php
 include 'database.php';
-$uguid=$_SESSION['uguid'];
+
+
+ for($i = 0; $i < count($allusers); $i++) {
+ $uguid=$allusers[$i]["uguid"];
+//$uguid=$_SESSION['uguid'];
 $sequence="0";
 //$sql2= "SELECT ttable.createdon,ttable.tid,ttable.tdescription,tstep.pstart,tstep.pend,tstep.peffort,tstep.astart,tstep.aend,tstep.aeffort FROM ttable,tstep WHERE ttable.tguid=tstep.tguid";
 $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.assignto='$uguid'&&c.tsequenceid!='$sequence' && c.tstage!='4' order by p.tid";
@@ -1337,25 +1335,9 @@ else if($row['tstage']==6) {
   </tr>
   <?php
 }
+}
 ?>
 </table>
-<!-- <p id="demo"></p>
-
-<script>
-$(document).ready(function() {
-function stagefunction(stage){
-
-  var myObject = { 1: 'Planned', 2: 'In Progress', 3: 'On Hold' };
-  console.log(myObject);
-  return myObject[stage];
-
-
-}
-});
-document.getElementById("demo").innerHTML = stagefunction(2);
-</script> -->
-
-
 
 
 

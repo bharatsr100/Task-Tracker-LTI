@@ -175,10 +175,20 @@
 						"e_emailid"=> "",
 						"p_emailid"=> "",
 						"password"=> "",
+						"role"=>"",
+						"rr5"=>"",
+						"allusers"=>"",
 						"statuscode"=>"e",
 						"description"=>"User ID or Password is incorrect"
 
 				);
+
+		$users = array (
+						"uguid"=> "",
+						"uname"=> ""
+					);
+		$allusers= array ();
+
 
 				if($n1){
 					$row1 = mysqli_fetch_assoc($s1);
@@ -214,10 +224,37 @@
 						$rr4 = mysqli_fetch_assoc($tr4);
 						$arr['p_emailid']=$rr4["value"];
 
+						$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
+						$rr5 = mysqli_fetch_assoc($tr5);
+						if($rr5){
+							$arr['role']=$rr5["role"];
+						}
+
+						$arr['rr5']=$rr5;
+
+						if($arr['role']!=""){
+							$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+							while($rr6 = mysqli_fetch_assoc($tr6)){
+								$users['uguid']= $rr6['reportee'];
+								$users['uname']= $rr6['reportee_name'];
+
+								$allusers[]=$users;
+
+								$owner=$users['uguid'];
+								$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
+							}
+						}
+
+						$users['uguid']= $arr['uguid'];
+						$users['uname']= $arr['uname'];
+						$allusers[]=$users;
+
+						$arr['allusers']=$allusers;
+
+						$_SESSION['allusers']=serialize($allusers);
 						$_SESSION['arr']=serialize($arr);
 						$_SESSION['uguid']=$row['uguid'];
-
-
 						$_SESSION['uname']=$row["uname"];
 						echo json_encode($arr);
 
@@ -259,6 +296,34 @@
 					$rr4 = mysqli_fetch_assoc($tr4);
 					$arr['p_emailid']=$rr4["value"];
 
+					$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
+					$rr5 = mysqli_fetch_assoc($tr5);
+					if($rr5){
+						$arr['role']=$rr5["role"];
+					}
+					//$arr['tr5']=$tr5;
+					$arr['rr5']=$rr5;
+
+					if($arr['role']!=""){
+						$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+						while($rr6 = mysqli_fetch_assoc($tr6)){
+							$users['uguid']= $rr6['reportee'];
+							$users['uname']= $rr6['reportee_name'];
+
+							$allusers[]=$users;
+
+							$owner=$users['uguid'];
+							$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
+						}
+					}
+					$users['uguid']= $arr['uguid'];
+					$users['uname']= $arr['uname'];
+					$allusers[]=$users;
+
+					$arr['allusers']=$allusers;
+
+					$_SESSION['allusers']=serialize($allusers);
 					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
@@ -302,6 +367,34 @@
 					$rr4 = mysqli_fetch_assoc($tr4);
 					$arr['p_emailid']=$rr4["value"];
 
+					$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
+					$rr5 = mysqli_fetch_assoc($tr5);
+					if($rr5){
+						$arr['role']=$rr5["role"];
+					}
+
+					$arr['rr5']=$rr5;
+
+					if($arr['role']!=""){
+						$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+						while($rr6 = mysqli_fetch_assoc($tr6)){
+							$users['uguid']= $rr6['reportee'];
+							$users['uname']= $rr6['reportee_name'];
+
+							$allusers[]=$users;
+
+							$owner=$users['uguid'];
+							$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
+						}
+					}
+					$users['uguid']= $arr['uguid'];
+					$users['uname']= $arr['uname'];
+					$allusers[]=$users;
+
+					$arr['allusers']=$allusers;
+
+					$_SESSION['allusers']=serialize($allusers);
 					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
@@ -342,6 +435,36 @@
 					$rr4 = mysqli_fetch_assoc($tr4);
 					$arr['p_emailid']=$rr4["value"];
 
+					$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
+					$rr5 = mysqli_fetch_assoc($tr5);
+					if($rr5){
+						$arr['role']=$rr5["role"];
+					}
+
+
+					$arr['rr5']=$rr5;
+
+					if($arr['role']!=""){
+						$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+						while($rr6 = mysqli_fetch_assoc($tr6)){
+							$users['uguid']= $rr6['reportee'];
+							$users['uname']= $rr6['reportee_name'];
+
+
+							$allusers[]=$users;
+
+							$owner=$users['uguid'];
+							$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
+						}
+					}
+
+					$users['uguid']= $arr['uguid'];
+					$users['uname']= $arr['uname'];
+					$allusers[]=$users;
+					$arr['allusers']=$allusers;
+
+					$_SESSION['allusers']=serialize($allusers);
 					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];

@@ -4,6 +4,13 @@ if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 $arr = unserialize($_SESSION['arr']);
+$allusers = unserialize($_SESSION['allusers']);
+
+// for($i = 0; $i < count($allusers); $i++) {
+// echo $allusers[$i]["uguid"];
+// echo "<br>";
+// }
+$ulength= sizeof($allusers);
 $name="Hello  there!!";
 
 include 'database.php';
@@ -48,15 +55,30 @@ include 'database.php';
   // echo $name;
   // echo $arr['uguid'];
       echo $arr['uname'];
+      // if($ulength){
+      //   echo "<br><br>";
+      //   echo $ulength;
+      // }
       //
   ?> </h1>
 
 
   <br><br>
-  <button onclick="location.href='user_profile.php';" type="button" class="btn btn-secondary">User Profile</button>
-  <button onclick="location.href='mytask.php';" type="button" class="btn btn-secondary">My Task</button>
-  <button onclick="location.href='calendar.php';" type="button" class="btn btn-secondary">My Calendar</button>
-  <br><br><br>
+  <button onclick="location.href='user_profile.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">My Profile</button>
+  <button onclick="location.href='mytask.php';" type="button" class="btn btn-secondary" style="width:170px;">My Task</button>
+  <button onclick="location.href='calendar.php';" type="button" class="btn btn-secondary" style="width:170px;">My Calendar</button>
+  <br><br>
+  <?php
+  if($ulength>1){?>
+    <button onclick="location.href='myteamtask.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">My Team Task</button>
+    <button onclick="location.href='myteamcalendar.php';" type="button" class="btn btn-secondary" style="width:170px;">My Team Calendar</button>
+
+  <?php
+  }
+
+  ?>
+
+  <br><br>
 
 
 
