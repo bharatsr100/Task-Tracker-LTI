@@ -524,6 +524,11 @@ $arr = unserialize($_SESSION['arr']);
             <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
             </div>
             <form id="task_form1" name="form1" method="post" action="updatetask.php" >
+              <div  class="form-group">
+                <label  for="uguid1" style="display:none;">UGUID:
+              </label>
+                <input  type="text" class="form-control" id="uguid1" placeholder="UGUID" name="uguid1" style="display:none;">
+              </div>
             <div  class="form-group">
               <label style="display:none;" for="tguid">Task GUID:
             </label>
@@ -781,10 +786,16 @@ $arr = unserialize($_SESSION['arr']);
 
           <form id="comment_form" name="form1" action="updatetask.php" method="post" >
 
+
             <div  class="form-group">
               <label  for="tguid4" style="display:none;">TGUID:
             </label>
               <input type="text" class="form-control" id="tguid4" placeholder="TGUID" name="tguid4" style="display:none;">
+            </div>
+            <div  class="form-group">
+              <label  for="uguid_comment" style="display:none;">UGUID:
+            </label>
+              <input type="text" class="form-control" id="uguid_comment" placeholder="UGUID" name="uguid_comment" style="display:none;">
             </div>
             <div  class="form-group">
               <label  for="userslist">Assign to:
@@ -866,6 +877,7 @@ $arr = unserialize($_SESSION['arr']);
       <tr>
         <th scope="col">Task Creation Date</th>
         <th scope="col">Assigned to</th>
+        <th scope="col" style="display:none;">Assigned to (id)</th>
         <th scope="col" style="display:none;" >Task GUID</th>
         <th scope="col">Task ID</th>
         <th scope="col">Task Description</th>
@@ -917,6 +929,7 @@ $arr = unserialize($_SESSION['arr']);
          echo $row1['uname'];
 
          ?></th>
+         <td  style="display:none;"><?php echo $row['assignto']; ?></td>
         <td style="display:none;" ><?php echo $row['tguid']; ?></td>
 
         <td><div style="display:none;"><?php echo $row['tid']; ?></div><button  type="button" class="btn btn-success editbtn" style="color: black;font-weight: 700;background-color:
@@ -1042,6 +1055,11 @@ $arr = unserialize($_SESSION['arr']);
             <div class="alert alert-danger alert-dismissible" id="error3" style="display:none;">
             </div>
             <form id="task_step_form1" name="form2" method="post" action="updatetask.php" >
+              <div  class="form-group">
+                <label  for="uguid3" style="display:none;">UGUID:
+              </label>
+                <input  type="text" class="form-control" id="uguid3" placeholder="UGUID" name="uguid3" style="display:none;">
+              </div>
             <div  class="form-group">
               <label  for="tguid3"style="display:none;">Task GUID:
             </label>
@@ -1108,11 +1126,15 @@ $arr = unserialize($_SESSION['arr']);
           <br>
 
         <form id="comment_form2" name="form5" action="updatetask.php" method="post" >
-
+          <div  class="form-group">
+            <label  for="uguid_comment5" style="display:none;">UGUID:
+          </label>
+            <input type="text" class="form-control" id="uguid_comment5" placeholder="UGUID" name="uguid_comment5" style="display:none;">
+          </div>
           <div  class="form-group">
             <label  for="tguid5" style="display:none;">Task GUID:
           </label>
-            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5"style="display:none;">
+            <input type="text" class="form-control" id="tguid5" placeholder="Task GUID" name="tguid5" style="display:none;">
           </div>
           <div  class="form-group">
             <label  for="tsequenceid5" >Task Sequence ID:
@@ -1202,8 +1224,9 @@ $arr = unserialize($_SESSION['arr']);
   <thead>
   <tr>
     <th scope="col">Created On</th>
+    <th scope="col">Assigned to</th>
+    <th scope="col" style="display:none;">Assigned to (id)</th>
     <th scope="col" style="display:none;">Task GUID</th>
-
 
     <th scope="col">Task ID</th>
       <th scope="col" style="display:none;">Task Sequence ID</th>
@@ -1237,6 +1260,14 @@ while($row=mysqli_fetch_assoc($result))
 ?>
   <tr>
     <th scope="row"  style="font-weight:400;"><?php echo $row['createdon']; ?></th>
+    <td scope="row" style="font-weight:400;"><?php
+     $user= $row['assignto'];
+     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$user'");
+     $row1= mysqli_fetch_assoc($seq);
+     echo $row1['uname'];
+     ?></td>
+
+    <td style="display:none;"><?php echo $uguid; ?></td>
     <td style="display:none;"><?php echo $row['tguid']; ?></td>
 
 

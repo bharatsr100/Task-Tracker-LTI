@@ -16,15 +16,15 @@ $('#taskdequencetable').DataTable({
 	 "columnDefs": [
 	   // { type: 'num', targets: 3 },
 			{
-            targets: [ 2 ],
-            orderData: [ 11, 3 ]
+            targets: [ 4 ],
+            orderData: [ 13, 5 ]
         },
 				{
-							targets: [ 4 ],
-							orderData: [ 3 ]
+							targets: [ 6 ],
+							orderData: [ 5 ]
 					}
 	 ],
-	 "order": [[2,"asc"]]
+	 "order": [[4,"asc"]]
 
 });
 
@@ -139,8 +139,8 @@ $('#taskdequencetable').DataTable({
 	  var data=$tr.children("td").map(function(){
 	  return $(this).text();
 	  }).get();
-		var tguidstep23= data[0];
-		var taskid23= data[1].trim();
+		var tguidstep23= data[1];
+		var taskid23= data[2].trim();
 		sessionStorage.setItem("taskid23", taskid23);
 		sessionStorage.setItem("tguidstep23", tguidstep23);
 		location.href = "taskstepsadd_del.php";
@@ -568,13 +568,14 @@ $('.tstepstage').on('click',function(){
 			return $(this).text();
 			}).get();
 
-			$('#tguid5').val(data[0]);
-			$('#tsequenceid5').val(data[2]);
+			$('#uguid_comment5').val(data[1]);
+			$('#tguid5').val(data[2]);
+			$('#tsequenceid5').val(data[4]);
 
 		  $('#commenttaskmodal5').modal('show');
 
-			var tguids= data[0];
-			var tsequenceids= data[2];
+			var tguids= data[2];
+			var tsequenceids= data[4];
 			$.ajax({
 		url: "showcomment.php",
 		type:"POST",
@@ -617,23 +618,24 @@ $('.tstepstage').on('click',function(){
 	  return $(this).text();
 	  }).get();
 
-		var tidd= data[1].trim();
+		var tidd= data[2].trim();
 		var l= tidd.length;
 		var tids = tidd.substring(0, l/2);
 		tids =tids.trim();
 
 		console.log(data[0]);
-		var pstart=data[4];
-		var pend=data[5];
-		var astart=data[7];
-		var aend=data[9];
-		var tid1= data[1];
+		var pstart=data[5];
+		var pend=data[6];
+		var astart=data[8];
+		var aend=data[10];
+		var tid1= data[2];
 
-	  $('#tguid4').val(data[0]);
+		$('#uguid_comment').val(data[0]);
+	  $('#tguid4').val(data[1]);
 	  $('#commenttaskmodal').modal('show');
 			$('#commenttaskhead').html("Comment History for : "+tids);
 	//console.log(data[0]);
-		var tguid= data[0];
+		var tguid= data[1];
 		//console.log(tguidstep);
 	        $.ajax({
 	      url: "showcomment.php",
@@ -674,25 +676,26 @@ $('.stpedit12').on('click',function(){
 	}).get();
 
 
-			var tidd= data[1].trim();
+			var tidd= data[3].trim();
 			var l= tidd.length;
 			var tids = tidd.substring(0, l/2);
 			tids =tids.trim();
 
 	//console.log(data);
-	if(data[4]!=""){
+	if(data[6]!=""){
 		$('#editstaskstepmodal').modal('show');
-		$('#tsequenceid3').val(data[2]);
-		$('#tguid3').val(data[0]);
+		$('#uguid3').val(data[1]);
+		$('#tsequenceid3').val(data[4]);
+		$('#tguid3').val(data[2]);
 		$('#tid3').val(tids);
 		// var s = data[3].replace(/\d+/g, '');
 		//s.replace(/\d+/g, '');
-		$('#tdescription3').val(data[3]);
+		$('#tdescription3').val(data[5]);
 		//data[3]
 
-		$("#pstart3").val(data[4]);
-		$("#pend3").val(data[5]);
-		$("#peffort3").val(data[6]);
+		$("#pstart3").val(data[6]);
+		$("#pend3").val(data[7]);
+		$("#peffort3").val(data[8]);
 
 		$("#edittaskstepbtn").hide();
 
@@ -718,11 +721,12 @@ $('.stpedit12').on('click',function(){
 
 		$('#editstaskstepmodal').modal('show');
 		 $("#error3").hide();
-		 $('#tsequenceid3').val(data[2]);
-		 $('#tguid3').val(data[0]);
+		 $('#tsequenceid3').val(data[4]);
+		 $('#uguid3').val(data[1]);
+		 $('#tguid3').val(data[2]);
 		 $('#tid3').val(tids);
 		 //var s = data[3];
-		 var s = data[3].replace(/\d+/g, '');
+		 var s = data[5].replace(/\d+/g, '');
 		 $('#tdescription3').val(s);
 		 //data[3]
 
@@ -757,22 +761,24 @@ $('.stpedit12').on('click',function(){
 			return $(this).text();
 			}).get();
 
-			var tidd= data[1].trim();
+			var tidd= data[2].trim();
 			var l= tidd.length;
 			var tids = tidd.substring(0, l/2);
 			tids =tids.trim();
 
-			if(data[4]!=""){
+			if(data[5]!=""){
+
 				$('#editmodal').modal('show');
-				$('#tguid1').val(data[0]);
-				$('#tdescription1').val(data[2]);
-				$('#ttype1').val(data[3]);
+				$('#uguid1').val(data[0]);
+				$('#tguid1').val(data[1]);
+				$('#tdescription1').val(data[3]);
+				$('#ttype1').val(data[4]);
 
 				//data[1].trim()
 				$('#tid1').val(tids);
-				$("#pstart1").val(data[4]);
-				$("#pend1").val(data[5]);
-				$("#peffort1").val(data[6]);
+				$("#pstart1").val(data[5]);
+				$("#pend1").val(data[6]);
+				$("#peffort1").val(data[7]);
 
 				$("#edittaskbtn").hide();
 
@@ -799,11 +805,12 @@ $('.stpedit12').on('click',function(){
 			 else{
 
 				 $('#editmodal').modal('show');
+				 $('#uguid1').val(data[0]);
 				 $("#error").hide();
-				 $('#tguid1').val(data[0]);
+				 $('#tguid1').val(data[1]);
 				 $('#tid1').val(tids);
-				 $('#tdescription1').val(data[2]);
-				 $('#ttype1').val(data[3]);
+				 $('#tdescription1').val(data[3]);
+				 $('#ttype1').val(data[4]);
 				 $("#pstart1").val("");
 				 $("#pend1").val("");
 				 $("#peffort1").val("");

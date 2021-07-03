@@ -11,7 +11,7 @@ if(isset($_POST['edittaskbtn'])){
 
 
  //echo "<script type='text/javascript'>alert('Hello Just Testing'); window.location.href = 'mytask.php';</script>";
-$uguid=$_SESSION['uguid'];
+$uguid=$_POST['uguid1'];
 $tguid= $_POST['tguid1'];
 $tid= $_POST['tid1'];
 $tdescription= $_POST['tdescription1'];
@@ -20,7 +20,11 @@ $assignto= $_POST['assignto1'];
 $pstart= $_POST['pstart1'];
 $pend= $_POST['pend1'];
 $peffort= $_POST['peffort1'];
-$tstage=2;
+
+$tstage;
+
+if($pstart=="") $tstage=1;
+else $tstage=2;
 
 $s3= mysqli_query($conn,"select * from ttable where tid= '$tid' && tguid!='$tguid' && createdby='$uguid'");
 $n3= mysqli_num_rows($s3);
@@ -54,7 +58,7 @@ else if(isset($_POST['edittaskstepbtn'])){
 
 
  //echo "<script type='text/javascript'>alert('Hello Just Testing'); window.location.href = 'mytask.php';</script>";
-$uguid=$_SESSION['uguid'];
+$uguid=$_POST['uguid3'];
 $tguid= $_POST['tguid3'];
 $tsequenceid= $_POST['tsequenceid3'];
 $tstage=2;
@@ -94,8 +98,8 @@ echo "<script type='text/javascript'>alert('UnSuccessful - Task Step Not Updated
 
 }
 else if(isset($_POST['savecomment5'])){
+  //$uguid=$_POST['uguid_comment5'];
   $uguid=$_SESSION['uguid'];
-
   $tguid= $_POST['tguid5'];
   $tsequenceid=$_POST['tsequenceid5'];
   $efforth5=$_POST['efforth5'];
@@ -263,7 +267,8 @@ else if(isset($_POST['savecomment'])){
   $efforth=$_POST['efforth'];
   $effortm=$_POST['effortm'];
 
-  $uguid=$_SESSION['uguid'];
+//$uguid=$_POST['uguid_comment'];
+$uguid=$_SESSION['uguid'];
   $tsequenceid=0;
 
   date_default_timezone_set("Asia/Kolkata");
