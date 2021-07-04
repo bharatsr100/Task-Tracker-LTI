@@ -232,19 +232,29 @@
 
 						$arr['rr5']=$rr5;
 
-						if($arr['role']!=""){
-							$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
-							while($rr6 = mysqli_fetch_assoc($tr6)){
+						function traversetree($conn,$tr6,$users,&$allusers){
+							$n1=mysqli_num_rows($tr6);
+							if($n1==0) return;
+
+							while($rr6=mysqli_fetch_assoc($tr6)){
+								$newowner=$rr6["reportee"];
+								$tr= mysqli_query($conn,"select * from user_map where owner='$newowner'");
+
+								traversetree($conn,$tr,$users,$allusers);
+
 								$users['uguid']= $rr6['reportee'];
 								$users['uname']= $rr6['reportee_name'];
-
 								$allusers[]=$users;
 
-								$owner=$users['uguid'];
-								$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
 
 							}
+
+
 						}
+						$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+						traversetree($conn,$tr6,$users,$allusers);
+
 
 						$users['uguid']= $arr['uguid'];
 						$users['uname']= $arr['uname'];
@@ -304,49 +314,54 @@
 					//$arr['tr5']=$tr5;
 					$arr['rr5']=$rr5;
 
-function traversetree($conn,$owner,$users,&$allusers){
+// function traversetree($conn,$owner,$users,&$allusers){
+//
+// 	$ownerlist = array ();
+// 	array_push($ownerlist,$owner);
+//  	while(!empty($ownerlist)){
+//
+// 		 $owner1=$ownerlist[0];
+// 		 $sql1= mysqli_query($conn,"select * from user_map where owner='$owner1'");
+//
+// 		while($rr7=  mysqli_fetch_assoc($sql1))
+//
+// {		$users['uguid']=$rr7['reportee'];
+// 		$users['uname']=$rr7['reportee_name'];
+// 		array_push($ownerlist,$users['uguid']);
+// 		$allusers[]=$users;}
+//
+//
+// 		array_shift($ownerlist);
+//
+//
+// 	}
+//
+// }
+//traversetree($conn,$uguid,$users,$allusers);
 
-	$ownerlist = array ();
-	array_push($ownerlist,$owner);
- 	while(!empty($ownerlist)){
+function traversetree($conn,$tr6,$users,&$allusers){
+	$n1=mysqli_num_rows($tr6);
+	if($n1==0) return;
 
-		 $owner1=$ownerlist[0];
-		 $sql1= mysqli_query($conn,"select * from user_map where owner='$owner1'");
+	while($rr6=mysqli_fetch_assoc($tr6)){
+		$newowner=$rr6["reportee"];
+		$tr= mysqli_query($conn,"select * from user_map where owner='$newowner'");
 
-		while($rr7=  mysqli_fetch_assoc($sql1))
+		traversetree($conn,$tr,$users,$allusers);
 
-{		$users['uguid']=$rr7['reportee'];
-		$users['uname']=$rr7['reportee_name'];
-		array_push($ownerlist,$users['uguid']);
-		$allusers[]=$users;}
+		$users['uguid']= $rr6['reportee'];
+		$users['uname']= $rr6['reportee_name'];
+		$allusers[]=$users;
 
-
-		array_shift($ownerlist);
 
 
 	}
 
 
-
 }
-//$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
-traversetree($conn,$uguid,$users,$allusers);
+$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+traversetree($conn,$tr6,$users,$allusers);
 
-					// if($arr['role']!=""){
-					// 	$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
-					// 	while($rr6 = mysqli_fetch_assoc($tr6)){
-					// 		$users['uguid']= $rr6['reportee'];
-					// 		$users['uname']= $rr6['reportee_name'];
-					//
-					// 		$allusers[]=$users;
-					//
-					// 		$owner=$users['uguid'];
-					// 		$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
-					//
-					// 	}
-					//
-					//
-					// }
 					$users['uguid']= $arr['uguid'];
 					$users['uname']= $arr['uname'];
 					$allusers[]=$users;
@@ -405,19 +420,29 @@ traversetree($conn,$uguid,$users,$allusers);
 
 					$arr['rr5']=$rr5;
 
-					if($arr['role']!=""){
-						$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
-						while($rr6 = mysqli_fetch_assoc($tr6)){
+					function traversetree($conn,$tr6,$users,&$allusers){
+						$n1=mysqli_num_rows($tr6);
+						if($n1==0) return;
+
+						while($rr6=mysqli_fetch_assoc($tr6)){
+							$newowner=$rr6["reportee"];
+							$tr= mysqli_query($conn,"select * from user_map where owner='$newowner'");
+
+							traversetree($conn,$tr,$users,$allusers);
+
 							$users['uguid']= $rr6['reportee'];
 							$users['uname']= $rr6['reportee_name'];
-
 							$allusers[]=$users;
 
-							$owner=$users['uguid'];
-							$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
 
 						}
+
+
 					}
+					$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+					traversetree($conn,$tr6,$users,$allusers);
+
 					$users['uguid']= $arr['uguid'];
 					$users['uname']= $arr['uname'];
 					$allusers[]=$users;
@@ -474,20 +499,28 @@ traversetree($conn,$uguid,$users,$allusers);
 
 					$arr['rr5']=$rr5;
 
-					if($arr['role']!=""){
-						$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
-						while($rr6 = mysqli_fetch_assoc($tr6)){
+					function traversetree($conn,$tr6,$users,&$allusers){
+						$n1=mysqli_num_rows($tr6);
+						if($n1==0) return;
+
+						while($rr6=mysqli_fetch_assoc($tr6)){
+							$newowner=$rr6["reportee"];
+							$tr= mysqli_query($conn,"select * from user_map where owner='$newowner'");
+
+							traversetree($conn,$tr,$users,$allusers);
+
 							$users['uguid']= $rr6['reportee'];
 							$users['uname']= $rr6['reportee_name'];
-
-
 							$allusers[]=$users;
 
-							$owner=$users['uguid'];
-							$tr6= mysqli_query($conn,"select * from user_map where owner='$owner'");
+
 
 						}
+
+
 					}
+					$tr6= mysqli_query($conn,"select * from user_map where owner='$uguid'");
+					traversetree($conn,$tr6,$users,$allusers);
 
 					$users['uguid']= $arr['uguid'];
 					$users['uname']= $arr['uname'];

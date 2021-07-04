@@ -57,7 +57,8 @@ $(document).ready(function() {
           //console.log(dataResult);
 					if(dataResult.statuscode=="s"){
 						$("#butsave").removeAttr("disabled");
-						$('#register_form').find('input:text').val('');
+						//$('#register_form').find('input:text').val('');
+						$("#register_form")[0].reset();
 						$("#error").hide();
 						$("#success").show();
 						$('#success').html('Registration successful !');

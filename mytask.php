@@ -523,7 +523,7 @@ $arr = unserialize($_SESSION['arr']);
           <div class="modal-body">
             <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
             </div>
-            <form id="task_form1" name="form1" method="post" action="updatetask.php" >
+            <form id="task_edit_form" name="form1" method="get"  >
               <div  class="form-group">
                 <label  for="uguid1" style="display:none;">UGUID:
               </label>
@@ -551,9 +551,9 @@ $arr = unserialize($_SESSION['arr']);
             </div>
 
             <div  class="form-group">
-              <label  for="assignto1">Assign to
+              <label  for="assignto1"  style="display:none;">Assign to
             </label>
-              <input type="text" class="form-control" id="assignto1" placeholder="Assigned to" name="assignto1">
+              <input type="text" class="form-control" id="assignto1" placeholder="Assigned to" name="assignto1"  style="display:none;">
             </div>
             <div  class="form-group">
               <label  for="pstart1">Planned Start
@@ -571,9 +571,15 @@ $arr = unserialize($_SESSION['arr']);
               <input type="text" class="form-control" id="peffort1" placeholder="Planned Effort" name="peffort1">
             </div>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="edittaskbtn" name="edittaskbtn" >Save</button>
+            <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary edittaskbtn" id="edittaskbtn" name="edittaskbtn" >Save</button>
           </form>
+          <div class="alert alert-success alert-dismissible" id="successedittask" style="display:none;" >
+
+          </div>
+          <div class="alert alert-danger alert-dismissible" id="erroredittask" style="display:none;">
+
+          </div>
 
           </div>
           <div class="modal-footer">
@@ -784,7 +790,7 @@ $arr = unserialize($_SESSION['arr']);
             </div>
             <br>
 
-          <form id="comment_form" name="form1" action="updatetask.php" method="post" >
+          <form id="save_comment_form" name="save_comment_form" method="get" >
 
 
             <div  class="form-group">
@@ -839,9 +845,15 @@ $arr = unserialize($_SESSION['arr']);
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="savecomment" name="savecomment">Save Comment</button>
+            <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary savecomment" id="savecomment" name="savecomment">Save Comment</button>
           </form>
+          <div class="alert alert-success alert-dismissible" id="successcommenttask" style="display:none;" >
+
+          </div>
+          <div class="alert alert-danger alert-dismissible" id="errorcommenttask" style="display:none;">
+
+          </div
           <br><br><br>
           <center><h1 id="commenttaskhead">Comment History</h1>
           <br><br>
@@ -1054,7 +1066,7 @@ $arr = unserialize($_SESSION['arr']);
           <div class="modal-body">
             <div class="alert alert-danger alert-dismissible" id="error3" style="display:none;">
             </div>
-            <form id="task_step_form1" name="form2" method="post" action="updatetask.php" >
+            <form id="task_step_form1" name="form2" method="get" >
               <div  class="form-group">
                 <label  for="uguid3" style="display:none;">UGUID:
               </label>
@@ -1098,9 +1110,15 @@ $arr = unserialize($_SESSION['arr']);
               <input type="text" class="form-control" id="peffort3" placeholder="Planned Effort" name="peffort3">
             </div>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="edittaskstepbtn" name="edittaskstepbtn" >Save</button>
+            <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary edittaskstepbtn" id="edittaskstepbtn" name="edittaskstepbtn" >Save</button>
           </form>
+          <div class="alert alert-success alert-dismissible" id="successedittaskstep" style="display:none;" >
+
+          </div>
+          <div class="alert alert-danger alert-dismissible" id="erroredittaskstep" style="display:none;">
+
+          </div>
 
           </div>
           <div class="modal-footer">
@@ -1125,7 +1143,7 @@ $arr = unserialize($_SESSION['arr']);
           </div>
           <br>
 
-        <form id="comment_form2" name="form5" action="updatetask.php" method="post" >
+        <form id="comment_form2" name="comment_form2" method="get" >
           <div  class="form-group">
             <label  for="uguid_comment5" style="display:none;">UGUID:
           </label>
@@ -1185,11 +1203,15 @@ $arr = unserialize($_SESSION['arr']);
 
           <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
           <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="savecomment5" name="savecomment5">Save Comment</button>
+        <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary savecomment5" id="savecomment5" name="savecomment5">Save Comment</button>
         </form>
+        <div class="alert alert-success alert-dismissible" id="successcommentstep" style="display:none;" >
+        </div>
+        <div class="alert alert-danger alert-dismissible" id="errorcommentstep" style="display:none;">
+        </div>
         <br><br><br>
-        <center><h1 >Step Task Comment History</h1>
+        <center><h1 id="headercommentstep_table">Step Task Comment History</h1>
         <br><br>
         <div id="tcomments5" style="display:contents">
         <table class="table table-hover" id="commenttask5">
