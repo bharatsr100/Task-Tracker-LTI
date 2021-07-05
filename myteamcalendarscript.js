@@ -112,9 +112,9 @@ function load() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-           console.log("Result for "+ dayString2);
-           console.log(dataResult);
-           console.log("Result loaded");
+           // console.log("Result for "+ dayString2);
+           // console.log(dataResult);
+           // console.log("Result loaded");
           var reslength= dataResult[0].length;
           var safeprogress= dataResult[1].length;
           var alertprogress= dataResult[2].length;
@@ -251,39 +251,37 @@ function load() {
                 $("#cerror").hide();
                 $("#csuccess").hide();
 
-                $("#vguid").val(dataResult[5][0].vguid);
+                // $("#vguid").val(dataResult[5][0].vguid);
 
-                $("#remarkstitle").append("Vacation Remarks History & Action ("+ dayString2 +")");
+                $("#remarkstitle").append("Team Vacation Remarks History ("+ dayString2 +")");
 
                  $(dataResult[6]).each(function (index, item) {
                    $("#remarkslist").append("<li class='list-group-item'>["+ item.updatedon +";&nbsp;&nbsp;"
-                  +item.updatedat +";&nbsp;&nbsp;"+item.updatedby+ "]&nbsp;&nbsp;"+item.vremark +"</li>");
+                  +item.updatedat +";&nbsp;&nbsp;vacation for: <b>"+item.createdfor+ "</b>;&nbsp;&nbsp;remark by: <b>"+item.updatedby+"</b>]&nbsp;&nbsp;"+item.vremark +"</li>");
 
                  });
 
             });
              eventDiv5.classList.add('vacationsstyle');
 
-             eventDiv5.innerText = "V";
+             eventDiv5.innerText = vacations;
              daySquare.appendChild(eventDiv5);
 
 
            }
           daySquare.addEventListener("click", function() {
 
-              if(!vacations){
               $('#vacationplanmodal').modal({backdrop: 'static', keyboard: false}) ;
               $("#vacationplantitle").html("");
-              $("#vacationplantitle").append("Out of Office/Vacation Planner ");
+              $("#vacationplantitle").append("Team Vacation Planner ");
 
                $("#vstart").val(dayString2);
                $("#vend").val(dayString2);
                $("#reason").val(0);
+               $("#createdfor").val(0);
                $("#remark").val("");
                $("#errorooo").hide();
                $("#successooo").hide();
-
-
 
 
                 $('#vstart').prop('disabled', false);
@@ -291,29 +289,9 @@ function load() {
                 $('#reason').prop('disabled', false);
                 $('#remark').prop('disabled', false);
                 $('#createooo').show();
+                $('#createooo').prop('disabled', false);
 
-             }
-               else{
-                 $('#vacationplanmodal').modal('show');
-                 $(dataResult[5]).each(function (index, item) {
-                   $("#vstart").val(item.vstart);
-                   $("#vend").val(item.vend);
-                   $("#reason").val(item.vid);
-                   $("#remark").val(item.vremark);
-                   //$("#errorooo").hide();
 
-                 });
-
-                 $('#vstart').prop('disabled', true);
-                 $('#vend').prop('disabled', true);
-                 $('#reason').prop('disabled', true);
-                 $('#remark').prop('disabled', true);
-                 $('#createooo').hide();
-                 $("#successooo").hide();
-                 $("#errorooo").show();
-                 $('#errorooo').html("Vacation already Planned");
-
-               }
 
 
 
@@ -410,9 +388,10 @@ function initButtons() {
     var vend = $('#vend').val();
     var vid = $('#reason').val();
     var vremark = $('#remark').val();
-    var type= "4";
-    console.log("Vacation create function");
-    //console.log(vstart+" "+vend+" "+vid+" "+vremark+" "+type);
+    var createdfor= $('#createdfor').val();
+    var type= "12";
+    // console.log("Vacation create function");
+    // console.log(vstart+" "+vend+" "+vid+" "+vremark+" "+type+" "+createdfor);
     $.ajax({
       url: "updatetask1.php",
       type: "POST",
@@ -422,6 +401,7 @@ function initButtons() {
             vid: vid,
             vstart: vstart,
             vend: vend,
+            createdfor: createdfor,
             vremark: vremark
 
           },
@@ -429,8 +409,8 @@ function initButtons() {
           success: function(dataResult){
 
    var dataResult = JSON.parse(dataResult);
-   console.log(dataResult);
-   console.log("Vacation Result loaded");
+   //console.log(dataResult);
+   // console.log("Vacation Result loaded");
  if(dataResult.statuscode=="s"){
    	console. log("display s message");
     $("#ooo_form")[0].reset();
@@ -455,53 +435,52 @@ function initButtons() {
 
   });
 
-	$('.cancelooo').on('click', function() {
-  event.preventDefault();
-
-  var vguid = $('#vguid').val();
-  var vremark = $('#vremark').val();
-  var type= "5";
-  console.log("Vacation cancellation function");
-
-  $.ajax({
-    url: "updatetask1.php",
-    type: "POST",
-
-    data:    {
-          type: type,
-          vguid: vguid,
-          vremark: vremark
-
-        },
-        cache: false,
-        success: function(dataResult){
-          var dataResult = JSON.parse(dataResult);
-          console.log(dataResult);
-          console.log("Vacation Cacellation file loaded");
-          if(dataResult.statuscode=="s"){
-            	console. log("display s message");
-              $("#cancel_form")[0].reset();
-              $('.cancelooo').prop('disabled', true);
-              $("#cerror").hide();
-              $("#csuccess").show();
-              $('#csuccess').html(dataResult.description);
-
-            }
-          else{
-              console. log("display e message");
-              //$('.cancelooo').prop('disabled', true);
-              $("#csuccess").hide();
-              $("#cerror").show();
-              $('#cerror').html(dataResult.description);
-
-          }
-
-
-        }
-      });
-
-
-  });
+	// $('.cancelooo').on('click', function() {
+  // event.preventDefault();
+  //
+  // var vguid = $('#vguid').val();
+  // var vremark = $('#vremark').val();
+  // var type= "5";
+  // console.log("Vacation cancellation function");
+  //
+  // $.ajax({
+  //   url: "updatetask1.php",
+  //   type: "POST",
+  //
+  //   data:    {
+  //         type: type,
+  //         vguid: vguid,
+  //         vremark: vremark
+  //
+  //       },
+  //       cache: false,
+  //       success: function(dataResult){
+  //         var dataResult = JSON.parse(dataResult);
+  //         console.log(dataResult);
+  //         console.log("Vacation Cacellation file loaded");
+  //         if(dataResult.statuscode=="s"){
+  //           	console. log("display s message");
+  //             $("#cancel_form")[0].reset();
+  //             $('.cancelooo').prop('disabled', true);
+  //             $("#cerror").hide();
+  //             $("#csuccess").show();
+  //             $('#csuccess').html(dataResult.description);
+  //
+  //           }
+  //         else{
+  //             console. log("display e message");
+  //             $("#csuccess").hide();
+  //             $("#cerror").show();
+  //             $('#cerror').html(dataResult.description);
+  //
+  //         }
+  //
+  //
+  //       }
+  //     });
+  //
+  //
+  // });
 
 initButtons();
 load();

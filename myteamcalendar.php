@@ -207,13 +207,29 @@ header('location:index.php');
                 <div class="modal-dialog" role="document" >
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="vacationplantitle">Out of Office/Vacation Planner</h5>
+                      <h5 class="modal-title" id="vacationplantitle">Team Vacation Planner</h5>
                       <button type="button" class="close close2" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
                       <form id="ooo_form" method="get">
+                        <div  class="form-group">
+                          <label  for="createdfor">Create for
+                        </label>
+                        <select class="form-control" id="createdfor" name="createdfor">
+                          <option selected="true" value=0>--Select Team Member--</option>
+                          <?php
+                          $allusers = unserialize($_SESSION['allusers']);
+                          for($i = 0; $i < count($allusers); $i++) {
+                          $uguid=$allusers[$i]["uguid"];
+                          $uname=$allusers[$i]["uname"];?>
+                          <option value=<?php echo $uguid;?>><?php echo $uname;?></option>
+
+                        <?php } ?>
+                          </select>
+                        </div>
+
                         <div  class="form-group">
                           <label  for="vstart">Vacation Start
                         </label>
@@ -274,7 +290,7 @@ header('location:index.php');
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form id="cancel_form" method="get">
+                      <!-- <form id="cancel_form" method="get">
                         <div  class="form-group">
                           <label  for="vguid" style="display:none;">VGUID
                         </label>
@@ -290,9 +306,9 @@ header('location:index.php');
                         <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger cancelooo" name="cancelooo" id="cancelooo">Cancel Vacation</button>
 
-                      </form>
-                      <br><br>
-                      <h3 style="text-align: center;"><b>Remarks History</b></h3>
+                      </form> -->
+
+                      <h3 style="text-align: center;"><b>Team Remarks History</b></h3>
                       <ul class="list-group" id="remarkslist">
 
 

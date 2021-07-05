@@ -178,11 +178,17 @@ else if($_POST['type']=="3"){
                   "updatedon"=>"",
                   "updatedat"=> "",
                   "updatedby"=> "",
-
+                  "remarktest"=>"",
                   "statuscode"=>"e",
                   "description"=>"Error while loading remarks"
 
               );
+
+              $subremarktest = array (
+                "id"=>"",
+                "name"=>""
+              );
+              $allsubremarktes=array();
 
 
 
@@ -248,7 +254,7 @@ while($row=mysqli_fetch_assoc($result2)){
 }
 $vguid="";
 $action="cancel";
-$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdby='$uguid'");
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdfor='$uguid'");
 $n2= mysqli_num_rows($r2);
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];
@@ -279,6 +285,15 @@ $remark['vremark']= $row['vremark'];
 $remark['updatedon']= $row['updatedon'];
 $remark['updatedat']= $row['updatedat'];
 $userid=$row['updatedby'];
+
+for($i = 0; $i < 5; $i++) {
+  $subremarktest['id']=$i;
+  $subremarktest['name']="test";
+  $allsubremarktest[]=$subremarktest;
+
+}
+$remark['remarktest']=$allsubremarktest;
+
 $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
 //$r6= mysqli_query($conn,"select * from userdata1 where uguid='$userid'");
 $row2=mysqli_fetch_assoc($seq);
@@ -319,6 +334,7 @@ else if($_POST['type']=="4"){
   "createdon"=> "",
   "createdat"=> "",
   "createdby"=> "",
+  "createdfor"=> "",
   "action"=>"",
   "statuscode"=>"e",
   "description"=>"Error occured while adding vacation plan"
@@ -344,6 +360,7 @@ $vremark= $_POST['vremark'];
 $createdon=$date1;
 $createdat=$time2;
 $createdby=$uguid;
+$createdfor=$uguid;
 $vsequenceid = "ooo";
 $action="";
 
@@ -355,11 +372,12 @@ $arr2['vremark']="$vremark";
 $arr2['createdon']="$createdon";
 $arr2['createdat']="$createdat";
 $arr2['createdby']="$createdby";
+$arr2['createdfor']="$createdfor";
 
 
 if($vid!="" && $vstart!="" && $vend!="" && $vremark!="" && $vid!=$viddefault ){
 
-  $r2= mysqli_query($conn,"select * from vtable where ( (vstart <='$vstart' && vend>= '$vstart') || (vstart <='$vend' && vend>= '$vend')) && action!='cancel'");
+  $r2= mysqli_query($conn,"select * from vtable where ( (vstart <='$vstart' && vend>= '$vstart') || (vstart <='$vend' && vend>= '$vend') || (vstart>='$vstart' && vend<='$vend' )) && action!='cancel' && createdfor='$uguid'");
   $n2= mysqli_num_rows($r2);
   //$n2=1;
 
@@ -370,7 +388,8 @@ if($n2){
   mysqli_close($conn);
 
 }
-else {  $r1=mysqli_query($conn, "INSERT INTO vtable (vguid,vid,vstart,vend,vremark,createdon,createdat,createdby,action)VALUES ('$vguid','$vid','$vstart','$vend','$vremark','$createdon','$createdat','$createdby','$action')");
+else {
+  $r1=mysqli_query($conn, "INSERT INTO vtable (vguid,vid,vstart,vend,vremark,createdon,createdat,createdby,createdfor,action)VALUES ('$vguid','$vid','$vstart','$vend','$vremark','$createdon','$createdat','$createdby','$createdfor','$action')");
   $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$createdon','$createdat','$createdby','$vremark')");
 
   if($r1 && $r2)
@@ -1080,6 +1099,7 @@ else if($_POST['type']=="11"){
                 "createdon"=>"",
                 "createdat"=> "",
                 "createdby"=> "",
+                "createdfor"=> "",
 
                 "statuscode"=>"e",
                 "description"=>"Error while loading vacations"
@@ -1094,6 +1114,7 @@ else if($_POST['type']=="11"){
                   "updatedon"=>"",
                   "updatedat"=> "",
                   "updatedby"=> "",
+                  "createdfor"=> "",
 
                   "statuscode"=>"e",
                   "description"=>"Error while loading remarks"
@@ -1166,7 +1187,7 @@ while($row=mysqli_fetch_assoc($result2)){
 }
 $vguid="";
 $action="cancel";
-$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdby='$uguid'");
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdfor='$uguid'");
 $n2= mysqli_num_rows($r2);
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];
@@ -1177,7 +1198,7 @@ while($row=mysqli_fetch_assoc($r2)){
   $vacation['createdon']= $row['createdon'];
   $vacation['createdat']= $row['createdat'];
   $vacation['createdby']= $row['createdby'];
-
+  $vacation['createdfor']= $row['createdfor'];
   $vacation['action']= $row['action'];
   $vacation['statuscode']= "s";
   $vacation['description']= "vacation loaded successfully";
@@ -1187,6 +1208,7 @@ while($row=mysqli_fetch_assoc($r2)){
 
 }
   $vguid=$vacation['vguid'];
+  $createdby=  $vacation['createdfor'];
 
 if($n2){
  $r4= mysqli_query($conn,"select * from vstatus where vguid='$vguid'");
@@ -1197,11 +1219,14 @@ $remark['vremark']= $row['vremark'];
 $remark['updatedon']= $row['updatedon'];
 $remark['updatedat']= $row['updatedat'];
 $userid=$row['updatedby'];
+$userid_for= $createdby;
 $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-//$r6= mysqli_query($conn,"select * from userdata1 where uguid='$userid'");
 $row2=mysqli_fetch_assoc($seq);
 $remark['updatedby']= $row2['uname'];
 
+$seq3=mysqli_query($conn, "select * from userdata1 where uguid='$userid_for'");
+$row3=mysqli_fetch_assoc($seq3);
+$remark['createdfor']= $row3['uname'];
 
 $remark['statuscode']= "s";
 $remark['description']= "Remarks loaded successfully";
@@ -1227,6 +1252,191 @@ echo json_encode($alltasks);
 mysqli_close($conn);
 
 }
+
+//function for team vacation plan
+else if($_POST['type']=="12"){
+
+  $arr2 = array (
+  "vguid"=> "",
+  "vid"=> "",
+  "vstart"=>"",
+  "vend"=>"",
+  "vremark"=>"",
+  "createdon"=> "",
+  "createdat"=> "",
+  "createdby"=> "",
+  "createdfor"=> "",
+  "action"=>"",
+  "statuscode"=>"e",
+  "description"=>"Error occured while adding vacation plan"
+
+);
+
+date_default_timezone_set("Asia/Kolkata");
+$date1= date("Ymd");
+$time1= date("hsiv");
+$time2= date("his");
+$digits = 4;
+$ran= rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+$vguid=$date1.$time1.$ran;
+$uguid=$_SESSION['uguid'];
+
+$vid= $_POST['vid'];
+$viddefault=0;
+$vstart= $_POST['vstart'];
+$vend= $_POST['vend'];
+$vremark= $_POST['vremark'];
+$createdfor=$_POST['createdfor'];
+if($createdfor==0) $createdfor=$uguid;
+
+$createdon=$date1;
+$createdat=$time2;
+$createdby=$uguid;
+
+$vsequenceid = "ooo";
+$action="";
+
+$arr2['vguid']="$vguid";
+$arr2['vid']="$vid";
+$arr2['vstart']="$vstart";
+$arr2['vend']="$vend";
+$arr2['vremark']="$vremark";
+$arr2['createdon']="$createdon";
+$arr2['createdat']="$createdat";
+$arr2['createdby']="$createdby";
+$arr2['createdfor']="$createdfor";
+
+
+if($vid!="" && $vstart!="" && $vend!="" && $vremark!="" && $vid!=$viddefault ){
+
+  $r2= mysqli_query($conn,"select * from vtable where ( (vstart <='$vstart' && vend>= '$vstart') || (vstart <='$vend' && vend>= '$vend') || (vstart>='$vstart' && vend<='$vend' )) && action!='cancel' && createdfor='$createdfor'");
+  $n2= mysqli_num_rows($r2);
+  //$n2=1;
+
+if($n2){
+  $arr2['description']="Can not have more than one vacation plan on a particular date. Please check already existing vacation plans";
+
+  echo json_encode($arr2);
+  mysqli_close($conn);
+
+}
+else {
+  $r1=mysqli_query($conn, "INSERT INTO vtable (vguid,vid,vstart,vend,vremark,createdon,createdat,createdby,createdfor,action)VALUES ('$vguid','$vid','$vstart','$vend','$vremark','$createdon','$createdat','$createdby','$createdfor','$action')");
+  $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$createdon','$createdat','$createdby','$vremark')");
+
+  if($r1 && $r2)
+  {$arr2['statuscode']="s";
+  $arr2['description']="Vacation plannded Successfully";}
+  else{
+
+  }
+
+  echo json_encode($arr2);
+  mysqli_close($conn);
+}
+
+}
+else{
+  $arr2['statuscode']="e";
+  $arr2['description']="Please fill all the details to plan vacation";
+  echo json_encode($arr2);
+  mysqli_close($conn);
+}
+
+}
+//function for team vacation plan
+else if($_POST['type']=="13")
+{
+  $allvacations=array();
+  $vacation = array (
+  "vguid"=> "",
+  "createdfor_id"=> "",
+  "createdfor"=> "",
+  "vstart"=>"",
+  "vend"=>"",
+  "vremark"=>"",
+  "vreason"=>"",
+  "action"=>"",
+  "statuscode"=>"e",
+  "description"=>"Error occured while loading vacation"
+
+);
+$allvremark_foraleave=array();
+$eachremark=array(
+  "updatedby"=>"",
+  "updatedby"=>"",
+  "updatedby_name"=>"",
+  "updatedon"=>"",
+  "updatedat"=>"",
+  "sub_vremark"=>""
+);
+$action="cancel";
+$allusers = unserialize($_SESSION['allusers']);
+
+//$index=0;
+$user_uguid= $_SESSION['uguid'];
+for($i = 0; $i < count($allusers); $i++) {
+  if($allusers[$i]["uguid"]==$user_uguid) unset($allusers[$i]);
+}
+
+for($i = 0; $i < count($allusers); $i++) {
+$uguid=$allusers[$i]["uguid"];
+$uname=$allusers[$i]["uname"];
+$r2= mysqli_query($conn,"select * from vtable where action!='$action' && createdfor='$uguid'");
+
+while($row=mysqli_fetch_assoc($r2)){
+  $vacation['vguid']= $row['vguid'];
+  $vacation['createdfor']= $uname;
+  $vacation['createdfor_id']= $row['createdfor'];
+  $vacation['vstart']= $row['vstart'];
+  $vacation['vend']= $row['vend'];
+  $vacation['action']= $row['action'];
+  $vacation['statuscode']= "s";
+  $vacation['description']= "vacation loaded successfully";
+
+  $vguid=$row['vguid'];
+  $vid= $row['vid'];
+  $vreason="";
+
+  if($vid=="sick") $vreason="Sick Leave";
+  else if($vid="spld") $vreason="Special day";
+  else if($vid="emeg") $vreason="Emergency";
+  else $vreason="Unplanned";
+
+  $vacation['vreason']= $vreason;
+  // $vacation['vremark']= $row['vremark'];
+$r4= mysqli_query($conn,"select * from vstatus where vguid='$vguid'");
+
+unset($allvremark_foraleave);
+$allvremark_foraleave = array();
+ while($row1=mysqli_fetch_assoc($r4)){
+   $eachremark['updatedby']= $row1['updatedby'];
+   $eachremark['updatedon']= $row1['updatedon'];
+   $eachremark['updatedat']= $row1['updatedat'];
+   $updatedby= $eachremark['updatedby'];
+   $eachremark['sub_vremark']= $row1['vremark'];
+
+   $seq_1=mysqli_query($conn, "select * from userdata1 where uguid='$updatedby'");
+   $row_user=mysqli_fetch_assoc($seq_1);
+   $eachremark['updatedby_name']=$row_user['uname'];
+   $allvremark_foraleave[]=$eachremark;
+
+ }
+  $vacation['vremark']=$allvremark_foraleave;
+
+  $allvacations[]=$vacation;
+
+
+}
+
+}
+
+echo json_encode($allvacations);
+mysqli_close($conn);
+
+}
+
 
 
 ?>

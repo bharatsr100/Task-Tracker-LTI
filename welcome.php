@@ -72,7 +72,7 @@ include 'database.php';
   if($ulength>1){?>
     <button onclick="location.href='myteamtask.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">My Team Task</button>
     <button onclick="location.href='myteamcalendar.php';" type="button" class="btn btn-secondary" style="width:170px;">My Team Calendar</button>
-
+    <button onclick="location.href='myteamleaveplan.php';" type="button" class="btn btn-secondary" style="width:170px;">My Team Leave Plan</button>
   <?php
   }
 

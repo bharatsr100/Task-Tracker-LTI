@@ -74,12 +74,7 @@ function load() {
     // const dayString3 = `${day2}-${month2}-${year}`;
     const daySquare = document.createElement('div');
     daySquare.classList.add('day');
-
-
-
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
-
-
 
     var day2=`${i - paddingDays}`;
     var month2=`${month + 1}`;
@@ -112,9 +107,9 @@ function load() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-          // console.log("Result for "+ dayString2);
-          // console.log(dataResult);
-          // console.log("Result loaded");
+           // console.log("Result for "+ dayString2);
+           // console.log(dataResult);
+           // console.log("Result loaded");
           var reslength= dataResult[0].length;
           var safeprogress= dataResult[1].length;
           var alertprogress= dataResult[2].length;
@@ -250,6 +245,7 @@ function load() {
                 $("#remarkslist").html("");
                 $("#cerror").hide();
                 $("#csuccess").hide();
+                $('#cancelooo').prop('disabled', false);
 
                 $("#vguid").val(dataResult[5][0].vguid);
 
@@ -290,6 +286,7 @@ function load() {
                 $('#vend').prop('disabled', false);
                 $('#reason').prop('disabled', false);
                 $('#remark').prop('disabled', false);
+                $('#createooo').prop('disabled', false);
                 $('#createooo').show();
 
              }

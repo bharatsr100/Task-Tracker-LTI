@@ -135,7 +135,24 @@ $allusers = unserialize($_SESSION['allusers']);
     <br><br><br>
     <h1 style="text-align:center;">My Team Tasks</h1>
     <!-- Default dropleft button -->
-<div class="btn-group dropleft" style="float: right;">
+    <div class="btn-group dropleft" style="float: right;">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Team Members
+    </button>
+    <div class="dropdown-menu">
+      <?php
+      for($i = 0; $i < count($allusers); $i++) {
+      $uguid=$allusers[$i]["uguid"];
+      $uname=$allusers[$i]["uname"];?>
+      <a class="dropdown-item" href="#/"><?php echo ($i+1).". ".$uname; ?>
+      </a>
+      <?php
+      }
+      ?>
+
+    </div>
+  </div>
+<div class="btn-group dropleft" style="float: right; margin-right:10px;">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Color Index
   </button>
