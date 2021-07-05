@@ -505,7 +505,7 @@ $allusers = unserialize($_SESSION['allusers']);
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Edit Task Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -767,7 +767,7 @@ $allusers = unserialize($_SESSION['allusers']);
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -829,7 +829,7 @@ $allusers = unserialize($_SESSION['allusers']);
 
             <!-- <input type="button" name="save" class="btn btn-primary" value="Login" id="butlogin">
             <input type="button" name="save" class="btn btn-primary" value="Forgot Password ?" id="f_password"> -->
-            <button type="button" class="btn btn-secondary save_comment_form" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary savecomment" id="savecomment" name="savecomment">Save Comment</button>
           </form>
           <div class="alert alert-success alert-dismissible" id="successcommenttask" style="display:none;" >
@@ -868,6 +868,7 @@ $allusers = unserialize($_SESSION['allusers']);
     </div>
     <!-- ######################################################################################################################################### -->
     <!-- my task table -->
+    <div id="mytask_div" style="display:contents">
     <table  class="table" id="mytasktable" >
       <thead>
       <tr>
@@ -956,8 +957,8 @@ $allusers = unserialize($_SESSION['allusers']);
           $datenow=date("Ymd");
           $diff= $newdate1-$datenow;
 
-          if($diff>2) echo "#5FDB39";
-          else if($diff<=2 && $diff>=0) echo "#F39536";
+          if($diff>=2) echo "#5FDB39";
+          else if($diff<2 && $diff>=0) echo "#F39536";
           else echo "#EC4819";
 
          }
@@ -969,8 +970,8 @@ $allusers = unserialize($_SESSION['allusers']);
           $datenow=date("Ymd");
           $diff= $newdate1-$datenow;
 
-          if($diff>2) echo "#EDE310";
-          else if($diff<=2 && $diff>=0) echo "#8C1BE0";
+          if($diff>=2) echo "#EDE310";
+          else if($diff<2 && $diff>=0) echo "#8C1BE0";
           else echo "#2227E3";
 
           }
@@ -981,8 +982,8 @@ $allusers = unserialize($_SESSION['allusers']);
           $datenow=date("Ymd");
           $diff= $newdate1-$datenow;
 
-          if($diff>2) echo "#F2EC82";
-          else if($diff<=2 && $diff>=0) echo "#C28BEA";
+          if($diff>=2) echo "#F2EC82";
+          else if($diff<2 && $diff>=0) echo "#C28BEA";
           else echo "#878AE0";
 
 
@@ -1051,6 +1052,7 @@ $allusers = unserialize($_SESSION['allusers']);
 
   ?>
     </table>
+  </div>
 <br><br><br><h1 style="text-align:center;">My Team Task Steps</h1>
 <!-- ######################################################################################################################################### -->
     <!--Edit Task Step Modal-->
@@ -1134,7 +1136,7 @@ $allusers = unserialize($_SESSION['allusers']);
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -1311,8 +1313,8 @@ else if($row['tstage']==2 || $row['tstage']==3){
   $datenow1=date("Ymd",strtotime($datenow));
   $diff= $newdate1-$datenow1;
   //$diff= $date1-$datenow;
-  if($diff>2) echo "#5FDB39";
-  else if($diff<=2 && $diff>=0) echo "#F39536";
+  if($diff>=2) echo "#5FDB39";
+  else if($diff<2 && $diff>=0) echo "#F39536";
   else echo "#EC4819";
 
  }
@@ -1324,8 +1326,8 @@ else if($row['tstage']==5) {
   $datenow=date("Ymd");
   $diff= $newdate1-$datenow;
 
-  if($diff>2) echo "#EDE310";
-  else if($diff<=2 && $diff>=0) echo "#8C1BE0";
+  if($diff>=2) echo "#EDE310";
+  else if($diff<2 && $diff>=0) echo "#8C1BE0";
   else echo "#2227E3";
 
 
@@ -1337,8 +1339,8 @@ else if($row['tstage']==6) {
   $datenow=date("Ymd");
   $diff= $newdate1-$datenow;
 
-  if($diff>2) echo "#F2EC82";
-  else if($diff<=2 && $diff>=0) echo "#C28BEA";
+  if($diff>=2) echo "#F2EC82";
+  else if($diff<2 && $diff>=0) echo "#C28BEA";
   else echo "#878AE0";
 
 

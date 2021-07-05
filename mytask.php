@@ -516,7 +516,8 @@ $arr = unserialize($_SESSION['arr']);
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Edit Task Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- data-dismiss="modal" -->
+            <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -570,7 +571,7 @@ $arr = unserialize($_SESSION['arr']);
             </label>
               <input type="text" class="form-control" id="peffort1" placeholder="Planned Effort" name="peffort1">
             </div>
-
+            <!-- data-dismiss="modal" -->
             <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary edittaskbtn" id="edittaskbtn" name="edittaskbtn" >Save</button>
           </form>
@@ -781,7 +782,7 @@ $arr = unserialize($_SESSION['arr']);
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -884,6 +885,7 @@ $arr = unserialize($_SESSION['arr']);
     </div>
     <!-- ######################################################################################################################################### -->
     <!-- my task table -->
+    <div id="mytask_div" >
     <table  class="table" id="mytasktable" >
       <thead>
       <tr>
@@ -907,6 +909,7 @@ $arr = unserialize($_SESSION['arr']);
         <th scope="col">Created By</th> -->
       </tr>
       </thead>
+      <tbody id="tbodymytask">
       <?php
   include 'database.php';
   $uguid=$_SESSION['uguid'];
@@ -957,8 +960,8 @@ $arr = unserialize($_SESSION['arr']);
           $datenow=date("Ymd");
           $diff= $newdate1-$datenow;
 
-          if($diff>2) echo "#5FDB39";
-          else if($diff<=2 && $diff>=0) echo "#F39536";
+          if($diff>=2) echo "#5FDB39";
+          else if($diff<2 && $diff>=0) echo "#F39536";
           else echo "#EC4819";
 
          }
@@ -970,8 +973,8 @@ $arr = unserialize($_SESSION['arr']);
           $datenow=date("Ymd");
           $diff= $newdate1-$datenow;
 
-          if($diff>2) echo "#EDE310";
-          else if($diff<=2 && $diff>=0) echo "#8C1BE0";
+          if($diff>=2) echo "#EDE310";
+          else if($diff<2 && $diff>=0) echo "#8C1BE0";
           else echo "#2227E3";
 
           }
@@ -982,8 +985,8 @@ $arr = unserialize($_SESSION['arr']);
           $datenow=date("Ymd");
           $diff= $newdate1-$datenow;
 
-          if($diff>2) echo "#F2EC82";
-          else if($diff<=2 && $diff>=0) echo "#C28BEA";
+          if($diff>=2) echo "#F2EC82";
+          else if($diff<2 && $diff>=0) echo "#C28BEA";
           else echo "#878AE0";
 
 
@@ -1050,7 +1053,16 @@ $arr = unserialize($_SESSION['arr']);
 }
 
   ?>
+</tbody>
     </table>
+    <script>
+
+
+
+
+    </script>
+  </div>
+
 <br><br><br><h1 style="text-align:center;">My Task Steps</h1>
 <!-- ######################################################################################################################################### -->
     <!--Edit Task Step Modal-->
@@ -1059,7 +1071,7 @@ $arr = unserialize($_SESSION['arr']);
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Edit Task Step Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close close2" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -1110,7 +1122,7 @@ $arr = unserialize($_SESSION['arr']);
               <input type="text" class="form-control" id="peffort3" placeholder="Planned Effort" name="peffort3">
             </div>
 
-            <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary close2" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary edittaskstepbtn" id="edittaskstepbtn" name="edittaskstepbtn" >Save</button>
           </form>
           <div class="alert alert-success alert-dismissible" id="successedittaskstep" style="display:none;" >
@@ -1241,7 +1253,7 @@ $arr = unserialize($_SESSION['arr']);
   <!-- ######################################################################################################################################### -->
 
 <!-- Task Step Table -->
-
+<div id="mytaskstep_div">
 <table  class="table" id="taskdequencetable">
   <thead>
   <tr>
@@ -1305,8 +1317,8 @@ else if($row['tstage']==2 || $row['tstage']==3){
   $datenow1=date("Ymd",strtotime($datenow));
   $diff= $newdate1-$datenow1;
   //$diff= $date1-$datenow;
-  if($diff>2) echo "#5FDB39";
-  else if($diff<=2 && $diff>=0) echo "#F39536";
+  if($diff>=2) echo "#5FDB39";
+  else if($diff<2 && $diff>=0) echo "#F39536";
   else echo "#EC4819";
 
  }
@@ -1318,8 +1330,8 @@ else if($row['tstage']==5) {
   $datenow=date("Ymd");
   $diff= $newdate1-$datenow;
 
-  if($diff>2) echo "#EDE310";
-  else if($diff<=2 && $diff>=0) echo "#8C1BE0";
+  if($diff>=2) echo "#EDE310";
+  else if($diff<2 && $diff>=0) echo "#8C1BE0";
   else echo "#2227E3";
 
 
@@ -1331,8 +1343,8 @@ else if($row['tstage']==6) {
   $datenow=date("Ymd");
   $diff= $newdate1-$datenow;
 
-  if($diff>2) echo "#F2EC82";
-  else if($diff<=2 && $diff>=0) echo "#C28BEA";
+  if($diff>=2) echo "#F2EC82";
+  else if($diff<2 && $diff>=0) echo "#C28BEA";
   else echo "#878AE0";
 
 
@@ -1392,6 +1404,7 @@ else if($row['tstage']==6) {
 }
 ?>
 </table>
+</div>
 <!-- <p id="demo"></p>
 
 <script>

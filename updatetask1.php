@@ -947,10 +947,10 @@ else if($tstage==3){
   }
   else if($tstage==4){
     $aend=$date1;
-    $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',aend='$aend',aeffort=$aeffort,assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+    $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',aend='$aend',aeffort='$aeffort',assignto='$assignto' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
   }
 else{
-  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',assignto='$assignto',aeffort=$aeffort,astart='$astart',aend='$aend' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
+  $r2= mysqli_query($conn,"UPDATE tstep SET tstage='$tstage',assignto='$assignto',aeffort='$aeffort',astart='$astart',aend='$aend' WHERE tguid='$tguid' && tsequenceid='$tsequenceid'");
 }
 $res3= mysqli_query($conn,"select * from userdata1 where uguid='$assignto'");
 $res4= mysqli_fetch_assoc($res3);
@@ -991,6 +991,44 @@ else{
     echo json_encode($arr2);
     // echo "<script type='text/javascript'>alert('Failed to update !'); window.location.href = 'mytask.php';</script>";
   }
+}
+else if($_POST['type']=="10"){
+
+  $arr2 = array (
+          "createdon"=> "",
+          "assignto"=> "",
+          "assignto_id"=> "",
+          "tguid"=> "",
+          "tid"=>"",
+          "tdescription"=> "",
+          "ttype"=> "",
+          "pstart"=> "",
+           "pend"=> "",
+           "peffort"=> "",
+           "astart"=> "",
+           "aend"=> "",
+           "aeffort"=> "",
+          "statuscode"=>"e",
+          "description"=>"Error while updating task step"
+
+      );
+
+  // <th scope="col">Task Creation Date</th>
+  // <th scope="col">Assigned to</th>
+  // <th scope="col" style="display:none;">Assigned to (id)</th>
+  // <th scope="col" style="display:none;" >Task GUID</th>
+  // <th scope="col">Task ID</th>
+  // <th scope="col">Task Description</th>
+  // <th scope="col">Task Type</th>
+  // <th scope="col">Planned Start</th>
+  // <th scope="col">Planned End</th>
+  // <th scope="col">Planned Effort (days)</th>
+  // <th scope="col">Actual Start</th>
+  // <th scope="col" >Actual End</th>
+  // <th scope="col">Actual Effort (mins)</th>
+  //
+  // <th scope="col" style="width: 160px;">Task Status</th>
+
 }
 
 

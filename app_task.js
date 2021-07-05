@@ -1,15 +1,19 @@
 $(document).ready(function() {
 
 
-  $('#mytasktable').DataTable({
+var table1=$('#mytasktable').DataTable({
+
     "paging": false,
     "ordering": true,
     "info": false,
     "order": [
-      [3, "asc"]
+      [4, "asc"]
     ]
 
   });
+
+
+
   $('#taskdequencetable').DataTable({
     "paging": false,
     //"ordering": true,
@@ -30,10 +34,6 @@ $(document).ready(function() {
     ]
 
   });
-
-  //$('.dataTables_length').addClass('bs-select');
-
-
 
 
   let dropdown = $('#userslist');
@@ -137,8 +137,8 @@ $(document).ready(function() {
       $('#tsequenceidd').val(data[1]);
     }
   });
-
-  $('.stpbtn12').on('click', function() {
+  $(document).on('click', '.stpbtn12', function(e) {
+  //$('.stpbtn12').on('click', function() {
     $tr = $(this).closest('tr');
     var data = $tr.children("td").map(function() {
       return $(this).text();
@@ -571,14 +571,64 @@ $(document).ready(function() {
 
   });
 
+  // $('.close').on('click', function() {
+    // window.location.reload();
+    //  $(document).on('click', '.stpbtn12', function(e) {
+    // $(document).on('click', '.commentbtn', function(e) {
+    //window.location.href = 'mytask.php';
+  // });
+
+  //To refresh table 1
+  function loadtable1(){
+
+    table1=$('#mytasktable').DataTable({
+
+        "paging": false,
+        "ordering": true,
+        "info": false,
+        "order": [
+          [4, "asc"]
+        ]
+
+      });
+
+
+  }
+    // $(document).on('click', '.close1', function(e) {
   $('.close').on('click', function() {
-    window.location.reload();
-    //window.location.href = 'mytask.php';
-  });
+      window.location.reload();
+    });
   $('.close1').on('click', function() {
+    // table1.destroy();
+    // table1=$('#mytasktable').DataTable({
+    //
+    //     "paging": false,
+    //     "ordering": true,
+    //     "info": false,
+    //     "order": [
+    //       [4, "asc"]
+    //     ]
+    //
+    //   });
     window.location.reload();
-    //window.location.href = 'mytask.php';
+
   });
+  $('.close2').on('click', function() {
+      window.location.reload();
+    // $("#mytaskstep_div").load(location.href + " #mytaskstep_div");
+  });
+
+  function close1function(callback){
+    $('#editmodal').modal('hide');
+   table1.destroy();
+   table1.destroy();
+   //table1.clear();
+    $("#mytask_div").load(location.href + " #mytask_div");
+    callback();
+  }
+
+
+//To refresh table 2
 
   $('.createbtn').on('click', function() {
     //	$('#createtaskmodal').modal('show');
@@ -669,9 +719,8 @@ $(document).ready(function() {
 			}
 		});
 	}
-
-
-  $('.commentbtn').on('click', function() {
+  $(document).on('click', '.commentbtn', function(e) {
+  //$('.commentbtn').on('click', function() {
 
 
 
@@ -695,6 +744,9 @@ $(document).ready(function() {
 
     $('#uguid_comment').val(data[0]);
     $('#tguid4').val(data[1]);
+    $("#errorcommenttask").hide();
+    $(".savecomment").prop('disabled', false);
+    $("#successcommenttask").hide();
     //$('#commenttaskmodal').modal('show');
     $('#commenttaskmodal').modal({
       backdrop: 'static',
@@ -768,7 +820,8 @@ $(document).ready(function() {
 
 
 
-  $('.stpedit12').on('click', function() {
+  $(document).on('click', '.stpedit12', function(e) {
+  //$('.stpedit12').on('click', function() {
     $tr = $(this).closest('tr');
     var data = $tr.children("td").map(function() {
       return $(this).text();
@@ -817,6 +870,10 @@ $(document).ready(function() {
       $("#error3").show();
       $('#error3').html("Task is already planned so please contact admin");
 
+      //$(".edittaskstepbtn").prop('disabled', false);
+      $("#successedittaskstep").hide();
+      $("#erroredittaskstep").hide();
+
 
     } else {
 
@@ -824,6 +881,8 @@ $(document).ready(function() {
         backdrop: 'static',
         keyboard: false
       });
+      $("#successedittaskstep").hide();
+      $("#erroredittaskstep").hide();
       $("#error3").hide();
       $('#tsequenceid3').val(data[4]);
       $('#uguid3').val(data[1]);
@@ -859,7 +918,8 @@ $(document).ready(function() {
     }
 
   });
-  $('.editbtn').on('click', function() {
+  $(document).on('click', '.editbtn', function(e) {
+  //$('.editbtn').on('click', function() {
     $tr = $(this).closest('tr');
     var data = $tr.children("td").map(function() {
       return $(this).text();
@@ -906,7 +966,8 @@ $(document).ready(function() {
       $("#peffort1").attr("disabled", "disabled");
       $("#error").show();
       $('#error').html("Task is already planned so please contact admin");
-
+      $("#successedittask").hide();
+      $("#erroredittask").hide();
       //alert("Task is already planned please contact your admin");
     } else {
 
@@ -915,6 +976,9 @@ $(document).ready(function() {
         backdrop: 'static',
         keyboard: false
       });
+      $(".edittaskbtn").prop('disabled', false);
+      $("#successedittask").hide();
+      $("#erroredittask").hide();
       $('#uguid1').val(data[0]);
       $("#error").hide();
       $('#tguid1').val(data[1]);
@@ -1073,6 +1137,7 @@ $(document).ready(function() {
           $("#erroredittask").hide();
           $("#successedittask").show();
           $('#successedittask').html(dataResult.description);
+          $("#mytask_div").load(location.href + " #mytask_div");
         } else {
           $(".edittaskbtn").prop('disabled', false);
           $("#successedittask").hide();
