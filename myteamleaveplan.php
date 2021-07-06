@@ -42,7 +42,7 @@ header('location:index.php');
       <div class="modal-dialog" role="document" id="app_rej_modal">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Approve or Reject the Vacation Plan</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Take action for the Vacation Plan</h5>
             <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -84,8 +84,9 @@ header('location:index.php');
 
 
             <button type="button" class="btn btn-secondary close1" data-dismiss="modal" >Close</button>
-            <button type="submit" class="btn btn-success approve_vacation" id="approve_vacation" name="approve_vacation"  >Approve</button>
-            <button type="submit" class="btn btn-danger reject_vacation" id="reject_vacation" name="reject_vacation">Reject</button>
+            <button type="submit" class="btn btn-primary approve_vacation" id="approve_vacation" name="approve_vacation"  >Approve</button>
+            <button type="submit" class="btn btn-primary reject_vacation" id="reject_vacation" name="reject_vacation">Reject</button>
+            <button type="submit" class="btn btn-primary cancel_vacation" id="cancel_vacation" name="reject_vacation">Cancel</button>
           </form>
           <div class="alert alert-success alert-dismissible" id="success_action" style="display:none;" >
 
@@ -145,6 +146,30 @@ header('location:index.php');
           </tbody>
         </table>
       </div>
+      <br><br><br>
+    </center>
+    <h1 style="text-align:center;" id="headone">Team Vacation History</h1><br><br>
+    <center>
+      <div id="teamvacation_div_history" style="display:contents">
+        <table class="table table-hover" id="teamvacation_history_table">
+          <thead>
+            <tr>
+              <th scope="col" style="display:none;">VGUID</th>
+              <th scope="col" style="display:none;">Created for(id)</th>
+              <th scope="col">Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Remarks</th>
+              <th scope="col">Action Taken</th>
+
+            </tr>
+          </thead>
+          <tbody id="tbody_team_vacation_history">
+          </tbody>
+        </table>
+      </div>
+      <br><br><br>
     </center>
 
     <!-- <form method="post" action="testjson.php">

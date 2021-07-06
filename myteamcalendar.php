@@ -290,29 +290,32 @@ header('location:index.php');
                       </button>
                     </div>
                     <div class="modal-body">
-                      <!-- <form id="cancel_form" method="get">
-                        <div  class="form-group">
-                          <label  for="vguid" style="display:none;">VGUID
-                        </label>
-                          <input type="text" class="form-control" id="vguid" placeholder="VGUID" name="vguid" style="display:none;">
+
+                      <!-- <h3 style="text-align: center;"><b>Team Remarks History</b></h3>
+                      <ul class="list-group" id="remarkslist"></ul> -->
+
+                      <h3 style="text-align: center;"><b>Team Vacation Plan</b></h3>
+                      <br><br>
+                      <center>
+                        <div id="teamvacation_div" style="display:contents">
+                          <table class="table table-hover" id="teamvacation_table">
+                            <thead>
+                              <tr>
+                                <th scope="col" style="display:none;">VGUID</th>
+                                <th scope="col" style="display:none;">Created for(id)</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Status</th>
+
+                              </tr>
+                            </thead>
+                            <tbody id="tbody_team_vacation">
+                            </tbody>
+                          </table>
                         </div>
 
-                        <div  class="form-group">
-                          <label  for="vremark">Remark
-                        </label>
-                          <input type="text" class="form-control" id="vremark" placeholder="Remark" name="vremark">
-                        </div>
-
-                        <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger cancelooo" name="cancelooo" id="cancelooo">Cancel Vacation</button>
-
-                      </form> -->
-
-                      <h3 style="text-align: center;"><b>Team Remarks History</b></h3>
-                      <ul class="list-group" id="remarkslist">
-
-
-                    </ul>
+                      </center>
 
                     </div>
 

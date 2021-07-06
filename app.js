@@ -93,10 +93,9 @@ $(document).ready(function() {
 				},
 				cache: false,
 				success: function(dataResult){
+					// console.log(dataResult);
 					var dataResult = JSON.parse(dataResult);
-        	//console.dir(dataResult);
-					//console.log(JSON.stringify(dataResult));
-					console.log(dataResult);
+					// console.log(dataResult);
 					//console.log(JSON.stringify(dataResult, null, 4));
 					//console.table(dataResult);
 

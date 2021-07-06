@@ -15,7 +15,12 @@ body {
     background-color:#92a1d1;
    color: white;
 } */
-
+.vguid_vacation_table{
+  display:none;
+}
+.createdfor_vacation_table{
+  display:none;
+}
 #header {
   padding: 10px;
   color: #133A79;

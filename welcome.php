@@ -5,22 +5,13 @@ header('location:index.php');
 }
 $arr = unserialize($_SESSION['arr']);
 $allusers = unserialize($_SESSION['allusers']);
-
-// for($i = 0; $i < count($allusers); $i++) {
-// echo $allusers[$i]["uguid"];
-// echo "<br>";
-// }
+$admin=$_SESSION['admin'];
 $ulength= sizeof($allusers);
-$name="Hello  there!!";
-
 include 'database.php';
 // $myFile = "employeelist.txt";
 // $fo = fopen($myFile, 'w') or die("can't open file");
-
 // $sql = "SELECT * FROM userdata1";
 //$stringData="";
-
-
  // fwrite($fo, $stringData);
  // fclose($fo);
 
@@ -48,22 +39,23 @@ include 'database.php';
 <body>
   <!-- <a href="logout.php"> Logout</a> -->
   <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float:right;">Log Out</button>
+  <?php
+  if($admin=="Yes"){?>
+  <button onclick="location.href='admin_page.php';" type="button" class="btn btn-primary" style="float:right;margin-right:10px;">Admin</button>
+  <?php
+  }
+  ?>
   <br><br><br>
+  
   <h1 style="text-align:center; margin-top:50px;"> Welcome <?php
-  //echo $_SESSION['uname'];
-  //echo $_SESSION['uguid'];
-  // echo $name;
-  // echo $arr['uguid'];
+
       echo $arr['uname'];
-      // if($ulength){
-      //   echo "<br><br>";
-      //   echo $ulength;
-      // }
-      //
+
   ?> </h1>
 
 
   <br><br>
+
   <button onclick="location.href='user_profile.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">My Profile</button>
   <button onclick="location.href='mytask.php';" type="button" class="btn btn-secondary" style="width:170px;">My Task</button>
   <button onclick="location.href='calendar.php';" type="button" class="btn btn-secondary" style="width:170px;">My Calendar</button>

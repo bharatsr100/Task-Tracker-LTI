@@ -34,11 +34,13 @@ function loadtable()
   },
   cache: false,
   success:function(dataResult){
-    //console.log(dataResult);
+    console.log(dataResult);
     var dataResult = JSON.parse(dataResult);
     console.log(dataResult);
     $("#tbody_team_vacation").empty();
     $("#tbody_team_vacation_appr").empty();
+    $("#tbody_team_vacation_history").empty();
+
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -51,6 +53,8 @@ function loadtable()
     // teamvacation_appr_table
     var table1 = document.getElementById("tbody_team_vacation");
     var table2 = document.getElementById("tbody_team_vacation_appr");
+    var table3 = document.getElementById("tbody_team_vacation_history");
+
     //table.className = "table table-hover";
       $(dataResult).each(function (index, item) {
         var d1 = Date.parse(today);
@@ -113,7 +117,7 @@ function loadtable()
       newcell.innerHTML = "<button class='btn btn-secondary' onclick='takeaction(\""+ item.vguid +"\",\"" + item.createdfor +"\",\"" + item.vstart +"\",\"" + item.vend +"\",\"" + item.vreason +"\")'>Take Action</button>";
       newcell.className = "action_button";
     }
-    else{
+    if(item.action=="Approved"){
 
 if(d2>=d1){      var remark=item.vremark;
      row2 = table2.insertRow(table2.rows.length);
@@ -166,8 +170,129 @@ if(d2>=d1){      var remark=item.vremark;
      newcell = row2.insertCell(i);
      newcell.innerHTML = item.action;}
 
+     else{
+      var remark=item.vremark;
+      row2 = table3.insertRow(table3.rows.length);
+      row2.className = "row_vacation_table";
+
+      var i=0;
+      var newcell = row2.insertCell(i);
+      newcell.innerHTML =item.vguid;
+      newcell.className = "vguid_vacation_table";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.createdfor_id;
+      newcell.className = "createdfor_vacation_table";
+
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.createdfor;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.vstart;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.vend;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.vreason;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML="";
+      var length_r= remark.length;
+
+        $(remark).each(function (index, item1){
+        newcell.innerHTML = newcell.innerHTML+"["+item1.updatedon+", "+item1.updatedat+", <b>"+item1.updatedby_name+"</b> ]"+"<br>"+
+        item1.sub_vremark+"<br><br>";
+      });
+      newcell.className = "vremark_format";
+
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.action;
+
+
+     }
 
     }
+    if(item.action=="Rejected" || item.action=="cancel"){
+
+
+
+      var remark=item.vremark;
+      row2 = table3.insertRow(table3.rows.length);
+      row2.className = "row_vacation_table";
+
+      var i=0;
+      var newcell = row2.insertCell(i);
+      newcell.innerHTML =item.vguid;
+      newcell.className = "vguid_vacation_table";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.createdfor_id;
+      newcell.className = "createdfor_vacation_table";
+
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.createdfor;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.vstart;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.vend;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML = item.vreason;
+      //newcell.className = "tseqid23";
+
+      i++;
+      newcell = row2.insertCell(i);
+      newcell.innerHTML="";
+      var length_r= remark.length;
+
+        $(remark).each(function (index, item1){
+        newcell.innerHTML = newcell.innerHTML+"["+item1.updatedon+", "+item1.updatedat+", <b>"+item1.updatedby_name+"</b> ]"+"<br>"+
+        item1.sub_vremark+"<br><br>";
+      });
+      newcell.className = "vremark_format";
+
+
+      i++;
+      newcell = row2.insertCell(i);
+      if(item.action=="Rejected")
+      {
+      newcell.innerHTML = item.action;
+      }
+      else
+      {
+      newcell.innerHTML = "Cancelled";
+
+      }
+
+
+
+    }
+
 
 
       });
@@ -228,7 +353,7 @@ loadtable();
 
 
   });
-reject_vacation
+
 
 $('.reject_vacation').on('click',function(){
   event.preventDefault();
@@ -284,5 +409,58 @@ $('.reject_vacation').on('click',function(){
 
 });
 
+$('.cancel_vacation').on('click',function(){
+  event.preventDefault();
+   var vguid = $('#vguid').val();
+   var type= "16";
+   var vremark_action=$('#vremark_action').val();
+
+
+   $.ajax({
+     url: "updatetask1.php",
+     type: "POST",
+
+
+     data:    {
+           type: type,
+           vguid: vguid,
+           vremark_action:vremark_action
+
+         },
+     cache: false,
+     success: function(dataResult){
+       console.log(dataResult);
+       var dataResult = JSON.parse(dataResult);
+       console.log(dataResult);
+
+       if(dataResult.statuscode=="s"){
+          console. log("display s message");
+
+          $('.approve_vacation').prop('disabled', true);
+          $('.reject_vacation').prop('disabled', true);
+
+          $("#error_action").hide();
+          $("#success_action").show();
+          $('#success_action').html(dataResult.description);
+
+        }
+        else {
+
+          console. log("display e message");
+
+          $('.approve_vacation').prop('disabled', true);
+          $('.reject_vacation').prop('disabled', true);
+          $("#success_action").hide();
+          $("#error_action").show();
+          $('#error_action').html(dataResult.description);
+
+        }
+
+     }
+
+   });
+
+
+});
 
 });

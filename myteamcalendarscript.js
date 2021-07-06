@@ -251,15 +251,54 @@ function load() {
                 $("#cerror").hide();
                 $("#csuccess").hide();
 
-                // $("#vguid").val(dataResult[5][0].vguid);
 
-                $("#remarkstitle").append("Team Vacation Remarks History ("+ dayString2 +")");
 
-                 $(dataResult[6]).each(function (index, item) {
-                   $("#remarkslist").append("<li class='list-group-item'>["+ item.updatedon +";&nbsp;&nbsp;"
-                  +item.updatedat +";&nbsp;&nbsp;vacation for: <b>"+item.createdfor+ "</b>;&nbsp;&nbsp;remark by: <b>"+item.updatedby+"</b>]&nbsp;&nbsp;"+item.vremark +"</li>");
+                 $("#remarkstitle").append("Team Vacation Plan ("+ dayString2 +")");
+                //
+                //  $(dataResult[6]).each(function (index, item) {
+                //    $("#remarkslist").append("<li class='list-group-item'>["+ item.updatedon +";&nbsp;&nbsp;"
+                //   +item.updatedat +";&nbsp;&nbsp;vacation for: <b>"+item.createdfor+ "</b>;&nbsp;&nbsp;remark by: <b>"+item.updatedby+"</b>]&nbsp;&nbsp;"+item.vremark +"</li>");
+                //
+                //  });
 
-                 });
+                 $("#tbody_team_vacation").empty();
+                 var table2 = document.getElementById("tbody_team_vacation");
+                 $(dataResult[5]).each(function (index, item) {
+                   row2 = table2.insertRow(table2.rows.length);
+                   row2.className = "row_vacation_table";
+
+                   var i=0;
+                   var newcell = row2.insertCell(i);
+                   newcell.innerHTML =item.vguid;
+                   newcell.className = "vguid_vacation_table";
+
+                   i++;
+                   newcell = row2.insertCell(i);
+                   newcell.innerHTML = item.createdfor;
+                   newcell.className = "createdfor_vacation_table";
+
+
+                   i++;
+                   newcell = row2.insertCell(i);
+                   newcell.innerHTML = item.createdfor_name;
+                   //newcell.className = "tseqid23";
+
+                   i++;
+                   newcell = row2.insertCell(i);
+                   newcell.innerHTML = item.vstart;
+                   //newcell.className = "tseqid23";
+
+                   i++;
+                   newcell = row2.insertCell(i);
+                   newcell.innerHTML = item.vend;
+                   //newcell.className = "tseqid23";
+
+
+                   i++;
+                   newcell = row2.insertCell(i);
+                   newcell.innerHTML = item.action;
+                   });
+
 
             });
              eventDiv5.classList.add('vacationsstyle');

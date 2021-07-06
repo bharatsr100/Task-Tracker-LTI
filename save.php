@@ -176,13 +176,13 @@
 						"p_emailid"=> "",
 						"password"=> "",
 						"role"=>"",
-						"rr5"=>"",
+						"admin"=>"No",
 						"allusers"=>"",
 						"statuscode"=>"e",
 						"description"=>"User ID or Password is incorrect"
 
 				);
-
+				$roles=array();
 		$users = array (
 						"uguid"=> "",
 						"uname"=> ""
@@ -225,12 +225,14 @@
 						$arr['p_emailid']=$rr4["value"];
 
 						$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
-						$rr5 = mysqli_fetch_assoc($tr5);
-						if($rr5){
-							$arr['role']=$rr5["role"];
-						}
+						$ntr5=mysqli_num_rows($tr5);
 
-						$arr['rr5']=$rr5;
+						while($rr5 = mysqli_fetch_assoc($tr5)){
+							$role_i= $rr5["role"];
+							if($role_i=="admin") $arr['admin']="Yes";
+							$roles[]=$role_i;
+						}
+						$arr['role']=$roles;
 
 						function traversetree($conn,$tr6,$users,&$allusers){
 							$n1=mysqli_num_rows($tr6);
@@ -266,6 +268,10 @@
 						$_SESSION['arr']=serialize($arr);
 						$_SESSION['uguid']=$row['uguid'];
 						$_SESSION['uname']=$row["uname"];
+
+						if($arr['admin']=="Yes") $_SESSION['admin']="Yes";
+						else $_SESSION['admin']="No";
+
 						echo json_encode($arr);
 
 					}
@@ -307,12 +313,16 @@
 					$arr['p_emailid']=$rr4["value"];
 
 					$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
-					$rr5 = mysqli_fetch_assoc($tr5);
-					if($rr5){
-						$arr['role']=$rr5["role"];
+					$ntr5=mysqli_num_rows($tr5);
+
+					while($rr5 = mysqli_fetch_assoc($tr5)){
+						$role_i= $rr5["role"];
+						if($role_i=="admin") $arr['admin']="Yes";
+						$roles[]=$role_i;
 					}
-					//$arr['tr5']=$tr5;
-					$arr['rr5']=$rr5;
+					$arr['role']=$roles;
+
+					//$arr['rr5']=$rr5;
 
 // function traversetree($conn,$owner,$users,&$allusers){
 //
@@ -372,6 +382,10 @@ traversetree($conn,$tr6,$users,$allusers);
 					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
+
+					if($arr['admin']=="Yes") $_SESSION['admin']="Yes";
+					else $_SESSION['admin']="No";
+
 					echo json_encode($arr);
 
 				}
@@ -413,12 +427,13 @@ traversetree($conn,$tr6,$users,$allusers);
 					$arr['p_emailid']=$rr4["value"];
 
 					$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
-					$rr5 = mysqli_fetch_assoc($tr5);
-					if($rr5){
-						$arr['role']=$rr5["role"];
+					$ntr5=mysqli_num_rows($tr5);
+					while($rr5 = mysqli_fetch_assoc($tr5)){
+						$role_i= $rr5["role"];
+						if($role_i=="admin") $arr['admin']="Yes";
+						$roles[]=$role_i;
 					}
-
-					$arr['rr5']=$rr5;
+					$arr['role']=$roles;
 
 					function traversetree($conn,$tr6,$users,&$allusers){
 						$n1=mysqli_num_rows($tr6);
@@ -453,6 +468,10 @@ traversetree($conn,$tr6,$users,$allusers);
 					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
+
+					if($arr['admin']=="Yes") $_SESSION['admin']="Yes";
+					else $_SESSION['admin']="No";
+
 					echo json_encode($arr);
 
 				}
@@ -491,13 +510,14 @@ traversetree($conn,$tr6,$users,$allusers);
 					$arr['p_emailid']=$rr4["value"];
 
 					$tr5= mysqli_query($conn,"select * from user_role where uguid='$uguid'");
-					$rr5 = mysqli_fetch_assoc($tr5);
-					if($rr5){
-						$arr['role']=$rr5["role"];
+					$ntr5=mysqli_num_rows($tr5);
+
+					while($rr5 = mysqli_fetch_assoc($tr5)){
+						$role_i= $rr5["role"];
+						if($role_i=="admin") $arr['admin']="Yes";
+						$roles[]=$role_i;
 					}
-
-
-					$arr['rr5']=$rr5;
+					$arr['role']=$roles;
 
 					function traversetree($conn,$tr6,$users,&$allusers){
 						$n1=mysqli_num_rows($tr6);
@@ -531,6 +551,10 @@ traversetree($conn,$tr6,$users,$allusers);
 					$_SESSION['uguid']=$row['uguid'];
 					$_SESSION['arr'] = serialize($arr);
 					$_SESSION['uname']=$row["uname"];
+
+					if($arr['admin']=="Yes") $_SESSION['admin']="Yes";
+					else $_SESSION['admin']="No";
+
 					echo json_encode($arr);
 
 				}

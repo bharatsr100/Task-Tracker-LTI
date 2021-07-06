@@ -254,7 +254,8 @@ while($row=mysqli_fetch_assoc($result2)){
 }
 $vguid="";
 $action="cancel";
-$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdfor='$uguid'");
+$action2="Rejected";
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && action!='$action2' && createdfor='$uguid'");
 $n2= mysqli_num_rows($r2);
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];
@@ -1100,7 +1101,7 @@ else if($_POST['type']=="11"){
                 "createdat"=> "",
                 "createdby"=> "",
                 "createdfor"=> "",
-
+                "createdfor_name"=> "",
                 "statuscode"=>"e",
                 "description"=>"Error while loading vacations"
 
@@ -1187,7 +1188,8 @@ while($row=mysqli_fetch_assoc($result2)){
 }
 $vguid="";
 $action="cancel";
-$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && createdfor='$uguid'");
+$action2="Rejected";
+$r2= mysqli_query($conn,"select * from vtable where  vstart <='$date' && vend>= '$date' && action!='$action' && action!='$action2' && createdfor='$uguid'");
 $n2= mysqli_num_rows($r2);
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];
@@ -1198,8 +1200,16 @@ while($row=mysqli_fetch_assoc($r2)){
   $vacation['createdon']= $row['createdon'];
   $vacation['createdat']= $row['createdat'];
   $vacation['createdby']= $row['createdby'];
+
+  $userid=$row['createdfor'];
+  $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+  $row2=mysqli_fetch_assoc($seq);
+  $vacation['createdfor_name']= $row2['uname'];
+
   $vacation['createdfor']= $row['createdfor'];
   $vacation['action']= $row['action'];
+
+  if($vacation['action']=="") $vacation['action']="Requested";
   $vacation['statuscode']= "s";
   $vacation['description']= "vacation loaded successfully";
 
@@ -1371,7 +1381,7 @@ $eachremark=array(
   "updatedat"=>"",
   "sub_vremark"=>""
 );
-$action="cancel";
+
 $allusers = unserialize($_SESSION['allusers']);
 
 //$index=0;
@@ -1383,7 +1393,7 @@ for($i = 0; $i < count($allusers); $i++) {
 for($i = 0; $i < count($allusers); $i++) {
 $uguid=$allusers[$i]["uguid"];
 $uname=$allusers[$i]["uname"];
-$r2= mysqli_query($conn,"select * from vtable where action!='$action' && createdfor='$uguid'");
+$r2= mysqli_query($conn,"select * from vtable where createdfor='$uguid'");
 
 while($row=mysqli_fetch_assoc($r2)){
   $vacation['vguid']= $row['vguid'];
@@ -1500,12 +1510,52 @@ $vguid= $_POST['vguid'];
 $arr2['vguid']=$vguid;
 $arr2['vremark']=$vremark;
 
-$action="cancel";
+$action="Rejected";
 $s1= mysqli_query($conn,"UPDATE vtable SET action='$action'WHERE vguid= '$vguid'");
 if($s1){
   $arr2['action']=$action;
   $arr2['statuscode']= "s";
   $arr2['description']= "Vacation Rejected successfully";
+}
+if($vremark!=""){
+  $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$updatedon','$updatedat','$updatedby','$vremark')");
+}
+echo json_encode($arr2);
+mysqli_close($conn);
+
+}
+
+//Function to cancel vacation
+else if($_POST['type']=="16")
+{
+  $arr2 = array (
+  "vguid"=> "",
+  "action"=>"",
+  "vremark"=>"",
+  "statuscode"=>"e",
+  "description"=>"Error occured while cancelling vacation plan"
+
+);
+$date1= date("Ymd");
+$time2= date("his");
+$uguid=$_SESSION['uguid'];
+
+$updatedon=$date1;
+$updatedat=$time2;
+$updatedby=$uguid;
+$vremark= $_POST['vremark_action'];
+$vsequenceid="ooo";
+
+$vguid= $_POST['vguid'];
+$arr2['vguid']=$vguid;
+$arr2['vremark']=$vremark;
+
+$action="cancel";
+$s1= mysqli_query($conn,"UPDATE vtable SET action='$action'WHERE vguid= '$vguid'");
+if($s1){
+  $arr2['action']=$action;
+  $arr2['statuscode']= "s";
+  $arr2['description']= "Vacation cancelled successfully";
 }
 if($vremark!=""){
   $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$updatedon','$updatedat','$updatedby','$vremark')");
