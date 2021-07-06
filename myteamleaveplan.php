@@ -25,26 +25,120 @@ header('location:index.php');
       background-color:#DEDBEE;
 
     }
+    .vguid_vacation_table{
+      display:none;
+    }
+    .createdfor_vacation_table{
+      display:none;
+    }
     </style>
   </head>
   <body>
     <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float: right;">Log Out</button>
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; margin-right:10px;">Home</button>
-    <br><br><br>
-    <h1 style="text-align:center;" id="headone">My Team Leave Plan</h1><br><br><br>
+<!-- ########################################################################################################################################### -->
+  <!-- Approve/Reject Vacation Modal -->
+    <div class="modal fade" id="approve_reject_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document" id="app_rej_modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Approve or Reject the Vacation Plan</h5>
+            <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          <form id="app_rej_form" name="app_rej_form" method="post"  >
+
+            <div  class="form-group">
+              <label  for="vguid" style="display:none;">VGUID:
+            </label>
+              <input type="text" class="form-control" id="vguid" placeholder="VGUID" name="vguid" style="display:none;" readonly>
+            </div>
+            <div  class="form-group">
+              <label  for="createdfor" >Name:
+            </label>
+              <input type="text" class="form-control" id="createdfor" placeholder="Created for" name="createdfor" readonly>
+            </div>
+            <div  class="form-group">
+              <label  for="vstart" >Vacation Start Date:
+            </label>
+              <input type="text" class="form-control" id="vstart" placeholder="Start Date" name="vstart" readonly>
+            </div>
+            <div  class="form-group">
+              <label  for="vend" >Vacation End Date:
+            </label>
+              <input type="text" class="form-control" id="vend" placeholder="End Date" name="vend" readonly>
+            </div>
+            <div  class="form-group">
+              <label  for="vend" >Reason:
+            </label>
+              <input type="text" class="form-control" id="vreason" placeholder="Reason" name="vreason" readonly>
+            </div>
+            <div  class="form-group">
+              <label  for="vremark_action">Remark:
+            </label>
+              <input type="text" class="form-control" id="vremark_action" placeholder="Remark" name="vremark_action" >
+            </div>
+
+
+            <button type="button" class="btn btn-secondary close1" data-dismiss="modal" >Close</button>
+            <button type="submit" class="btn btn-success approve_vacation" id="approve_vacation" name="approve_vacation"  >Approve</button>
+            <button type="submit" class="btn btn-danger reject_vacation" id="reject_vacation" name="reject_vacation">Reject</button>
+          </form>
+          <div class="alert alert-success alert-dismissible" id="success_action" style="display:none;" >
+
+          </div>
+          <div class="alert alert-danger alert-dismissible" id="error_action" style="display:none;">
+
+          </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br><br>
+    <h1 style="text-align:center;" id="headone">Planned team vacations</h1><br><br><br>
+    <center>
+      <div id="teamvacation_appr_div" style="display:contents">
+        <table class="table table-hover" id="teamvacation_appr_table">
+          <thead>
+            <tr>
+              <th scope="col" style="display:none;">VGUID</th>
+              <th scope="col" style="display:none;">Created for(id)</th>
+              <th scope="col">Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Remarks</th>
+              <th scope="col">Action Taken</th>
+
+            </tr>
+          </thead>
+          <tbody id="tbody_team_vacation_appr">
+          </tbody>
+        </table>
+      </div>
+      <br><br><br>
+    </center>
+    <h1 style="text-align:center;" id="headone">Team Vacations (Action Pending)</h1><br><br>
     <center>
       <div id="teamvacation_div" style="display:contents">
         <table class="table table-hover" id="teamvacation_table">
           <thead>
             <tr>
-              <th scope="col">VGUID</th>
-              <th scope="col">Created for(id)</th>
-              <th scope="col">Created for</th>
-              <th scope="col">From</th>
-              <th scope="col">To</th>
+              <th scope="col" style="display:none;">VGUID</th>
+              <th scope="col" style="display:none;">Created for(id)</th>
+              <th scope="col">Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
               <th scope="col">Reason</th>
               <th scope="col">Remarks</th>
-              <th scope="col">Action </th>
+              <th scope="col">Approve/Reject</th>
+
             </tr>
           </thead>
           <tbody id="tbody_team_vacation">

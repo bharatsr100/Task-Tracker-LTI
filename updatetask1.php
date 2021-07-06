@@ -1436,7 +1436,84 @@ echo json_encode($allvacations);
 mysqli_close($conn);
 
 }
+//Function to approve vacation
+else if($_POST['type']=="14")
+{
+  $arr2 = array (
+  "vguid"=> "",
+  "action"=>"",
+  "vremark"=>"",
+  "statuscode"=>"e",
+  "description"=>"Error occured while approving vacation plan"
 
+);
+$date1= date("Ymd");
+$time2= date("his");
+$uguid=$_SESSION['uguid'];
+
+$updatedon=$date1;
+$updatedat=$time2;
+$updatedby=$uguid;
+
+$vguid= $_POST['vguid'];
+$vremark= $_POST['vremark_action'];
+$vsequenceid="ooo";
+
+$arr2['vguid']=$vguid;
+$arr2['vremark']=$vremark;
+$action="Approved";
+$s1= mysqli_query($conn,"UPDATE vtable SET action='$action'WHERE vguid= '$vguid'");
+if($s1){
+  $arr2['action']=$action;
+  $arr2['statuscode']= "s";
+  $arr2['description']= "Vacation Approved successfully";
+}
+if($vremark!=""){
+  $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$updatedon','$updatedat','$updatedby','$vremark')");
+}
+echo json_encode($arr2);
+mysqli_close($conn);
+
+}
+//Function to reject vacation
+else if($_POST['type']=="15")
+{
+  $arr2 = array (
+  "vguid"=> "",
+  "action"=>"",
+  "vremark"=>"",
+  "statuscode"=>"e",
+  "description"=>"Error occured while rejecting vacation plan"
+
+);
+$date1= date("Ymd");
+$time2= date("his");
+$uguid=$_SESSION['uguid'];
+
+$updatedon=$date1;
+$updatedat=$time2;
+$updatedby=$uguid;
+$vremark= $_POST['vremark_action'];
+$vsequenceid="ooo";
+
+$vguid= $_POST['vguid'];
+$arr2['vguid']=$vguid;
+$arr2['vremark']=$vremark;
+
+$action="cancel";
+$s1= mysqli_query($conn,"UPDATE vtable SET action='$action'WHERE vguid= '$vguid'");
+if($s1){
+  $arr2['action']=$action;
+  $arr2['statuscode']= "s";
+  $arr2['description']= "Vacation Rejected successfully";
+}
+if($vremark!=""){
+  $r2=mysqli_query($conn, "INSERT INTO vstatus (vguid,vsequenceid,updatedon,updatedat,updatedby,vremark)VALUES ('$vguid','$vsequenceid','$updatedon','$updatedat','$updatedby','$vremark')");
+}
+echo json_encode($arr2);
+mysqli_close($conn);
+
+}
 
 
 ?>
