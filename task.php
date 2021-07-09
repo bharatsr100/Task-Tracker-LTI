@@ -17,6 +17,7 @@ $arr2 = array (
         "astart"=> "",
        "aend"=> "",
         "peffort"=> "",
+        "priority"=>"",
         "comment"=>"",
         "statuscode"=>"e",
         "description"=>"Error while creating task"
@@ -43,6 +44,7 @@ $arr2 = array (
     $astart= $_POST['astart'];
     $aend= $_POST['aend'];
     $peffort= $_POST['peffort'];
+    $priority= $_POST['priority'];
     $aeffort="";
     // $astart= $_POST['astart'];
     // $aend= $_POST['aend'];
@@ -83,7 +85,7 @@ $arr2 = array (
       }
       else{
 
-        $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby')";
+        $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby,priority)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby','$priority')";
         $r1=mysqli_query($conn, $sql1);
         $tsequenceid=0;
         $tstage=0;

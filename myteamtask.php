@@ -259,6 +259,17 @@ $allusers = unserialize($_SESSION['allusers']);
             </label>
               <input type="text" class="form-control" id="peffort" placeholder="Planned Effort" name="peffort">
             </div>
+            <div  class="form-group">
+              <label  for="priority">Priority:
+            </label>
+            <select class="form-control" id="priority" name="priority">
+                <option  value=1>Very High</option>
+                <option value=2>High</option>
+                <option selected="true" value=3>Medium</option>
+                <option value=4>Low</option>
+                <option value=5>Very Low</option>
+                </select>
+            </div>
 
             <!-- <div  class="form-group">
               <label  for="astart" style="display:none">Actual Start:
@@ -575,6 +586,17 @@ $allusers = unserialize($_SESSION['allusers']);
               <label  for="ttype1">Planned Effort:
             </label>
               <input type="text" class="form-control" id="peffort1" placeholder="Planned Effort" name="peffort1">
+            </div>
+            <div  class="form-group">
+              <label  for="priority1">Priority:
+            </label>
+            <select class="form-control" id="priority1" name="priority1">
+                <option value=1>Very High</option>
+                <option value=2>High</option>
+                <option selected="true" value=3>Medium</option>
+                <option value=4>Low</option>
+                <option value=5>Very Low</option>
+                </select>
             </div>
 
             <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
@@ -901,10 +923,12 @@ $allusers = unserialize($_SESSION['allusers']);
         <th scope="col">Planned Effort (days)</th>
         <th scope="col">Actual Start</th>
         <th scope="col" >Actual End</th>
-        <th scope="col">Actual Effort (mins)</th>
+        <th scope="col">Actual Effort (days)</th>
 
-        <th scope="col" style="width: 160px;">Task Status</th>
+        <th scope="col" style="width: 120px;">Task Status</th>
         <th scope="col" style="width: 150px;display:none;">Actions</th>
+        <th scope="col" style="width: 160px;display:none;">Priority</th>
+        <th scope="col" style="width: 150px;">Priority</th>
         <!-- <th scope="col">Task Stage</th>
         <th scope="col">Created By</th> -->
       </tr>
@@ -1024,7 +1048,10 @@ $allusers = unserialize($_SESSION['allusers']);
         <td><?php
         if($row['pend']=="0000-00-00") echo "";
          else echo $row['pend']; ?></td>
-        <td><?php echo $row['peffort']; ?></td>
+        <td><?php
+        if($row['peffort'])echo round(((float)$row['peffort']/480),2);
+        else echo "";
+        ?></td>
         <td><?php
         if($row['astart']=="0000-00-00") echo "";
         else echo $row['astart']; ?></td>
@@ -1033,7 +1060,10 @@ $allusers = unserialize($_SESSION['allusers']);
 
         if($row['aend']=="0000-00-00") echo "";
         else echo $row['aend']; ?></td>
-        <td><?php echo $row['aeffort']; ?></td>
+        <td><?php
+        if($row['aeffort'])echo round(((float)$row['aeffort']/480),2);
+        else echo "";
+        ?></td>
          <td ><button type="submit" class="btn btn-success commentbtn" id="commentbtn1" style="color: black; border-color:white"><?php
          if($row['tstage']==1) echo "<b><u>To be planned</b></u>";
          else if($row['tstage']==2) echo "<b><u>In Progress</b></u>";
@@ -1059,6 +1089,16 @@ $allusers = unserialize($_SESSION['allusers']);
 
 
         </td>
+        <td style="display:none;"><?php echo $row['priority']; ?></td>
+        <td><?php
+            $priority=$row['priority'];
+
+            if($priority==1) $priority_text="Very High";
+            else if($priority==2) $priority_text="High";
+            else if($priority==3) $priority_text="Medium";
+            else if($priority==4) $priority_text="Low";
+            else $priority_text="Very Low";
+           echo $row['priority']." ".$priority_text; ?></td>
 
       </tr>
       <?php
@@ -1279,11 +1319,13 @@ $allusers = unserialize($_SESSION['allusers']);
     <th scope="col">Planned Effort (days)</th>
     <th scope="col">Actual Start</th>
     <th scope="col">Actual End</th>
-    <th scope="col">Actual Effort (mins)</th>
+    <th scope="col">Actual Effort (days)</th>
     <th scope="col" style="display:none;">TID (2)</th>
-    <th scope="col" style="width: 160px;">Task Status</th>
+    <th scope="col" style="width: 120px;">Task Status</th>
     <!-- <th scope="col">Task Stage</th> -->
     <th scope="col" style="display:none;">Actions</th>
+    <th scope="col" style="width: 160px;display:none;">Priority</th>
+    <th scope="col" style="width: 150px;">Priority</th>
   </tr>
   </thead>
   <?php
@@ -1379,7 +1421,10 @@ else if($row['tstage']==6) {
     <td><?php
     if($row['pend']=="0000-00-00") echo "";
      else echo $row['pend']; ?></td>
-    <td><?php echo $row['peffort']; ?></td>
+    <td><?php
+    if($row['peffort'])echo round(((float)$row['peffort']/480),2);
+    else echo "";
+    ?></td>
     <td><?php
     if($row['astart']=="0000-00-00") echo "";
     else echo $row['astart']; ?></td>
@@ -1388,7 +1433,11 @@ else if($row['tstage']==6) {
 
     if($row['aend']=="0000-00-00") echo "";
     else echo $row['aend']; ?></td>
-    <td><?php echo $row['aeffort']; ?></td>
+    <td><?php
+
+    if($row['aeffort'])echo round(((float)$row['aeffort']/480),2);
+    else echo "";
+    ?></td>
     <td style="display:none;"><?php echo $row['tid']; ?></td>
 
      <td><button  type="submit" class="btn btn-success tstepstage" id="tsptepstage" style="color: black; border-color:white;text-decoration: underline;"><?php
@@ -1411,6 +1460,16 @@ else if($row['tstage']==6) {
 
 
     </td>
+    <td style="display:none;"><?php echo $row['priority']; ?></td>
+    <td><?php
+        $priority=$row['priority'];
+
+        if($priority==1) $priority_text="Very High";
+        else if($priority==2) $priority_text="High";
+        else if($priority==3) $priority_text="Medium";
+        else if($priority==4) $priority_text="Low";
+        else $priority_text="Very Low";
+        echo $row['priority']." ".$priority_text; ?></td>
 
   </tr>
   <?php

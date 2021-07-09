@@ -477,6 +477,7 @@ else if($_POST['type']=="6"){
            "pstart"=> "",
           "pend"=> "",
           "peffort"=> "",
+          "priority"=>"",
           "statuscode"=>"e",
           "description"=>"Error while editing task"
 
@@ -491,6 +492,7 @@ else if($_POST['type']=="6"){
   $pstart= $_POST['pstart1'];
   $pend= $_POST['pend1'];
   $peffort= $_POST['peffort1'];
+  $priority= $_POST['priority1'];
 
   $tstage;
 
@@ -503,6 +505,7 @@ else if($_POST['type']=="6"){
   $arr2['pstart']="$pstart";
   $arr2['pend']="$pend";
   $arr2['peffort']="$peffort";
+  $arr2['priority']="$priority";
 
   if($pstart=="") $tstage=1;
 
@@ -520,10 +523,19 @@ else if($_POST['type']=="6"){
   }
   else{
 
-  if(($pstart!="" && $pend!="" && $peffort!="") || ($pstart=="" && $pend=="" && $peffort=="") ){
+  if($pstart=="" && $pend=="" && $peffort==0 && $priority!=0){
+    $s1= mysqli_query($conn,"UPDATE ttable SET tid='$tid', tdescription='$tdescription',ttype='$ttype',priority='$priority' WHERE tguid= '$tguid'");
+    $arr2['statuscode']="s";
+    $arr2['description']="Task Succcessfully Updated";
+    echo json_encode($arr2);
+    mysqli_close($conn);
+    exit();
+  }
+
+  if(($pstart!="" && $pend!="" && $peffort!=0) || ($pstart=="" && $pend=="" && $peffort==0) ){
   if($assignto=="") $assignto=$uguid;
   $tsequence=0;
-  $s1= mysqli_query($conn,"UPDATE ttable SET tid='$tid', tdescription='$tdescription',ttype='$ttype' WHERE tguid= '$tguid'");
+  $s1= mysqli_query($conn,"UPDATE ttable SET tid='$tid', tdescription='$tdescription',ttype='$ttype',priority='$priority' WHERE tguid= '$tguid'");
   $s2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto',tstepdescription='$tdescription',tstage='$tstage', pstart='$pstart',pend='$pend',peffort='$peffort' WHERE tguid= '$tguid' && tsequenceid='$tsequence'");
 
   if($s1 && $s2){
@@ -1577,14 +1589,48 @@ mysqli_close($conn);
 else if($_POST['type']=="17")
 {
   $tid= $_POST['tid'];
+  if($tid=="") $tid="%";
   $createdon_from= $_POST['createdon_from'];
   $createdon_to= $_POST['createdon_to'];
+  $pstart_from= $_POST['pstart_from'];
+  $pstart_to= $_POST['pstart_to'];
+  $pend_from= $_POST['pend_from'];
+  $pend_to= $_POST['pend_to'];
+  $astart_from= $_POST['astart_from'];
+  $astart_to= $_POST['astart_to'];
+  $aend_from= $_POST['aend_from'];
+  $aend_to= $_POST['aend_to'];
+
   $tstatus= $_POST['tstatus'];
+  if($tstatus==0) $tstatus="%";
+
   $userslist= $_POST['userslist'];
+  if($userslist==0) $userslist="%";
+
   $userinfo= $_POST['userinfo'];
 
   if($createdon_from=="" && $createdon_to!="") $createdon_from=$createdon_to;
   if($createdon_to=="" && $createdon_from!="") $createdon_to=$createdon_from;
+  if($pstart_from=="" && $pstart_to!="") $pstart_from=$pstart_to;
+  if($pstart_to=="" && $pstart_from!="") $pstart_to=$pstart_from;
+  if($pend_from=="" && $pend_to!="") $pend_from=$pend_to;
+  if($pend_to=="" && $pend_from!="") $pend_to=$pend_from;
+  if($astart_from=="" && $astart_to!="") $astart_from=$astart_to;
+  if($astart_to=="" && $astart_from!="") $astart_to=$astart_from;
+  if($aend_from=="" && $aend_to!="") $aend_from=$aend_to;
+  if($aend_to=="" && $aend_from!="") $aend_to=$aend_from;
+
+  if($createdon_from=="") $createdon_from="0000-00-00";
+  if($createdon_to=="") $createdon_to="9999-12-31";
+  if($pstart_from=="") $pstart_from="0000-00-00";
+  if($pstart_to=="") $pstart_to="9999-12-31";
+  if($pend_from=="") $pend_from="0000-00-00";
+  if($pend_to=="") $pend_to="9999-12-31";
+  if($astart_from=="") $astart_from="0000-00-00";
+  if($astart_to=="") $astart_to="9999-12-31";
+  if($aend_from=="") $aend_from="0000-00-00";
+  if($aend_to=="") $aend_to="9999-12-31";
+
   $alltasks= array();
   $task = array (
           "tguid"=> "",
@@ -1609,10 +1655,13 @@ else if($_POST['type']=="17")
 
       );
       $date_today=date("Y-m-d");
-      if($tid=="" && $createdon_from=="" && $createdon_to=="" && $tstatus==0 && $userslist==0 && $userinfo==0){
-        $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid order by p.tid";
-        $result=mysqli_query($conn, $sql1);
 
+      // if($tid=="" && $createdon_from=="" && $createdon_to=="" && $tstatus==0 && $userslist==0 && $userinfo==0){
+        if($userinfo==0 || $userslist=="%")
+{        if ($tstatus!=3) $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto like '$userslist' && c.tstage like '$tstatus'
+        &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' order by p.tid";
+        else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto like '$userslist' && (c.tstage =2 || c.tstage=3) order by p.tid";
+        $result=mysqli_query($conn, $sql1);
 
         while($row=mysqli_fetch_assoc($result)){
          $task['tguid']= $row['tguid'];
@@ -1649,331 +1698,394 @@ else if($_POST['type']=="17")
 
          $alltasks[]=$task;
        }
+     }
+     else if($userinfo==1){
 
-      }
-else if($tid!="" && $createdon_from=="" && $createdon_to=="" && $tstatus==0 && $userslist==0 && $userinfo==0){
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  p.tid='$tid' order by p.tid";
-  $result=mysqli_query($conn, $sql1);
-
-
-  while($row=mysqli_fetch_assoc($result)){
-   $task['tguid']= $row['tguid'];
-   $task['tid']= $row['tid'];
-   $task['createdon']= $row['createdon'];
-   $task['assignto_id']= $row['assignto'];
-
-   $userid=$row['assignto'];
-   $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-   $row2=mysqli_fetch_assoc($seq);
-   $task['assignto']= $row2['uname'];
-
-   $task['tsequenceid']= $row['tsequenceid'];
-   $task['tstepdescription']= $row['tstepdescription'];
-   $task['ttype']= $row['ttype'];
-   $task['pstart']= $row['pstart'];
-   $task['pend']= $row['pend'];
-   $task['date_today']=$date_today;
-   $task['peffort']= $row['peffort'];
-   $task['astart']= $row['astart'];
-   $task['aend']= $row['aend'];
-   $task['aeffort']= $row['aeffort'];
-   $task['tstage']= $row['tstage'];
-   $tstage=$row['tstage'];
-
-   if($tstage==1) $task['tstatus']="To be Planned";
-   else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-   else if($tstage==4) $task['tstatus']= "Completed";
-   else if($tstage==5) $task['tstatus']="On Hold";
-   else $task['tstatus']="Awaiting";
-
-   $task['statuscode']= "s";
-   $task['description']= "Task successfully loaded";
-
-   $alltasks[]=$task;
- }
-
-}
-else if($tid=="" && $createdon_from!="" && $createdon_to!="" && $tstatus==0 && $userslist==0 && $userinfo==0){
-
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' order by p.tid";
-    // && p.createdon<=$createdon_to
-  $result=mysqli_query($conn, $sql1);
-
-
-    while($row=mysqli_fetch_assoc($result)){
-     $task['tguid']= $row['tguid'];
-     $task['tid']= $row['tid'];
-     $task['createdon']= $row['createdon'];
-     $task['assignto_id']= $row['assignto'];
-
-     $userid=$row['assignto'];
-     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-     $row2=mysqli_fetch_assoc($seq);
-     $task['assignto']= $row2['uname'];
-
-     $task['tsequenceid']= $row['tsequenceid'];
-     $task['tstepdescription']= $row['tstepdescription'];
-     $task['ttype']= $row['ttype'];
-     $task['pstart']= $row['pstart'];
-     $task['pend']= $row['pend'];
-     $task['date_today']=$date_today;
-     $task['peffort']= $row['peffort'];
-     $task['astart']= $row['astart'];
-     $task['aend']= $row['aend'];
-     $task['aeffort']= $row['aeffort'];
-     $task['tstage']= $row['tstage'];
-     $tstage=$row['tstage'];
-
-     if($tstage==1) $task['tstatus']="To be Planned";
-     else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-     else if($tstage==4) $task['tstatus']= "Completed";
-     else if($tstage==5) $task['tstatus']="On Hold";
-     else $task['tstatus']="Awaiting";
-
-     $task['statuscode']= "s";
-     $task['description']= "Task successfully loaded";
-     $alltasks[]=$task;
-   }
-
-
-}
-else if($tid!="" && $createdon_from!="" && $createdon_to!="" && $tstatus==0 && $userslist==0 && $userinfo==0)
-{
-
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && p.tid='$tid' order by p.tid";
-  $result=mysqli_query($conn, $sql1);
-
-
-    while($row=mysqli_fetch_assoc($result)){
-     $task['tguid']= $row['tguid'];
-     $task['tid']= $row['tid'];
-     $task['createdon']= $row['createdon'];
-     $task['assignto_id']= $row['assignto'];
-
-     $userid=$row['assignto'];
-     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-     $row2=mysqli_fetch_assoc($seq);
-     $task['assignto']= $row2['uname'];
-
-     $task['tsequenceid']= $row['tsequenceid'];
-     $task['tstepdescription']= $row['tstepdescription'];
-     $task['ttype']= $row['ttype'];
-     $task['pstart']= $row['pstart'];
-     $task['pend']= $row['pend'];
-     $task['date_today']=$date_today;
-     $task['peffort']= $row['peffort'];
-     $task['astart']= $row['astart'];
-     $task['aend']= $row['aend'];
-     $task['aeffort']= $row['aeffort'];
-     $task['tstage']= $row['tstage'];
-     $tstage=$row['tstage'];
-
-     if($tstage==1) $task['tstatus']="To be Planned";
-     else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-     else if($tstage==4) $task['tstatus']= "Completed";
-     else if($tstage==5) $task['tstatus']="On Hold";
-     else $task['tstatus']="Awaiting";
-
-     $task['statuscode']= "s";
-     $task['description']= "Task successfully loaded";
-     $alltasks[]=$task;
-   }
-
-
-}
-else if($tid=="" && $createdon_from=="" && $createdon_to=="" && $tstatus!=0 && $userslist==0 && $userinfo==0)
-{
-  $sql1;
-  if($tstatus!=3)
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.tstage='$tstatus' order by p.tid";
-  else{
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && (c.tstage=2 || c.tstage=3) order by p.tid";
-  }
-
-  $result=mysqli_query($conn, $sql1);
-
-
-    while($row=mysqli_fetch_assoc($result)){
-     $task['tguid']= $row['tguid'];
-     $task['tid']= $row['tid'];
-     $task['createdon']= $row['createdon'];
-     $task['assignto_id']= $row['assignto'];
-
-     $userid=$row['assignto'];
-     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-     $row2=mysqli_fetch_assoc($seq);
-     $task['assignto']= $row2['uname'];
-
-     $task['tsequenceid']= $row['tsequenceid'];
-     $task['tstepdescription']= $row['tstepdescription'];
-     $task['ttype']= $row['ttype'];
-     $task['pstart']= $row['pstart'];
-     $task['pend']= $row['pend'];
-     $task['date_today']=$date_today;
-     $task['peffort']= $row['peffort'];
-     $task['astart']= $row['astart'];
-     $task['aend']= $row['aend'];
-     $task['aeffort']= $row['aeffort'];
-     $task['tstage']= $row['tstage'];
-     $tstage=$row['tstage'];
-
-     if($tstage==1) $task['tstatus']="To be Planned";
-     else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-     else if($tstage==4) $task['tstatus']= "Completed";
-     else if($tstage==5) $task['tstatus']="On Hold";
-     else $task['tstatus']="Awaiting";
-
-     $task['statuscode']= "s";
-     $task['description']= "Task successfully loaded";
-     $alltasks[]=$task;
-   }
-
-
-}
-else if($tid=="" && $createdon_from=="" && $createdon_to=="" && $tstatus==0 && $userslist!=0 && $userinfo==0)
-{
-
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  c.assignto='$userslist' order by p.tid";
-  $result=mysqli_query($conn, $sql1);
-
-
-    while($row=mysqli_fetch_assoc($result)){
-     $task['tguid']= $row['tguid'];
-     $task['tid']= $row['tid'];
-     $task['createdon']= $row['createdon'];
-     $task['assignto_id']= $row['assignto'];
-
-     $userid=$row['assignto'];
-     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-     $row2=mysqli_fetch_assoc($seq);
-     $task['assignto']= $row2['uname'];
-
-     $task['tsequenceid']= $row['tsequenceid'];
-     $task['tstepdescription']= $row['tstepdescription'];
-     $task['ttype']= $row['ttype'];
-     $task['pstart']= $row['pstart'];
-     $task['pend']= $row['pend'];
-     $task['date_today']=$date_today;
-     $task['peffort']= $row['peffort'];
-     $task['astart']= $row['astart'];
-     $task['aend']= $row['aend'];
-     $task['aeffort']= $row['aeffort'];
-     $task['tstage']= $row['tstage'];
-     $tstage=$row['tstage'];
-
-     if($tstage==1) $task['tstatus']="To be Planned";
-     else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-     else if($tstage==4) $task['tstatus']= "Completed";
-     else if($tstage==5) $task['tstatus']="On Hold";
-     else $task['tstatus']="Awaiting";
-
-     $task['statuscode']= "s";
-     $task['description']= "Task successfully loaded";
-     $alltasks[]=$task;
-   }
-
-
-}
-else if($tid=="" && $createdon_from!="" && $createdon_to!="" && $tstatus==0 && $userslist!=0 && $userinfo==0)
-{
-
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  c.assignto='$userslist' && p.createdon>='$createdon_from' && p.createdon<='$createdon_to' order by p.tid";
-  $result=mysqli_query($conn, $sql1);
-
-
-    while($row=mysqli_fetch_assoc($result)){
-     $task['tguid']= $row['tguid'];
-     $task['tid']= $row['tid'];
-     $task['createdon']= $row['createdon'];
-     $task['assignto_id']= $row['assignto'];
-
-     $userid=$row['assignto'];
-     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-     $row2=mysqli_fetch_assoc($seq);
-     $task['assignto']= $row2['uname'];
-
-     $task['tsequenceid']= $row['tsequenceid'];
-     $task['tstepdescription']= $row['tstepdescription'];
-     $task['ttype']= $row['ttype'];
-     $task['pstart']= $row['pstart'];
-     $task['pend']= $row['pend'];
-     $task['date_today']=$date_today;
-     $task['peffort']= $row['peffort'];
-     $task['astart']= $row['astart'];
-     $task['aend']= $row['aend'];
-     $task['aeffort']= $row['aeffort'];
-     $task['tstage']= $row['tstage'];
-     $tstage=$row['tstage'];
-
-     if($tstage==1) $task['tstatus']="To be Planned";
-     else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-     else if($tstage==4) $task['tstatus']= "Completed";
-     else if($tstage==5) $task['tstatus']="On Hold";
-     else $task['tstatus']="Awaiting";
-
-     $task['statuscode']= "s";
-     $task['description']= "Task successfully loaded";
-     $alltasks[]=$task;
-   }
-
-
-}
-else if($tid=="" && $createdon_from=="" && $createdon_to=="" && $tstatus!=0 && $userslist!=0 && $userinfo==0)
-{ $sql1;
-
-  if($tstatus!=3)
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  c.assignto='$userslist' && c.tstage='$tstatus' order by p.tid";
-  else{
-  $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  &&  c.assignto='$userslist' && (c.tstage=2 || c.tstage=3) order by p.tid";
-
-  }
-
-  $result=mysqli_query($conn, $sql1);
-
-
-    while($row=mysqli_fetch_assoc($result)){
-     $task['tguid']= $row['tguid'];
-     $task['tid']= $row['tid'];
-     $task['createdon']= $row['createdon'];
-     $task['assignto_id']= $row['assignto'];
-
-     $userid=$row['assignto'];
-     $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
-     $row2=mysqli_fetch_assoc($seq);
-     $task['assignto']= $row2['uname'];
-
-     $task['tsequenceid']= $row['tsequenceid'];
-     $task['tstepdescription']= $row['tstepdescription'];
-     $task['ttype']= $row['ttype'];
-     $task['pstart']= $row['pstart'];
-     $task['pend']= $row['pend'];
-     $task['date_today']=$date_today;
-     $task['peffort']= $row['peffort'];
-     $task['astart']= $row['astart'];
-     $task['aend']= $row['aend'];
-     $task['aeffort']= $row['aeffort'];
-     $task['tstage']= $row['tstage'];
-     $tstage=$row['tstage'];
-
-     if($tstage==1) $task['tstatus']="To be Planned";
-     else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
-     else if($tstage==4) $task['tstatus']= "Completed";
-     else if($tstage==5) $task['tstatus']="On Hold";
-     else $task['tstatus']="Awaiting";
-
-     $task['statuscode']= "s";
-     $task['description']= "Task successfully loaded";
-     $alltasks[]=$task;
-   }
-
-
-}
+       $users = array (
+               "uguid"=> "",
+               "uname"=> ""
+             );
+
+       $allusers= array ();
+
+    function traversetree($conn,$tr6,$users,&$allusers){
+     $n1=mysqli_num_rows($tr6);
+     if($n1==0) return;
+
+     while($rr6=mysqli_fetch_assoc($tr6)){
+       $newowner=$rr6["reportee"];
+       $tr= mysqli_query($conn,"select * from user_map where owner='$newowner'");
+
+       traversetree($conn,$tr,$users,$allusers);
+
+       $users['uguid']= $rr6['reportee'];
+       $users['uname']= $rr6['reportee_name'];
+       $allusers[]=$users;
+
+
+
+     }
+
+
+    }
+    $tr6= mysqli_query($conn,"select * from user_map where owner='$userslist'");
+    traversetree($conn,$tr6,$users,$allusers);
+
+
+       for($i = 0; $i < count($allusers); $i++) {
+       $uguid=$allusers[$i]["uguid"];
+       if ($tstatus!=3) $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto = '$uguid' && c.tstage like '$tstatus'
+           &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' order by p.tid";
+           else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto ='$uguid' && (c.tstage =2 || c.tstage=3) order by p.tid";
+           $result=mysqli_query($conn, $sql1);
+
+           while($row=mysqli_fetch_assoc($result)){
+            $task['tguid']= $row['tguid'];
+            $task['tid']= $row['tid'];
+            $task['createdon']= $row['createdon'];
+            $task['assignto_id']= $row['assignto'];
+
+            $userid=$row['assignto'];
+            $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+            $row2=mysqli_fetch_assoc($seq);
+            $task['assignto']= $row2['uname'];
+
+            $task['tsequenceid']= $row['tsequenceid'];
+            $task['tstepdescription']= $row['tstepdescription'];
+            $task['ttype']= $row['ttype'];
+            $task['pstart']= $row['pstart'];
+            $task['pend']= $row['pend'];
+            $task['date_today']=$date_today;
+            $task['peffort']= $row['peffort'];
+            $task['astart']= $row['astart'];
+            $task['aend']= $row['aend'];
+            $task['aeffort']= $row['aeffort'];
+            $task['tstage']= $row['tstage'];
+            $tstage=$row['tstage'];
+
+            if($tstage==1) $task['tstatus']="To be Planned";
+            else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
+            else if($tstage==4) $task['tstatus']= "Completed";
+            else if($tstage==5) $task['tstatus']="On Hold";
+            else $task['tstatus']="Awaiting";
+
+            $task['statuscode']= "s";
+            $task['description']= "Task successfully loaded";
+
+            $alltasks[]=$task;
+          }
+
+
+     }
+     }
+     else{
+       $users = array (
+               "uguid"=> "",
+               "uname"=> ""
+             );
+
+       $allusers= array ();
+
+    function traversetree($conn,$tr6,$users,&$allusers){
+     $n1=mysqli_num_rows($tr6);
+     if($n1==0) return;
+
+     while($rr6=mysqli_fetch_assoc($tr6)){
+       $newowner=$rr6["reportee"];
+       $tr= mysqli_query($conn,"select * from user_map where owner='$newowner'");
+
+       traversetree($conn,$tr,$users,$allusers);
+
+       $users['uguid']= $rr6['reportee'];
+       $users['uname']= $rr6['reportee_name'];
+       $allusers[]=$users;
+
+
+
+     }
+
+
+    }
+    $tr6= mysqli_query($conn,"select * from user_map where owner='$userslist'");
+    traversetree($conn,$tr6,$users,$allusers);
+
+    $s5= mysqli_query($conn,"select * from userdata1 where uguid='$userslist'");
+    $row5 = mysqli_fetch_assoc($s5);
+    $userslist_name=$row5["uname"];
+
+    $users['uguid']= $userslist;
+    $users['uname']= $userslist_name;
+    $allusers[]=$users;
+
+       for($i = 0; $i < count($allusers); $i++) {
+       $uguid=$allusers[$i]["uguid"];
+       if ($tstatus!=3) $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto = '$uguid' && c.tstage like '$tstatus'
+           &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' order by p.tid";
+           else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto ='$uguid' && (c.tstage =2 || c.tstage=3) order by p.tid";
+           $result=mysqli_query($conn, $sql1);
+
+           while($row=mysqli_fetch_assoc($result)){
+            $task['tguid']= $row['tguid'];
+            $task['tid']= $row['tid'];
+            $task['createdon']= $row['createdon'];
+            $task['assignto_id']= $row['assignto'];
+
+            $userid=$row['assignto'];
+            $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+            $row2=mysqli_fetch_assoc($seq);
+            $task['assignto']= $row2['uname'];
+
+            $task['tsequenceid']= $row['tsequenceid'];
+            $task['tstepdescription']= $row['tstepdescription'];
+            $task['ttype']= $row['ttype'];
+            $task['pstart']= $row['pstart'];
+            $task['pend']= $row['pend'];
+            $task['date_today']=$date_today;
+            $task['peffort']= $row['peffort'];
+            $task['astart']= $row['astart'];
+            $task['aend']= $row['aend'];
+            $task['aeffort']= $row['aeffort'];
+            $task['tstage']= $row['tstage'];
+            $tstage=$row['tstage'];
+
+            if($tstage==1) $task['tstatus']="To be Planned";
+            else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
+            else if($tstage==4) $task['tstatus']= "Completed";
+            else if($tstage==5) $task['tstatus']="On Hold";
+            else $task['tstatus']="Awaiting";
+
+            $task['statuscode']= "s";
+            $task['description']= "Task successfully loaded";
+
+            $alltasks[]=$task;
+          }
+
+
+     }
+
+     }
+
+
 
  echo json_encode($alltasks);
  mysqli_close($conn);
 
 
 }
+else if($_POST['type']=="18")
+{
 
+  $task = array (
+          "tguid"=> "",
+          "tid"=>"",
+          "assignto"=>"",
+          "tsequenceid"=> "",
+          "tstepdescription"=>"",
+          "ttype"=>"",
+          "pstart"=>"",
+          "pend"=>"",
+          "peffort"=>"",
+          "astart"=>"",
+          "aend"=>"",
+          "aeffort"=>"",
+          "tstage"=>"",
+          "statuscode"=>"e",
+          "description"=>"Error while updating task details"
+
+      );
+
+  $assignto= $_POST['assignto'];
+  $tguid= $_POST['tguid'];
+  $tid= $_POST['tid'];
+  $tsequenceid= $_POST['tsequenceid'];
+  $tdescription= $_POST['tdescription'];
+  $ttype= $_POST['ttype'];
+  $pstart= $_POST['pstart'];
+  $pend= $_POST['pend'];
+  $peffort= $_POST['peffort']*480;
+  $astart= $_POST['astart'];
+  $aend= $_POST['aend'];
+  $aeffort= $_POST['aeffort']*480;
+  $tstage= $_POST['tstatus'];
+
+  $s1= mysqli_query($conn,"UPDATE ttable SET tid='$tid', tdescription='$tdescription',ttype='$ttype' WHERE tguid= '$tguid'");
+  $s2= mysqli_query($conn,"UPDATE tstep SET assignto='$assignto',tstepdescription='$tdescription',tstage='$tstage', pstart='$pstart',pend='$pend',peffort='$peffort',astart='$astart',aend='$aend',aeffort='$aeffort',tstage='$tstage' WHERE tguid= '$tguid' && tsequenceid='$tsequenceid'");
+
+  $task['assignto']= $assignto;
+  $task['tguid']= $tguid;
+  $task['tid']= $tid;
+  $task['tsequenceid']= $tsequenceid;
+  $task['tdescription']= $tdescription;
+  $task['ttype']= $ttype;
+  $task['pstart']= $pstart;
+  $task['pend']= $pend;
+  $task['peffort']= $peffort;
+  $task['astart']= $astart;
+  $task['aend']= $aend;
+  $task['aeffort']= $aeffort;
+  $task['tstage']= $tstage;
+
+if($s1 && $s2){
+  $task['statuscode']= "s";
+  $task['description']= "Task successfully loaded";}
+ echo json_encode($task);
+ mysqli_close($conn);
+
+}
+else if($_POST['type']=="19")
+{ $tguid= $_POST['tguid'];
+  $task = array (
+          "tguid"=> $tguid,
+          "tid"=>"",
+          "tsteps"=>"",
+          "createdon"=>"",
+          "assignto"=>"",
+          "assignto_id"=>"",
+          "tsequenceid"=> "",
+          "tstepdescription"=>"",
+          "ttype"=>"",
+          "pstart"=>"",
+          "pend"=>"",
+          "peffort"=>"",
+          "astart"=>"",
+          "aend"=>"",
+          "aeffort"=>"",
+          "tstage"=>"",
+          "tstatus"=>"",
+          "statuscode"=>"e",
+          "comments"=>"",
+          "description"=>"Error while loading task details"
+
+      );
+    $comment =array(
+        "tguid"=> $tguid,
+        "tsequenceid"=>"",
+        "updatedon"=>"",
+        "updatedat"=>"",
+        "updatedby"=>"",
+        "updatedby_id"=>"",
+        "comment"=>""
+
+    );
+    $allcomments =array();
+
+    $taskstep= array(
+      "tguid"=> $tguid,
+      "tid"=>"",
+      "assignto"=>"",
+      "tsequenceid"=> "",
+      "tstepdescription"=>"",
+      "pstart"=>"",
+      "pend"=>"",
+      "peffort"=>"",
+      "astart"=>"",
+      "aend"=>"",
+      "aeffort"=>"",
+      "tstage"=>"",
+      "tstatus"=>"",
+      "statuscode"=>"e",
+      "description"=>"Error while updating task step details"
+    );
+
+    $alltasksteps=array();
+
+            $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && c.tguid='$tguid' && tsequenceid=0 ";
+            $result=mysqli_query($conn, $sql1);
+            while($row=mysqli_fetch_assoc($result)){
+
+             $task['tid']= $row['tid'];
+             $task['createdon']= $row['createdon'];
+             $task['assignto_id']= $row['assignto'];
+
+             $userid=$row['assignto'];
+             $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+             $row2=mysqli_fetch_assoc($seq);
+             $task['assignto']= $row2['uname'];
+
+             $task['tsequenceid']= $row['tsequenceid'];
+             $task['tstepdescription']= $row['tstepdescription'];
+             $task['ttype']= $row['ttype'];
+             $task['pstart']= $row['pstart'];
+             $task['pend']= $row['pend'];
+             $task['peffort']= $row['peffort'];
+             $task['astart']= $row['astart'];
+             $task['aend']= $row['aend'];
+             $task['aeffort']= $row['aeffort'];
+             $task['tstage']= $row['tstage'];
+             $tstage=$row['tstage'];
+
+             if($tstage==1) $task['tstatus']="To be Planned";
+             else if($tstage==2 || $tstage==3) $task['tstatus']= "In Progress";
+             else if($tstage==4) $task['tstatus']= "Completed";
+             else if($tstage==5) $task['tstatus']="On Hold";
+             else $task['tstatus']="Awaiting";
+
+             $task['statuscode']= "s";
+             $task['description']= "Task successfully loaded";
+
+           }
+
+           $sql2 = mysqli_query($conn,"select * from tstatus where tguid='$tguid' order by updatedon,updatedat");
+           while($row=mysqli_fetch_assoc($sql2)){
+             $comment['tsequenceid']= $row['tsequenceid'];
+             $comment['updatedon']= $row['updatedon'];;
+             $comment['updatedat']= $row['updatedat'];;
+             $comment['updatedby_id']= $row['updatedby'];;
+             $comment['comment']= $row['comment'];;
+
+             $userid=$row['updatedby'];
+             $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+             $row2=mysqli_fetch_assoc($seq);
+             $comment['updatedby']= $row2['uname'];
+
+             $allcomments[]=$comment;
+
+           }
+            $task['comments']=$allcomments;
+
+            $sql3="select * from tstep where tguid='$tguid' && tsequenceid!=0 ";
+            $result=mysqli_query($conn, $sql3);
+            while($row=mysqli_fetch_assoc($result)){
+
+
+             $taskstep['assignto_id']= $row['assignto'];
+             $taskstep['tsequenceid']= $row['tsequenceid'];
+             $taskstep['tstepdescription']= $row['tstepdescription'];
+             $taskstep['pstart']= $row['pstart'];
+             $taskstep['pend']= $row['pend'];
+             $taskstep['peffort']= $row['peffort'];
+             $taskstep['astart']= $row['astart'];
+             $taskstep['aend']= $row['aend'];
+             $taskstep['aeffort']= $row['aeffort'];
+             $taskstep['tstage']= $row['tstage'];
+             $tstage=$row['tstage'];
+
+             if($tstage==1) $taskstep['tstatus']="To be Planned";
+             else if($tstage==2 || $tstage==3) $taskstep['tstatus']= "In Progress";
+             else if($tstage==4) $taskstep['tstatus']= "Completed";
+             else if($tstage==5) $taskstep['tstatus']="On Hold";
+             else $taskstep['tstatus']="Awaiting";
+
+             $userid=$row['assignto'];
+             $seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+             $row2=mysqli_fetch_assoc($seq);
+             $taskstep['assignto']= $row2['uname'];
+
+
+             $taskstep['statuscode']= "s";
+             $taskstep['description']= "Task Step successfully loaded";
+
+             $alltasksteps[]=$taskstep;
+           }
+           $task['tsteps']=$alltasksteps;
+
+           echo json_encode($task);
+           mysqli_close($conn);
+
+
+
+
+
+}
 
 ?>

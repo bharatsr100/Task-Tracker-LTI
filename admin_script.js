@@ -1,13 +1,16 @@
-function edittask(assignto,tguid,tid,tsequenceid,tstepdescription,ttype,pstart,pend,peffortm,
-astart,aend,aeffortm,tstage){
+function edittask(assignto,tguid,tid,tsequenceid,tstepdescription,ttype,pstart,pend,peffort,astart,aend,aeffort,tstage)
+{
   console.log("Test click function");
   $('#edit_task_modal').modal({
     backdrop: 'static',
     keyboard: false
   });
-  // console.log(assignto+" "+tguid+ " "+tid+" "+tstepdescription+" "+ttype+" "+
-  // pstart+" "+pend+" "+peffortm+" "+
-  // astart+" "+aend+" "+aeffortm+" "+tstage);
+
+  var peffort1=parseFloat(peffort).toFixed(2);
+  var aeffort1=parseFloat(aeffort).toFixed(2);
+  // console.log("assign to:"+assignto+" tguid:"+tguid+ " tid:"+tid+" tsequenceid:"+tsequenceid+" tstepdescription:"+tstepdescription+" ttype:"+ttype+" pstart:"+
+  // pstart+" pend:"+pend+" peffortm:"+peffortm+" astart:"+
+  // astart+" aend:"+aend+" aeffortm:"+aeffortm+" tstage:"+tstage);
   $('#assignto1').val(assignto);
   $('#tguid1').val(tguid);
   $('#tid1').val(tid);
@@ -16,14 +19,92 @@ astart,aend,aeffortm,tstage){
   $('#ttype1').val(ttype);
   $('#pstart1').val(pstart);
   $('#pend1').val(pend);
-  $('#peffort1').val(peffortm);
+  $('#peffort1').val(peffort1);
   $('#astart1').val(astart);
   $('#aend1').val(aend);
-  $('#aeffort1').val(aeffortm);
+  $('#aeffort1').val(aeffort1);
   $('#tstatus1').val(tstage);
+
+if(tsequenceid!=0){
+  $('#tsequenceid1').prop('readonly', true);
+  $('#tdescription1').prop('readonly', true);
+  $('#tid1').prop('readonly', true);
+}
+else{
+  $('#tsequenceid1').prop('readonly', false);
+  $('#tdescription1').prop('readonly', false);
+  $('#tid1').prop('readonly', false);
+}
+  $("#successedittask").hide();
+  $("#erroredittask").hide();
+  $('.edittaskbtn').prop('disabled', false);
 
 
 }
+function taskdetails(tguid){
+  console.log(tguid);
+  sessionStorage.setItem("tguid", tguid);
+  location.href = "task_details.php";
+}
+function exporttable1toexcel()
+{
+
+   $("#admin_search_table").table2excel({
+     exclude: ".noExl",
+     filename: "tasks",
+     fileext: ".xlsx"
+
+});
+}
+
+function exporttable2toexcel()
+{
+
+   $("#admin_search_table").table2excel({
+     exclude: ".noExl",
+     filename: "task_steps",
+     fileext: ".xlsx"
+
+
+});
+}
+function exporttable1topdf(){
+
+var pdf = new jsPDF('p', 'pt', 'a3');
+// var tablaDatos = $('#admin_search_table');
+// var data = pdf.autoTableHtmlToJson(tablaDatos[0]);
+
+pdf.autoTable({
+html: '#admin_search_table',
+styles: {overflow: 'linebreak',
+        fontSize: 6},
+margin: {
+  right: 0,
+  top: 30
+},
+tableWidth: 800,
+theme: 'grid'
+ });
+pdf.save('task_table.pdf');
+}
+function exporttable2topdf(){
+  var pdf = new jsPDF('p', 'pt', 'a3');
+
+
+  pdf.autoTable({
+  html: '#admin_search_step_table',
+  styles: {overflow: 'linebreak',
+          fontSize: 6},
+  margin: {
+    right: 0,
+    top: 30
+  },
+  tableWidth: 800,
+  theme: 'grid'
+   });
+  pdf.save('task_steps_table.pdf');
+}
+
 $(document).ready(function() {
 
 let dropdown = $('#userslist');
@@ -36,6 +117,19 @@ const url = 'employeelist.json';
 $.getJSON(url, function(data) {
   $.each(data, function(key, entry) {
     dropdown.append($('<option></option>').attr('value', entry.uguid).text(entry.uname + "---" + entry.e_emailid));
+  })
+});
+
+let dropdown2 = $('#assignto1');
+dropdown2.empty();
+dropdown2.append('<option selected="true" value="0">--Choose User Name--</option>');
+dropdown2.prop('selectedIndex', 0);
+
+const url2 = 'employeelist.json';
+
+$.getJSON(url2, function(data) {
+  $.each(data, function(key, entry) {
+    dropdown2.append($('<option></option>').attr('value', entry.uguid).text(entry.uname + "---" + entry.e_emailid));
   })
 });
 // apply color code to Task ID
@@ -73,6 +167,9 @@ $('#reset1').on('click',function(){
 $("#task_search")[0].reset();
 // $("#admin_search_div").hide();
 $("#tbody_admin_search").empty();
+$("#tbody_admin_step_search").empty();
+
+
 $("#success_find").hide();
 $("#error_find").hide();
 
@@ -85,6 +182,14 @@ function loadtask_tables(){
   var tid= $('#tid').val();
   var createdon_from=$('#createdon').val();
   var createdon_to=$('#createdon_to').val();
+  var pstart_from=$('#pstart_from').val();
+  var pstart_to=$('#pstart_to').val();
+  var pend_from=$('#pend_from').val();
+  var pend_to=$('#pend_to').val();
+  var astart_from=$('#astart_from').val();
+  var astart_to=$('#astart_to').val();
+  var aend_to=$('#aend_to').val();
+  var aend_from=$('#aend_from').val();
   var tstatus=$('#tstatus').val();
   var userslist=$('#userslist').val();
   var userinfo=$('#userinfo').val();
@@ -94,13 +199,19 @@ function loadtask_tables(){
      $.ajax({
        url: "updatetask1.php",
        type: "POST",
-
-
        data:    {
              type: type,
              tid: tid,
              createdon_from:createdon_from,
              createdon_to:createdon_to,
+             pstart_from:pstart_from,
+             pstart_to:pstart_to,
+             pend_from:pend_from,
+             pend_to:pend_to,
+             astart_from:astart_from,
+             astart_to:astart_to,
+             aend_from:aend_from,
+             aend_to:aend_to,
              tstatus:tstatus,
              userslist:userslist,
              userinfo:userinfo
@@ -111,7 +222,7 @@ function loadtask_tables(){
        success: function(dataResult){
          // console.log(dataResult);
          var dataResult = JSON.parse(dataResult);
-         console.log(dataResult);
+         // console.log(dataResult);
 
 //display an error message if length of arrat dataresult is 0
          $("#tbody_admin_search").empty();
@@ -171,7 +282,7 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffortm +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffortm +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
+           newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
            newcell.className="tid_div";
            newcell.id="tid_b"+j+"_id";
            var cellid="#tid_b"+j+"_id button";
@@ -180,7 +291,8 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = item.tstepdescription;
+           newcell.innerHTML = '<button type="button" onclick="taskdetails(\''+ tguid +'\')" class="btn btn-link t_descr_button">'+tstepdescription+'</button>';
+           newcell.className="t_descr_div";
 
            i++;
            newcell = row.insertCell(i);
@@ -196,7 +308,8 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = item.peffort;
+           if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
+           else newcell.innerHTML="";
 
            i++;
            newcell = row.insertCell(i);
@@ -208,7 +321,8 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = item.aeffort;
+           if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
+           else newcell.innerHTML = "";
 
            i++;
            newcell = row.insertCell(i);
@@ -254,7 +368,7 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffortm +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffortm +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
+           newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
            newcell.className="tid_div";
            newcell.id="tid_b"+j+"_id";
            var cellid="#tid_b"+j+"_id button";
@@ -279,7 +393,8 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = item.peffort;
+           if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
+           else newcell.innerHTML ="";
 
            i++;
            newcell = row.insertCell(i);
@@ -291,7 +406,8 @@ function loadtask_tables(){
 
            i++;
            newcell = row.insertCell(i);
-           newcell.innerHTML = item.aeffort;
+           if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
+           else newcell.html="";
 
            i++;
            newcell = row.insertCell(i);
@@ -311,7 +427,9 @@ function loadtask_tables(){
 
 }
 $('.search_admin').on('click',function(){
+
 loadtask_tables();
+$(".expbtn").show();
 
 });
 $('.close1').on('click',function(){
@@ -321,6 +439,77 @@ loadtask_tables();
 
 $('.edittaskbtn').on('click',function(){
   console.log("Inside task edit function");
+  var assignto = $('#assignto1').val();
+  var tguid = $('#tguid1').val();
+  var tid = $('#tid1').val();
+  var tsequenceid = $('#tsequenceid1').val();
+  var tdescription = $('#tdescription1').val();
+  var ttype = $('#ttype1').val();
+  var pstart = $('#pstart1').val();
+  var pend = $('#pend1').val();
+  var peffort = $('#peffort1').val();
+  var astart = $('#astart1').val();
+  var aend = $('#aend1').val();
+  var aeffort = $('#aeffort1').val();
+  var tstatus = $('#tstatus1').val();
+  var type="18";
+
+// console.log(tid+" "+createdon_from+" "+createdon_to+" "+tstatus+" "+userslist+" "+userinfo);
+     $.ajax({
+       url: "updatetask1.php",
+       type: "POST",
+
+
+       data:    {
+             type: type,
+             assignto: assignto,
+             tguid: tguid,
+             tid: tid,
+             tsequenceid: tsequenceid,
+             tdescription: tdescription,
+             ttype: ttype,
+             pstart: pstart,
+             pend: pend,
+             peffort: peffort,
+             astart: astart,
+             aend: aend,
+             aeffort: aeffort,
+             tstatus: tstatus
+
+
+
+
+           },
+       cache: false,
+       success: function(dataResult){
+         console.log(dataResult);
+         var dataResult = JSON.parse(dataResult);
+         console.log(dataResult);
+
+         if(dataResult.statuscode=="s"){
+            console. log("display s message");
+            //$("#task_form")[0].reset();
+            $('.edittaskbtn').prop('disabled', true);
+            $("#erroredittask").hide();
+            $("#successedittask").show();
+            $('#successedittask').html(dataResult.description);
+
+          }
+          else {
+
+            console. log("display e message");
+            $('.edittaskbtn').prop('disabled', true);
+            $("#successedittask").hide();
+            $("#erroredittask").show();
+            $('#erroredittask').html(dataResult.description);
+
+          }
+
+       }
+     });
+
+
+
 });
 
 

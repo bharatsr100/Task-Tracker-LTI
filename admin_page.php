@@ -13,6 +13,10 @@ header('location:index.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script> -->
+    <!-- <script src="jspdf.umd.min.js"></script> -->
+    <!-- <script src="jspdf.plugin.autotable.js"></script> -->
+
     <style>
     .hidden_cells{
       display:none;
@@ -20,10 +24,24 @@ header('location:index.php');
     .tid_button{
       border-color: black;
     }
+    .expbtn{
+      display:none;
+    }
+    .t_descr_button{
+      color: black;
+      font-weight:700;
+      text-decoration: underline;
+      /* border-color:white; */
+    }
+    .t_descr_button:hover{
+      color: black;
+    }
     </style>
   </head>
   <body>
+
 <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float:right;">Log Out</button>
+<button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float:right;margin-right:20px;">Home</button>
 <br><br><br>
 <h1 style="text-align:center; margin-top:50px;">Admin Page</h1>
 <br><br><br><br><br>
@@ -76,7 +94,46 @@ header('location:index.php');
 
   </select>
 </div>
-
+<div  class="form-group" style="width:300px;float:left;clear:left;">
+  <label  for="pstart_from">Planned Start Date (From)
+</label>
+  <input type="date" class="form-control" id="pstart_from" placeholder="Planned Start Date (From)" name="pstart_from">
+</div>
+<div  class="form-group" style="width:300px;float:left;margin-left:20px;">
+  <label  for="pstart_to">Planned Start Date (To)
+</label>
+  <input type="date" class="form-control" id="pstart_to" placeholder="Planned Start Date (To)" name="pstart_to">
+</div>
+<div  class="form-group" style="width:300px;float:left;clear:left;">
+  <label  for="pend_from">Planned End Date (From)
+</label>
+  <input type="date" class="form-control" id="pend_from" placeholder="Planned End Date (From)" name="pend_from">
+</div>
+<div  class="form-group" style="width:300px;float:left;margin-left:20px;">
+  <label  for="pend_to">Planned End Date (To)
+</label>
+  <input type="date" class="form-control" id="pend_to" placeholder="Planned Start Date (To)" name="pend_to">
+</div>
+<div  class="form-group" style="width:300px;float:left;clear:left;">
+  <label  for="astart_from">Actual Start Date (From)
+</label>
+  <input type="date" class="form-control" id="astart_from" placeholder="Actual Start Date (From)" name="astart_from">
+</div>
+<div  class="form-group" style="width:300px;float:left;margin-left:20px;">
+  <label  for="astart_to">Actual Start Date (To)
+</label>
+  <input type="date" class="form-control" id="astart_to" placeholder="Actual Start Date (To)" name="astart_to">
+</div>
+<div  class="form-group" style="width:300px;float:left;clear:left;">
+  <label  for="aend_from">Actual End Date (From)
+</label>
+  <input type="date" class="form-control" id="aend_from" placeholder="Actual End Date (From)" name="aend_from">
+</div>
+<div  class="form-group" style="width:300px;float:left;margin-left:20px;">
+  <label  for="aend_to">Actual End Date (To)
+</label>
+  <input type="date" class="form-control" id="aend_to" placeholder="Actual Start Date (To)" name="aend_to">
+</div>
   <div style="clear:left;">
   <button type="button" class="btn btn-secondary reset1" id="reset1" >Reset</button>
   <button type="submit" class="btn btn-primary search_admin" name="search_admin" id="search_admin">Search</button>
@@ -90,7 +147,9 @@ header('location:index.php');
 <center>
   <h1 style="text-align:center; margin-top:50px;">Task Table</h1>
   <!-- style="display:none;" -->
+
   <div id="admin_search_div"  style="margin-top:50px;">
+    <div id="admin_search_div_in">
     <table class="table table-hover" id="admin_search_table">
       <thead>
         <tr>
@@ -114,9 +173,14 @@ header('location:index.php');
       </tbody>
     </table>
   </div>
+<button type="button" onclick="exporttable1toexcel()" class="btn btn-secondary expbtn">Export to excel</button>
+<button type="button" onclick="exporttable1topdf()" class="btn btn-secondary expbtn">Export to pdf</button>
+  </div>
+
   <br><br><br>
   <h1 style="text-align:center; margin-top:50px;">Task Steps Table</h1>
   <div id="admin_search_step_div"  style="margin-top:50px;">
+    <div id="admin_search_step_div_in">
     <table class="table table-hover" id="admin_search_step_table">
       <thead>
         <tr>
@@ -140,6 +204,9 @@ header('location:index.php');
       </tbody>
     </table>
   </div>
+    <button type="button" onclick="exporttable2toexcel()" class="btn btn-secondary expbtn">Export to excel</button>
+    <button type="button" onclick="exporttable2topdf()" class="btn btn-secondary expbtn">Export to pdf</button>
+  </div>
 </center>
 <!-- ######################################################################################################################################### -->
     <!--Edit Task Modal Admin-->
@@ -158,23 +225,26 @@ header('location:index.php');
               <div  class="form-group">
                 <label  for="assignto1">Assigned to:
               </label>
-                <input  type="text" class="form-control" id="assignto1" placeholder="Assign to" name="assignto1" >
+              <select class="form-control" id="assignto1" name="assignto1">
+                </select>
+                <!-- <input  type="text" class="form-control" id="assignto1" placeholder="Assign to" name="assignto1" > -->
               </div>
             <div  class="form-group">
-              <label  for="tguid">Task GUID:
+              <label  for="tguid" style="display:none;">Task GUID:
             </label>
-              <input type="text" class="form-control" id="tguid1" placeholder="Task GUID" name="tguid1" >
+              <input type="text" class="form-control" id="tguid1" placeholder="Task GUID" name="tguid1" style="display:none;" readonly>
+            </div>
+            <div  class="form-group">
+              <label  for="tsequenceid1" style="display:none;">Task Sequence ID:
+            </label>
+              <input type="text" class="form-control" id="tsequenceid1" placeholder="Task Sequence ID" name="tsequenceid1" style="display:none;" readonly>
             </div>
             <div  class="form-group">
               <label  for="tid1">Task ID:
             </label>
               <input type="text" class="form-control" id="tid1" placeholder="Task ID" name="tid1" >
             </div>
-            <div  class="form-group">
-              <label  for="tsequenceid1">Task Sequence ID:
-            </label>
-              <input type="text" class="form-control" id="tsequenceid1" placeholder="Task Sequence ID" name="tsequenceid1" >
-            </div>
+
             <div  class="form-group">
               <label  for="tdescription1">Task Description:
             </label>
@@ -218,7 +288,17 @@ header('location:index.php');
             <div  class="form-group">
               <label  for="tstatus1">Task Status:
             </label>
-              <input type="text" class="form-control" id="tstatus1" placeholder="Task Status" name="tstatus1">
+            <select class="form-control" id="tstatus1" name="tstatus1">
+              <option selected="true" value= 0>--Select Task Phase--</option>
+                <option value=1>To be Planned</option>
+                <option value=2>Planned</option>
+                <option value=3>In Progress</option>
+                <option value=4>Completed</option>
+                <option value=5>On Hold</option>
+                <option value=6>Awaiting</option>
+
+              </select>
+              <!-- <input type="text" class="form-control" id="tstatus1" placeholder="Task Status" name="tstatus1"> -->
             </div>
             <!-- data-dismiss="modal" -->
             <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
@@ -237,6 +317,13 @@ header('location:index.php');
         </div>
       </div>
     </div>
-<script src="admin_script.js"></script>
+    <script src="admin_script.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.15/jspdf.plugin.autotable.js"></script> -->
+    <script src="	https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+    <script src="jquery.table2excel.js"></script>
+    <!-- <script type="text/javascript" src="jspdf.debug.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
+    <!-- <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script> -->
   </body>
 </html>

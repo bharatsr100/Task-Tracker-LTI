@@ -947,9 +947,11 @@ var table1=$('#mytasktable').DataTable({
       $("#pstart1").val(data[5]);
       $("#pend1").val(data[6]);
       $("#peffort1").val(data[7]);
+      $("#priority1").val(data[13]);
 
       $("#edittaskbtn").hide();
-
+      $("#priority1").prop("readonly", true);
+      $("#priority1").prop("disabled", true);
       $("#tid1").attr("readonly", "readonly");
       $("#tid1").attr("disabled", "disabled");
       $("#tdescription1").attr("readonly", "readonly");
@@ -965,6 +967,7 @@ var table1=$('#mytasktable').DataTable({
       $("#peffort1").attr("readonly", "readonly");
       $("#peffort1").attr("disabled", "disabled");
       $("#error").show();
+
       $('#error').html("Task is already planned so please contact admin");
       $("#successedittask").hide();
       $("#erroredittask").hide();
@@ -976,6 +979,7 @@ var table1=$('#mytasktable').DataTable({
         backdrop: 'static',
         keyboard: false
       });
+      $("#priority1").val(data[13]);
       $(".edittaskbtn").prop('disabled', false);
       $("#successedittask").hide();
       $("#erroredittask").hide();
@@ -989,7 +993,8 @@ var table1=$('#mytasktable').DataTable({
       $("#pend1").val("");
       $("#peffort1").val("");
 
-
+      $("#priority1").prop("readonly", false);
+      $("#priority1").prop("disabled", false);
       $("#tid1").prop("readonly", false);
       $("#tid1").prop("disabled", false);
       $("#tdescription1").prop("readonly", false);
@@ -1024,9 +1029,10 @@ var table1=$('#mytasktable').DataTable({
     var pend = $('#pend').val();
     var astart = "0000-00-00";
     var aend = "0000-00-00";
-    var peffort = $('#peffort').val();
+    var peffort = ($('#peffort').val())*480;
     var comment = $('#comment').val();
     var type = "1";
+    var priority=$('#priority').val();
     var ajaxResult = [];
     //console. log("4");
     //console. log("3");
@@ -1046,6 +1052,7 @@ var table1=$('#mytasktable').DataTable({
         astart: astart,
         aend: aend,
         peffort: peffort,
+        priority:priority,
         comment: comment
       },
       cache: false,
@@ -1108,7 +1115,8 @@ var table1=$('#mytasktable').DataTable({
     var assignto1 = $('#assignto1').val();
     var pstart1 = $('#pstart1').val();
     var pend1 = $('#pend1').val();
-    var peffort1 = $('#peffort1').val();
+    var priority1 = $('#priority1').val();
+    var peffort1 = ($('#peffort1').val())*480;
     var type = "6";
 
     $.ajax({
@@ -1124,13 +1132,15 @@ var table1=$('#mytasktable').DataTable({
         pstart1: pstart1,
         pend1: pend1,
         peffort1: peffort1,
+        priority1: priority1,
         ttype1: ttype1
 
       },
       cache: false,
       success: function(dataResult) {
+        console.log(dataResult);
         var dataResult = JSON.parse(dataResult);
-        //console.log(dataResult);
+        console.log(dataResult);
         if (dataResult.statuscode == "s") {
           $(".edittaskbtn").prop('disabled', true);
           // $("#task_edit_form")[0].reset();
@@ -1210,7 +1220,7 @@ var table1=$('#mytasktable').DataTable({
     var tsequenceid3 = $('#tsequenceid3').val();
     var pstart3 = $('#pstart3').val();
     var pend3 = $('#pend3').val();
-    var peffort3 = $('#peffort3').val();
+    var peffort3 = ($('#peffort3').val())*480;
     var type = "8";
 
     $.ajax({
