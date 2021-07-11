@@ -97,7 +97,7 @@ header('location:index.php');
       </center>
       </div>
       <div style="margin-top:50px;width:100%;" id="allcomments_div">
-        <h4 style="text-align:center;"> <b><u>Comments Histroy</u></b> </h4>
+        <h4 style="text-align:center;"> <b><u>Comments History</u></b> </h4>
         <br><br>
         <!-- <div  class="comments_full_div" >
         <div  class="date_div">date</div>
@@ -111,8 +111,9 @@ header('location:index.php');
       <center>
       <button type="button" onclick="exporttasktopdf()" class="btn btn-secondary expbtn">Export to pdf</button>
       <center>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="	https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.js" ></script>
   </body>
 </html>

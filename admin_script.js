@@ -52,8 +52,8 @@ function exporttable1toexcel()
    $("#admin_search_table").table2excel({
      exclude: ".noExl",
      filename: "tasks",
-     fileext: ".xlsx"
-
+     fileext: ".xls",
+     columns : [0,1,4,5,6,7,8,9,10,11,12,13]
 });
 }
 
@@ -63,14 +63,16 @@ function exporttable2toexcel()
    $("#admin_search_table").table2excel({
      exclude: ".noExl",
      filename: "task_steps",
-     fileext: ".xlsx"
+     fileext: ".xls",
+     columns : [0,1,4,5,6,7,8,9,10,11,12,13]
 
 
 });
 }
 function exporttable1topdf(){
 
-var pdf = new jsPDF('p', 'pt', 'a3');
+var pdf = new jsPDF('l', 'pt', 'a4');
+
 // var tablaDatos = $('#admin_search_table');
 // var data = pdf.autoTableHtmlToJson(tablaDatos[0]);
 
@@ -79,16 +81,17 @@ html: '#admin_search_table',
 styles: {overflow: 'linebreak',
         fontSize: 6},
 margin: {
-  right: 0,
-  top: 30
+  left: 20,
+  top: 20,
+  right:20
 },
-tableWidth: 800,
+// tableWidth: 800,
 theme: 'grid'
  });
 pdf.save('task_table.pdf');
 }
 function exporttable2topdf(){
-  var pdf = new jsPDF('p', 'pt', 'a3');
+  var pdf = new jsPDF('l', 'pt', 'a4');
 
 
   pdf.autoTable({
@@ -96,14 +99,16 @@ function exporttable2topdf(){
   styles: {overflow: 'linebreak',
           fontSize: 6},
   margin: {
-    right: 0,
-    top: 30
+    left: 20,
+    top: 20,
+    right:20
   },
-  tableWidth: 800,
+  // tableWidth: 800,
   theme: 'grid'
    });
   pdf.save('task_steps_table.pdf');
 }
+
 
 $(document).ready(function() {
 

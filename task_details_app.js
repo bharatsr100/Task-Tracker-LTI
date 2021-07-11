@@ -1,16 +1,34 @@
 function exporttasktopdf(){
-  var doc = new jsPDF();
-  var specialElementHandlers = {
-      '#editor': function (element, renderer) {
-          return true;
-      }
-  };
-// var divid="task_details_admin";
-doc.fromHTML($('#task_details_admin').html(), 15, 15, {
-    'width': 1000,
-        'elementHandlers': specialElementHandlers
+// var doc = new jsPDF({unit: 'mm', format: [600,300], orientation: 'landscape'});
+// var elementHTML = $('#task_details_admin').html();
+// var specialElementHandlers = {
+//     '#task_details_admin': function (element, renderer) {
+//         return true;
+//     }
+// };
+// doc.fromHTML(elementHTML, 15, 15, {
+//     // 'width': 170,
+//     'elementHandlers': specialElementHandlers
+// });
+//
+// doc.save('task_details.pdf');
+
+
+//for screenshot of screen
+// var w = window.innerWidth;
+// var h = window.innerHeight;
+//
+html2pdf($('#task_details_admin').get(0), {
+   margin:       1,
+   filename:     'task_report.pdf',
+   image:        { type: 'jpeg', quality: 1 },
+   // html2canvas:  { dpi: 200, letterRendering: true },
+   html2canvas:  { scale:3 },
+   jsPDF:        { unit: 'mm', format: [340,350], orientation: 'portrait' }
+   // jsPDF:        { unit: 'mm', format: [280,300], orientation: 'landscape' }
 });
-doc.save('task_details.pdf');
+
+
 
 }
 

@@ -150,7 +150,7 @@ header('location:index.php');
 
   <div id="admin_search_div"  style="margin-top:50px;">
     <div id="admin_search_div_in">
-    <table class="table table-hover" id="admin_search_table">
+    <table class="table table-hover admin_search_table" id="admin_search_table">
       <thead>
         <tr>
           <th scope="col">Task Creation Date</th>
@@ -176,6 +176,7 @@ header('location:index.php');
 <button type="button" onclick="exporttable1toexcel()" class="btn btn-secondary expbtn">Export to excel</button>
 <button type="button" onclick="exporttable1topdf()" class="btn btn-secondary expbtn">Export to pdf</button>
   </div>
+
 
   <br><br><br>
   <h1 style="text-align:center; margin-top:50px;">Task Steps Table</h1>
@@ -321,9 +322,12 @@ header('location:index.php');
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.15/jspdf.plugin.autotable.js"></script> -->
     <script src="	https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    <script src="jquery.table2excel.js"></script>
+    <!-- <script src="https://cdn.rawgit.com/unconditional/jquery-table2excel/master/src/jquery.table2excel.js"></script> -->
+    <!-- <script src="jquery.table2excel.js"></script> -->
     <!-- <script type="text/javascript" src="jspdf.debug.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
     <!-- <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script> -->
+    <script src="https://rawgit.com/davidkonrad/table2excel/master/table2excel.js"></script>
+
   </body>
 </html>
