@@ -134,6 +134,26 @@ header('location:index.php');
 </label>
   <input type="date" class="form-control" id="aend_to" placeholder="Actual Start Date (To)" name="aend_to">
 </div>
+<div  class="form-group" style="width:300px;float:left;clear:left;">
+  <label  for="peffort_from">Planned Effort (From)
+</label>
+  <input type="number" step="any" class="form-control" id="peffort_from" placeholder="Planned Effort (From)" name="peffort_from">
+</div>
+<div  class="form-group" style="width:300px;float:left;margin-left:20px;">
+  <label  for="peffort_to">Planned Effort (To)
+</label>
+  <input type="number" step="any" class="form-control" id="peffort_to" placeholder="Planned Effort (To)" name="peffort_to">
+</div>
+<div  class="form-group" style="width:300px;float:left;clear:left;">
+  <label  for="aeffort_from">Actual Effort (From)
+</label>
+  <input type="number" step="any" class="form-control" id="aeffort_from" placeholder="Actual Effort (From)" name="aeffort_from">
+</div>
+<div  class="form-group" style="width:300px;float:left;margin-left:20px;">
+  <label  for="aeffort_to">Actual Effort (To)
+</label>
+  <input type="number" step="any" class="form-control" id="aeffort_to" placeholder="Actual Effort (To)" name="aeffort_to">
+</div>
   <div style="clear:left;">
   <button type="button" class="btn btn-secondary reset1" id="reset1" >Reset</button>
   <button type="submit" class="btn btn-primary search_admin" name="search_admin" id="search_admin">Search</button>

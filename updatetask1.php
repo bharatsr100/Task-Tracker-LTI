@@ -1601,6 +1601,19 @@ else if($_POST['type']=="17")
   $astart_to= $_POST['astart_to'];
   $aend_from= $_POST['aend_from'];
   $aend_to= $_POST['aend_to'];
+  $peffort_from=($_POST['peffort_from']);
+  if($peffort_from=="") $peffort_from=0;
+  else $peffort_from=$peffort_from*480;
+  $peffort_to= ($_POST['peffort_to']);
+  if($peffort_to=="") $peffort_to=9999999;
+  else $peffort_to=$peffort_to*480;
+
+  $aeffort_from=($_POST['aeffort_from']);
+  if($aeffort_from=="") $aeffort_from=0;
+  else $aeffort_from=$aeffort_from*480;
+  $aeffort_to= ($_POST['aeffort_to']);
+  if($aeffort_to=="") $aeffort_to=9999999;
+  else $aeffort_to=$aeffort_to*480;
 
   $tstatus= $_POST['tstatus'];
   if($tstatus==0) $tstatus="%";
@@ -1660,8 +1673,8 @@ else if($_POST['type']=="17")
       // if($tid=="" && $createdon_from=="" && $createdon_to=="" && $tstatus==0 && $userslist==0 && $userinfo==0){
         if($userinfo==0 || $userslist=="%")
 {        if ($tstatus!=3) $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto like '$userslist' && c.tstage like '$tstatus'
-        &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' order by p.tid";
-        else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto like '$userslist' && (c.tstage =2 || c.tstage=3) order by p.tid";
+        &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' && c.peffort>='$peffort_from' && c.peffort<='$peffort_to' && c.aeffort>='$aeffort_from' && c.aeffort<='$aeffort_to' order by p.tid";
+        else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto like '$userslist' && (c.tstage =2 || c.tstage=3)  && c.peffort>='$peffort_from' && c.peffort<='$peffort_to' && c.aeffort>='$aeffort_from' && c.aeffort<='$aeffort_to' order by p.tid";
         $result=mysqli_query($conn, $sql1);
 
         while($row=mysqli_fetch_assoc($result)){
@@ -1736,8 +1749,8 @@ else if($_POST['type']=="17")
        for($i = 0; $i < count($allusers); $i++) {
        $uguid=$allusers[$i]["uguid"];
        if ($tstatus!=3) $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto = '$uguid' && c.tstage like '$tstatus'
-           &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' order by p.tid";
-           else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto ='$uguid' && (c.tstage =2 || c.tstage=3) order by p.tid";
+           &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to'  && c.peffort>='$peffort_from' && c.peffort<='$peffort_to' && c.aeffort>='$aeffort_from' && c.aeffort<='$aeffort_to' order by p.tid";
+           else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto ='$uguid' && (c.tstage =2 || c.tstage=3)  && c.peffort>='$peffort_from' && c.peffort<='$peffort_to' && c.aeffort>='$aeffort_from' && c.aeffort<='$aeffort_to' order by p.tid";
            $result=mysqli_query($conn, $sql1);
 
            while($row=mysqli_fetch_assoc($result)){
@@ -1821,8 +1834,8 @@ else if($_POST['type']=="17")
        for($i = 0; $i < count($allusers); $i++) {
        $uguid=$allusers[$i]["uguid"];
        if ($tstatus!=3) $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto = '$uguid' && c.tstage like '$tstatus'
-           &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to' order by p.tid";
-           else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto ='$uguid' && (c.tstage =2 || c.tstage=3) order by p.tid";
+           &&  c.pstart>='$pstart_from' && c.pstart<='$pstart_to' &&  c.pend>='$pend_from' && c.pend<='$pend_to' &&  c.astart>='$astart_from' && c.astart<='$astart_to' &&  c.aend>='$aend_from' && c.aend<='$aend_to'  && c.peffort>='$peffort_from' && c.peffort<='$peffort_to' && c.aeffort>='$aeffort_from' && c.aeffort<='$aeffort_to' order by p.tid";
+           else $sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid && p.tid like '$tid' &&  p.createdon>='$createdon_from' && p.createdon<='$createdon_to' && c.assignto ='$uguid' && (c.tstage =2 || c.tstage=3)  && c.peffort>='$peffort_from' && c.peffort<='$peffort_to' && c.aeffort>='$aeffort_from' && c.aeffort<='$aeffort_to' order by p.tid";
            $result=mysqli_query($conn, $sql1);
 
            while($row=mysqli_fetch_assoc($result)){

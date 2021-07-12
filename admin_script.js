@@ -195,6 +195,10 @@ function loadtask_tables(){
   var astart_to=$('#astart_to').val();
   var aend_to=$('#aend_to').val();
   var aend_from=$('#aend_from').val();
+  var peffort_from=$('#peffort_from').val();
+  var peffort_to=$('#peffort_to').val();
+  var aeffort_from=$('#aeffort_from').val();
+  var aeffort_to=$('#aeffort_to').val();
   var tstatus=$('#tstatus').val();
   var userslist=$('#userslist').val();
   var userinfo=$('#userinfo').val();
@@ -213,6 +217,10 @@ function loadtask_tables(){
              pstart_to:pstart_to,
              pend_from:pend_from,
              pend_to:pend_to,
+             peffort_from:peffort_from,
+             peffort_to:peffort_to,
+             aeffort_from:aeffort_from,
+             aeffort_to:aeffort_to,
              astart_from:astart_from,
              astart_to:astart_to,
              aend_from:aend_from,
