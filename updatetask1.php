@@ -1067,6 +1067,7 @@ else if($_POST['type']=="10"){
   // <th scope="col" style="width: 160px;">Task Status</th>
 
 }
+//Function to fetch tasks and vacation for my team daily calendar
 else if($_POST['type']=="11"){
 
   $pendingtasks=array();
@@ -2608,6 +2609,233 @@ $allremarks[]=$remark;
 
 
 
+$alltasks[]=$safeinprogressall;
+$alltasks[]=$alertinprogressall;
+$alltasks[]=$dangerinprogressall;
+$alltasks[]=$allprogresstasks;
+$alltasks[]=$allvacations;
+$alltasks[]=$allremarks;
+
+
+echo json_encode($alltasks);
+mysqli_close($conn);
+}
+//Function to fetch tasks and vacations my team monthly calendar
+else if($_POST['type']=="23"){
+  $pendingtasks=array();
+  $safeinprogressall=array();
+  $alertinprogressall=array();
+  $dangerinprogressall=array();
+  $allprogresstasks=array();
+  $allvacations=array();
+  $allremarks=array();
+
+  $alltasks=array();
+  // $uguid=$_SESSION['uguid'];
+  $date= $_POST['date'];
+  $date3= $_POST['date2'];
+  $todotask = array (
+          "date"=>$date,
+          "tid"=>"",
+          "createdon"=>"",
+          "tguid"=> "",
+          "tsequenceid"=> "",
+          "tstage"=>"",
+          "assignto"=>"",
+          "tstepdescription"=>"",
+          "statuscode"=>"e",
+          "description"=>"Error while loading tasks"
+
+      );
+      $safeinprogress = array (
+              "date"=>$date,
+              "tid"=>"",
+              "pstart"=>"",
+              "pend"=>"",
+              "pdiff"=>"",
+              "createdon"=>"",
+              "tguid"=> "",
+              "assignto"=>"",
+              "tsequenceid"=> "",
+              "tstage"=>"",
+              "tstepdescription"=>"",
+              "statuscode"=>"e",
+              "description"=>"Error while loading tasks"
+
+          );
+        $vacation = array (
+                "date"=>$date,
+                "vguid"=>"",
+                "vid"=>"",
+                "vremark"=>"",
+                "vstart"=>"",
+                "vend"=>"",
+                "action"=>"",
+
+                "createdon"=>"",
+                "createdat"=> "",
+                "createdby"=> "",
+                "createdfor"=> "",
+
+                "statuscode"=>"e",
+                "description"=>"Error while loading vacations"
+
+            );
+          $remark = array (
+                  "date"=>$date,
+                  "vguid"=>"",
+                  "vsequenceid"=>"",
+                  "vremark"=>"",
+
+                  "updatedon"=>"",
+                  "updatedat"=> "",
+                  "updatedby"=> "",
+                  "remarktest"=>"",
+                  "statuscode"=>"e",
+                  "description"=>"Error while loading remarks"
+
+              );
+
+              $subremarktest = array (
+                "id"=>"",
+                "name"=>""
+              );
+              $allsubremarktes=array();
+
+
+
+$allusers = unserialize($_SESSION['allusers']);
+$allusers = unserialize($_SESSION['allusers']);
+for($i = 0; $i < count($allusers); $i++)
+{
+$uguid=$allusers[$i]["uguid"];
+$sequence= 0;
+$stage=1;
+$sql1="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid!='$sequence' && c.tstage='$stage' && p.createdon <='$date' && c.assignto='$uguid' order by p.tid";
+$result=mysqli_query($conn, $sql1);
+
+ while($row=mysqli_fetch_assoc($result)){
+  $todotask['tguid']= $row['tguid'];
+  $todotask['tid']= $row['tid'];
+  $todotask['createdon']= $row['createdon'];
+  $todotask['tsequenceid']= $row['tsequenceid'];
+  $todotask['tstage']= $row['tstage'];
+  $todotask['tstepdescription']= $row['tstepdescription'];
+  $todotask['tstage']= $row['tstage'];
+
+  $assignto=$row['assignto'];
+  $res3= mysqli_query($conn,"select * from userdata1 where uguid='$assignto'");
+  $res4= mysqli_fetch_assoc($res3);
+  $username= $res4["uname"];
+  $todotask['assignto']=$username;
+
+  $todotask['statuscode']= "s";
+  $todotask['description']= "Task successfully loaded";
+  $pendingtasks[]=$todotask;
+}
+
+
+
+
+$sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid!='$sequence' && c.tstage!='1' && c.tstage!='4' && c.pstart <='$date' && c.assignto='$uguid'  order by p.tid";
+$result2=mysqli_query($conn, $sql2);
+
+while($row=mysqli_fetch_assoc($result2)){
+ $safeinprogress['tguid']= $row['tguid'];
+ $safeinprogress['tid']= $row['tid'];
+ $safeinprogress['pstart']= $row['pstart'];
+ $safeinprogress['pend']= $row['pend'];
+
+
+
+ $date2=date_create($row['pend']);
+ $date1=date_create($date);
+ $diff=date_diff($date1,$date2);
+ $pdiff1= $diff->format("%R%a");
+ $pdiff2= (int)$pdiff1;
+ $safeinprogress['pdiff']= $pdiff2;
+
+ $safeinprogress['createdon']= $row['createdon'];
+ $safeinprogress['tsequenceid']= $row['tsequenceid'];
+ $safeinprogress['tstage']= $row['tstage'];
+ $safeinprogress['tstepdescription']= $row['tstepdescription'];
+ $safeinprogress['tstage']= $row['tstage'];
+ $safeinprogress['statuscode']= "s";
+ $safeinprogress['description']= "Task successfully loaded";
+
+ $assignto=$row['assignto'];
+ $res3= mysqli_query($conn,"select * from userdata1 where uguid='$assignto'");
+ $res4= mysqli_fetch_assoc($res3);
+ $username= $res4["uname"];
+ $safeinprogress['assignto']=$username;
+
+ $allprogresstasks[]=$safeinprogress;
+
+ if($pdiff2>=2) $safeinprogressall[]=$safeinprogress;
+ else if($pdiff2<2 && $pdiff2>=0) $alertinprogressall[]=$safeinprogress;
+ else $dangerinprogressall[]=$safeinprogress;
+
+}
+$vguid="";
+$action="cancel";
+$action2="Rejected";
+$r2= mysqli_query($conn,"select * from vtable where  ((vstart >='$date3' && vstart<= '$date')||(vend >='$date3' && vend<= '$date')) && action!='$action' && action!='$action2' && createdfor='$uguid'");
+$n2= mysqli_num_rows($r2);
+while($row=mysqli_fetch_assoc($r2)){
+  $vacation['vguid']= $row['vguid'];
+  $vacation['vid']= $row['vid'];
+  $vacation['vremark']= $row['vremark'];
+  $vacation['vstart']= $row['vstart'];
+  $vacation['vend']= $row['vend'];
+  $vacation['createdon']= $row['createdon'];
+  $vacation['createdat']= $row['createdat'];
+  $vacation['createdby']= $row['createdby'];
+
+  $vacation['action']= $row['action'];
+  if($row['action']==""){
+    $vacation['action']="Requested";
+  }
+  $createdfor= $row['createdfor'];
+  $res3= mysqli_query($conn,"select * from userdata1 where uguid='$createdfor'");
+  $res4= mysqli_fetch_assoc($res3);
+  $username= $res4["uname"];
+  $vacation['createdfor']=$username;
+
+  $vacation['statuscode']= "s";
+  $vacation['description']= "vacation loaded successfully";
+
+  $allvacations[]=$vacation;
+
+
+}
+  $vguid=$vacation['vguid'];
+
+if($n2){
+ $r4= mysqli_query($conn,"select * from vstatus where vguid='$vguid'");
+while($row=mysqli_fetch_assoc($r4)){
+$remark['vguid']= $row['vguid'];
+$remark['vsequenceid']= $row['vsequenceid'];
+$remark['vremark']= $row['vremark'];
+$remark['updatedon']= $row['updatedon'];
+$remark['updatedat']= $row['updatedat'];
+$userid=$row['updatedby'];
+
+
+$seq=mysqli_query($conn, "select * from userdata1 where uguid='$userid'");
+//$r6= mysqli_query($conn,"select * from userdata1 where uguid='$userid'");
+$row2=mysqli_fetch_assoc($seq);
+$remark['updatedby']= $row2['uname'];
+
+
+$remark['statuscode']= "s";
+$remark['description']= "Remarks loaded successfully";
+
+$allremarks[]=$remark;
+}
+}
+}
+
+$alltasks[]=$pendingtasks;
 $alltasks[]=$safeinprogressall;
 $alltasks[]=$alertinprogressall;
 $alltasks[]=$dangerinprogressall;

@@ -46,6 +46,17 @@ $allusers = unserialize($_SESSION['allusers']);
           <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
           <div class="btn-group dropleft" >
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Calendar Type
+          </button>
+          <div class="dropdown-menu">
+
+            <a class="dropdown-item" href="myteamcalendar.php" onclick="">Daily</a>
+            <a class="dropdown-item" href="#/" onclick="">Weekly</a>
+            <a class="dropdown-item" href="myteamcalendar_monthly.php" onclick="">Monthly</a>
+          </div>
+          </div>
+          <div class="btn-group dropleft" >
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Team Members
           </button>
           <div class="dropdown-menu">
@@ -341,7 +352,7 @@ $allusers = unserialize($_SESSION['allusers']);
                     </div>
                   </div>
                 </div>
-              
+
 
 <!-- #############################################################################             -->
 

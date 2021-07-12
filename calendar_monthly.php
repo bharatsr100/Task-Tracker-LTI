@@ -8,7 +8,7 @@ header('location:index.php');
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>My Calendar Weekly</title>
+    <title>My Calendar Monthly</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -32,6 +32,7 @@ header('location:index.php');
       <div id="header">
         <div id="yearDisplay"></div>
         <div>
+          <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
           <div class="btn-group dropleft" >
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Calendar Type
@@ -43,7 +44,7 @@ header('location:index.php');
             <a class="dropdown-item" href="calendar_monthly.php" onclick="">Monthly</a>
           </div>
           </div>
-          <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
+
           <button id="todayButton" class="btn btn-primary">Today</button>
           <button id="backButton" class="btn btn-secondary">Back</button>
           <button id="nextButton" class="btn btn-secondary">Next</button>
