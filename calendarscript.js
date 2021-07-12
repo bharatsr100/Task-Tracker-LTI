@@ -49,8 +49,8 @@ function load() {
   const day = dt.getDate();
   const month = dt.getMonth();
   const year = dt.getFullYear();
-
   const firstDayOfMonth = new Date(year, month, 1);
+  // console.log("firstDayOfMonth= "+firstDayOfMonth);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
@@ -59,8 +59,10 @@ function load() {
     month: 'numeric',
     day: 'numeric',
   });
+  // console.log(new Date());
+  // console.log("dateString= "+dateString);
   const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
-
+  // console.log(dateString.split(', '));
 
   document.getElementById('monthDisplay').innerText =
     `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
@@ -473,7 +475,7 @@ function initButtons() {
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
-          console.log(dataResult);
+          // console.log(dataResult);
           console.log("Vacation Cacellation file loaded");
           if(dataResult.statuscode=="s"){
             	console. log("display s message");

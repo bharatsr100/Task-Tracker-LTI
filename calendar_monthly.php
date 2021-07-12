@@ -4,10 +4,11 @@ if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 ?>
+
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>My Calendar</title>
+    <title>My Calendar Weekly</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -21,31 +22,15 @@ header('location:index.php');
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
-
-    <!-- https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css
-    https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css -->
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.css" rel="stylesheet">
-
-
-    <!-- https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js
-    https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js
-    https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script> -->
-    <script src="moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.js"></script>
-
-    <link rel="stylesheet" href="calendarstyle.css">
-
-
+    <link rel="stylesheet" href="monthly_calendarstyle.css">
   </head>
   <body>
-
+    <div style="width:100%;margin-top:0px;">
+      <button class="btn btn-secondary" onclick="location.href='calendar.php';">Back</button>
+    </div>
     <div id="container" style="margin-top:50px;margin-left:auto;margin-right:auto;">
       <div id="header">
-        <div id="monthDisplay"></div>
+        <div id="yearDisplay"></div>
         <div>
           <div class="btn-group dropleft" >
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,8 +41,6 @@ header('location:index.php');
             <a class="dropdown-item" href="calendar.php" onclick="">Daily</a>
             <a class="dropdown-item" href="#/" onclick="">Weekly</a>
             <a class="dropdown-item" href="calendar_monthly.php" onclick="">Monthly</a>
-
-
           </div>
           </div>
           <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
@@ -67,18 +50,13 @@ header('location:index.php');
         </div>
       </div>
 
-      <div id="weekdays">
-        <div class="weekdaysin" id="weekday1">Sunday</div>
-        <div class="weekdaysin">Monday</div>
-        <div class="weekdaysin">Tuesday</div>
-        <div class="weekdaysin">Wednesday</div>
-        <div class="weekdaysin">Thursday</div>
-        <div class="weekdaysin">Friday</div>
-        <div class="weekdaysin">Saturday</div>
+      <div id="months_header">
+
       </div>
 
       <div id="calendar"></div>
     </div>
+
     <!-- ######################################################################################################################################### -->
   <!--To be planned Task Modal -->
     <div class="modal fade" id="showstage1tasks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -284,29 +262,32 @@ header('location:index.php');
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form id="cancel_form" method="get">
-                        <div  class="form-group">
-                          <label  for="vguid" style="display:none;">VGUID
-                        </label>
-                          <input type="text" class="form-control" id="vguid" placeholder="VGUID" name="vguid" style="display:none;">
-                        </div>
 
-                        <div  class="form-group">
-                          <label  for="vremark">Remark
-                        </label>
-                          <input type="text" class="form-control" id="vremark" placeholder="Remark" name="vremark">
-                        </div>
+                      <!-- <h3 style="text-align: center;"><b>Team Remarks History</b></h3>
+                      <ul class="list-group" id="remarkslist"></ul> -->
 
-                        <button type="button" class="btn btn-secondary close1" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger cancelooo" name="cancelooo" id="cancelooo">Cancel Vacation</button>
-
-                      </form>
+                      <h3 style="text-align: center;"><b>Vacation Plan</b></h3>
                       <br><br>
-                      <h3 style="text-align: center;"><b>Remarks History</b></h3>
-                      <ul class="list-group" id="remarkslist">
+                      <center>
+                        <div id="teamvacation_div" style="display:contents">
+                          <table class="table table-hover" id="teamvacation_table">
+                            <thead>
+                              <tr>
+                                <th scope="col" style="display:none;">VGUID</th>
+                                <th scope="col" style="display:none;">Created for(id)</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Status</th>
 
+                              </tr>
+                            </thead>
+                            <tbody id="tbody_team_vacation">
+                            </tbody>
+                          </table>
+                        </div>
 
-                    </ul>
+                      </center>
 
                     </div>
 
@@ -322,32 +303,9 @@ header('location:index.php');
                     </div>
                   </div>
                 </div>
-              </div>
 
 <!-- #####################################################################################################-->
 
-    <div id="newEventModal">
-      <h2>New Event</h2>
-
-      <input id="eventTitleInput" placeholder="Event Title" />
-
-      <button id="saveButton">Save</button>
-      <button id="cancelButton">Cancel</button>
-    </div>
-
-    <div id="deleteEventModal">
-      <h2>Event</h2>
-
-      <p id="eventText"></p>
-
-      <button id="deleteButton">Delete</button>
-      <button id="closeButton">Close</button>
-    </div>
-
-    <div id="modalBackDrop" ></div>
-    <script src="calendarscript.js"></script>
-
-
-
+  <script src="monthly_mycalendarscript.js"></script>
   </body>
 </html>

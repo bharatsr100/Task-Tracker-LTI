@@ -2,12 +2,14 @@
 session_start();
 if(!isset($_SESSION['uguid'])){
 header('location:index.php');
+
 }
+$allusers = unserialize($_SESSION['allusers']);
 ?>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Task Calendar</title>
+    <title>My Team Calendar</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -22,16 +24,7 @@ header('location:index.php');
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
 
-    <!-- https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css
-    https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css -->
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.css" rel="stylesheet">
-
-
-    <!-- https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js
-    https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js
-    https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script> -->
     <script src="moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.js"></script>
@@ -45,12 +38,29 @@ header('location:index.php');
     <div id="home"><button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; display:none">Home</button>
     </div>
     <br><br>
-    <div id="container" style="margin-top:50px;">
+    <div id="container" style="margin-top:50px;margin-left:auto;margin-right:auto;">
       <div id="header">
         <div id="monthDisplay"></div>
         <div>
-          <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
 
+          <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
+          <div class="btn-group dropleft" >
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Team Members
+          </button>
+          <div class="dropdown-menu">
+            <?php
+            for($i = 0; $i < count($allusers); $i++) {
+            $uguid=$allusers[$i]["uguid"];
+            $uname=$allusers[$i]["uname"];?>
+            <a class="dropdown-item" href="#/" onclick="membercalendar('<?php echo $uguid; ?>','<?php echo $uname; ?>')"><?php echo ($i+1).". ".$uname; ?>
+            </a>
+            <?php
+            }
+            ?>
+
+          </div>
+          </div>
           <button id="todayButton" class="btn btn-primary">Today</button>
           <button id="backButton" class="btn btn-secondary">Back</button>
           <button id="nextButton" class="btn btn-secondary">Next</button>
@@ -331,7 +341,7 @@ header('location:index.php');
                     </div>
                   </div>
                 </div>
-              </div>
+              
 
 <!-- #############################################################################             -->
 
