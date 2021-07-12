@@ -47,9 +47,9 @@ header('location:index.php');
 
        <!--  -->
       <div id="task_details_admin" style="margin-left:40px;float:left;width:90%;" >
-        <h1 style="text-align:center;" id="headone"></h1>
-        <br><br><br>
-        <div style="margin-top:50px;width:90%;height:40px;">
+        <h4 style="text-align:center;" id="headone"><b>Task Details</b></h4>
+        <br><br>
+        <div style="width:90%;height:40px;">
             <div  style="width:25%;float:left;">
                   <div style="font-size:15px;float:left;"><b>Task ID:&emsp;</b></div>
                   <div style="font-size:15px;float:left;"id="tid"></div>
@@ -73,8 +73,22 @@ header('location:index.php');
             <div style="font-size:15px;float:left;"id="peffort"></div>
         </div>
       </div>
+      <div style="margin-top:20px;width:90%;height:40px;">
+        <div  style="width:25%;float:left;">
+              <div style="font-size:15px;float:left;"><b>Actual Start:&emsp;</b></div>
+              <div style="font-size:15px;float:left;"id="astart"></div>
+        </div>
+        <div  style="margin-left:40px;width:25%;float:left;">
+            <div style="font-size:15px;float:left;"><b>Actual End:&emsp;</b></div>
+            <div style="font-size:15px;float:left;"id="aend"></div>
+        </div>
+        <div  style="margin-left:40px;width:25%;float:left;">
+            <div style="font-size:15px;float:left;"><b>Actual Effort:&emsp;</b></div>
+            <div style="font-size:15px;float:left;"id="aeffort"></div>
+        </div>
+      </div>
       <div style="margin-top:50px;width:100%;">
-        <h4 style="text-align:center;"> <b><u>Task Step Details</u><b> </h4>
+        <h4 style="text-align:center;"> <b>Task Step Details<b> </h4>
         <br><br>
         <center>
         <table class="table table-hover" id="tstep_table" style="display:none;font-size:15px;">
@@ -97,7 +111,7 @@ header('location:index.php');
       </center>
       </div>
       <div style="margin-top:50px;width:100%;" id="allcomments_div">
-        <h4 style="text-align:center;"> <b><u>Comments History</u></b> </h4>
+        <h4 style="text-align:center;"> <b>Comments History</b> </h4>
         <br><br>
         <!-- <div  class="comments_full_div" >
         <div  class="date_div">date</div>

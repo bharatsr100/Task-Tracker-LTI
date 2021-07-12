@@ -259,11 +259,11 @@ $arr = unserialize($_SESSION['arr']);
               <label  for="priority">Priority:
             </label>
             <select class="form-control" id="priority" name="priority">
-                <option value=1>Very High</option>
-                <option value=2>High</option>
-                <option selected="true" value=3>Medium</option>
-                <option value=4>Low</option>
-                <option value=5>Very Low</option>
+                <option value=1>1-Very High</option>
+                <option value=2>2-High</option>
+                <option selected="true" value=3>3-Medium</option>
+                <option value=4>4-Low</option>
+                <option value=5>5-Very Low</option>
                 </select>
             </div>
 
@@ -588,11 +588,11 @@ $arr = unserialize($_SESSION['arr']);
               <label  for="priority1">Priority:
             </label>
             <select class="form-control" id="priority1" name="priority1">
-                <option value=1>Very High</option>
-                <option value=2>High</option>
-                <option selected="true" value=3>Medium</option>
-                <option value=4>Low</option>
-                <option value=5>Very Low</option>
+                <option value=1>1-Very High</option>
+                <option value=2>2-High</option>
+                <option selected="true" value=3>3-Medium</option>
+                <option value=4>4-Low</option>
+                <option value=5>5-Very Low</option>
                 </select>
             </div>
             <!-- data-dismiss="modal" -->
@@ -1086,7 +1086,7 @@ $arr = unserialize($_SESSION['arr']);
           else if($priority==3) $priority_text="Medium";
           else if($priority==4) $priority_text="Low";
           else $priority_text="Very Low";
-         echo $row['priority']." ".$priority_text; ?></td>
+         echo $row['priority']."-".$priority_text; ?></td>
 
 
       </tr>
@@ -1460,7 +1460,7 @@ else if($row['tstage']==6) {
         else if($priority==3) $priority_text="Medium";
         else if($priority==4) $priority_text="Low";
         else $priority_text="Very Low";
-       echo $row['priority']." ".$priority_text; ?></td>
+       echo $row['priority']."-".$priority_text; ?></td>
 
   </tr>
   <?php

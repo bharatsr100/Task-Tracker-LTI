@@ -55,7 +55,7 @@ header('location:index.php');
           <div class="dropdown-menu">
 
             <a class="dropdown-item" href="calendar.php" onclick="">Daily</a>
-            <a class="dropdown-item" href="#/" onclick="">Weekly</a>
+            <a class="dropdown-item" href="calendar_weekly.php" onclick="">Weekly</a>
             <a class="dropdown-item" href="calendar_monthly.php" onclick="">Monthly</a>
 
 

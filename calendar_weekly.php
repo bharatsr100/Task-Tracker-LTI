@@ -8,7 +8,7 @@ header('location:index.php');
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>My Calendar Monthly</title>
+    <title>My Calendar Weekly</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -61,7 +61,7 @@ header('location:index.php');
     <!-- ######################################################################################################################################### -->
   <!--To be planned Task Modal -->
     <div class="modal fade" id="showstage1tasks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document" >
+      <div class="modal-dialog alltaskm" role="document" >
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="stage1title">To be Planned tasks</h5>
@@ -307,6 +307,6 @@ header('location:index.php');
 
 <!-- #####################################################################################################-->
 
-  <script src="monthly_mycalendarscript.js"></script>
+  <script src="weekly_mycalendar_srcipt.js"></script>
   </body>
 </html>

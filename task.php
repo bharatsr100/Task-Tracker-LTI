@@ -70,9 +70,10 @@ $arr2 = array (
     $arr2['comment']="$comment";
 
 
-    if(($tid!="" && $tdescription!="" && $pstart!="" && $pend!="" && $peffort!="") || ($tid!="" && $tdescription!="" && $pstart=="" && $pend=="" && $peffort=="")  ){
+    if(($tid!="" && $tdescription!="" && $pstart!="" && $pend!="" && $peffort!="") || ($tid!="" && $tdescription!="" && $pstart=="" && $pend=="" && $peffort==0)  )
+    {
       if($assignto=="" || $assignto==0 || $assignto== NULL ) $assignto=$uguid;
-      $st= mysqli_query($conn,"select * from ttable where tid= '$tid' && createdby='$createdby'");
+      $st= mysqli_query($conn,"select * from ttable where tid= '$tid' ");
       $nt= mysqli_num_rows($st);
 
       if($nt){

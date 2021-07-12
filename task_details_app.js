@@ -47,16 +47,33 @@ $.ajax({
         success: function(dataResult){
           // console.log(dataResult);
           var task = JSON.parse(dataResult);
-          console.log(task);
+          // console.log(task);
+          var pstart= task.pstart;
+          var pend= task.pend;
+          var astart= task.astart;
+          var aend= task.aend;
+          var peffort= (task.peffort/480).toFixed(2);
+          var aeffort= (task.aeffort/480).toFixed(2);
+
+          if(pstart=="0000-00-00") pstart="";
+          if(pend=="0000-00-00") pend="";
+          if(astart=="0000-00-00") astart="";
+          if(aend=="0000-00-00") aend="";
+          if(peffort==0) peffort="";
+          if(aeffort==0) aeffort="";
+
           $("#tbody_tstep_table").empty();
           $("#tstep_table").show();
 
-          $("#headone").html("Task Details: "+task.tid);
+          // $("#headone").html("Task Details: "+task.tid);
           $('#tid').html(task.tid);
           $('#tstepdescription').html(task.tstepdescription);
-          $('#pstart').html(task.pstart);
-          $('#pend').html(task.pend);
-          $('#peffort').html((task.peffort/480).toFixed(2));
+          $('#pstart').html(pstart);
+          $('#pend').html(pend);
+          $('#peffort').html(peffort);
+          $('#astart').html(astart);
+          $('#aend').html(aend);
+          $('#aeffort').html(aeffort);
 
           var tasksteps= task.tsteps;
           var table1 = document.getElementById("tbody_tstep_table");
