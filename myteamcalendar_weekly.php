@@ -8,7 +8,7 @@ header('location:index.php');
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Member Calendar Monthly</title>
+    <title>My Calendar Weekly</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -29,7 +29,7 @@ header('location:index.php');
       <button class="btn btn-secondary" onclick="location.href='myteamcalendar.php';">Back</button>
     </div>
     <div id="container" style="margin-top:50px;margin-left:auto;margin-right:auto;">
-      <div><h3 style="text-align:center;" id="headone"></h3></div>
+      <div><h3 style="text-align:center;"><b>My Team Calendar</b></h3></div>
       <div id="header" style="margin-top:60px;">
         <div id="yearDisplay"></div>
         <div>
@@ -40,9 +40,9 @@ header('location:index.php');
           </button>
           <div class="dropdown-menu">
 
-            <a class="dropdown-item" href="member_calendar.php" onclick="">Daily</a>
-            <a class="dropdown-item" href="weekly_member_calendar.php" onclick="">Weekly</a>
-            <a class="dropdown-item" href="monthly_member_calendar.php" onclick="">Monthly</a>
+            <a class="dropdown-item" href="myteamcalendar.php" onclick="">Daily</a>
+            <a class="dropdown-item" href="myteamcalendar_weekly.php" onclick="">Weekly</a>
+            <a class="dropdown-item" href="myteamcalendar_monthly.php" onclick="">Monthly</a>
           </div>
           </div>
 
@@ -51,18 +51,18 @@ header('location:index.php');
           <button id="nextButton" class="btn btn-secondary">Next</button>
         </div>
       </div>
-
+      <br>
       <div id="months_header">
-
+        <h5 style="text-align:center;color:#1D1862;"><b>Status at the end of the week</b></h5>
       </div>
-
+      <br>
       <div id="calendar"></div>
     </div>
 
     <!-- ######################################################################################################################################### -->
   <!--To be planned Task Modal -->
     <div class="modal fade" id="showstage1tasks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document" >
+      <div class="modal-dialog alltaskm" role="document" >
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="stage1title">To be Planned tasks</h5>
@@ -307,10 +307,7 @@ header('location:index.php');
                 </div>
 
 <!-- #####################################################################################################-->
-<script>
-  var member_name = sessionStorage.getItem("member_name");
-  $("#headone").html("<b>Calendar for:</b> "+member_name);
-</script>
-  <script src="monthly_membercalendarscript.js"></script>
+
+  <script src="weekly_myteamcalendarscript.js"></script>
   </body>
 </html>

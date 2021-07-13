@@ -29,7 +29,8 @@ header('location:index.php');
       <button class="btn btn-secondary" onclick="location.href='calendar.php';">Back</button>
     </div>
     <div id="container" style="margin-top:50px;margin-left:auto;margin-right:auto;">
-      <div id="header">
+      <div><h3 style="text-align:center;"><b>My Calendar</b></h3></div>
+      <div id="header" style="margin-top:60px;">
         <div id="yearDisplay"></div>
         <div>
           <a href="welcome.php"  ><i data-toggle="tooltip" data-placement="left" title="Home Page" class="fas fa-home" style="font-size:30px;" id="homebtn"></i></a>
@@ -50,11 +51,11 @@ header('location:index.php');
           <button id="nextButton" class="btn btn-secondary">Next</button>
         </div>
       </div>
-
+      <br>
       <div id="months_header">
-
+        <h5 style="text-align:center;color:#1D1862;"><b>Status at the end of the month</b></h5>
       </div>
-
+      <br>
       <div id="calendar"></div>
     </div>
 

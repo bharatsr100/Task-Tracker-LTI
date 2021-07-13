@@ -29,8 +29,6 @@ header('location:index.php');
 
     <div style="width:100%;margin-top:0px;">
       <button class="btn btn-secondary" onclick="location.href='myteamcalendar.php';">Back</button>
-      <div style="text-align:center;width:100%;" >
-      </div>
     </div>
     <div id="container" style="margin-top:50px;margin-left:auto;margin-right:auto;">
       <div><h3 style="text-align:center;" id="headone"></h3></div>
@@ -45,7 +43,7 @@ header('location:index.php');
           <div class="dropdown-menu">
 
             <a class="dropdown-item" href="member_calendar.php" onclick="">Daily</a>
-            <a class="dropdown-item" href="#/" onclick="">Weekly</a>
+            <a class="dropdown-item" href="weekly_member_calendar.php" onclick="">Weekly</a>
             <a class="dropdown-item" href="monthly_member_calendar.php" onclick="">Monthly</a>
           </div>
           </div>

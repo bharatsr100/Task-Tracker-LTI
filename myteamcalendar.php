@@ -39,7 +39,8 @@ $allusers = unserialize($_SESSION['allusers']);
     </div>
     <br><br>
     <div id="container" style="margin-top:50px;margin-left:auto;margin-right:auto;">
-      <div id="header">
+      <div><h3 style="text-align:center;"><b>My Team Calendar</b></h3></div>
+      <div id="header" style="margin-top:60px;">
         <div id="monthDisplay"></div>
         <div>
 
@@ -51,7 +52,7 @@ $allusers = unserialize($_SESSION['allusers']);
           <div class="dropdown-menu">
 
             <a class="dropdown-item" href="myteamcalendar.php" onclick="">Daily</a>
-            <a class="dropdown-item" href="#/" onclick="">Weekly</a>
+            <a class="dropdown-item" href="myteamcalendar_weekly.php" onclick="">Weekly</a>
             <a class="dropdown-item" href="myteamcalendar_monthly.php" onclick="">Monthly</a>
           </div>
           </div>

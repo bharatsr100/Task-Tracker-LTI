@@ -144,7 +144,7 @@ function load() {
         monthSquare.id = 'currentMonth';
       }
 
-      var type= "22";
+      var type= "26";
       $.ajax({
         url: "updatetask1.php",
         type: "POST",
@@ -163,7 +163,7 @@ function load() {
           // console.log(weekstart_date);
           // console.log(weekend_date);
           // console.log(dataResult);
-           // console.log("Result loaded");
+          // console.log("Result loaded");
            var reslength= dataResult[0].length;
            var safeprogress= dataResult[1].length;
            var alertprogress= dataResult[2].length;

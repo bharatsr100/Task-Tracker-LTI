@@ -7,7 +7,7 @@ header('location:index.php');
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Admin Page</title>
+    <title>Task Serach and Task Report</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -39,11 +39,11 @@ header('location:index.php');
     </style>
   </head>
   <body>
-
+<button onclick="location.href='admin_home_page.php';" type="button" class="btn btn-primary" >Back</button>
 <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float:right;">Log Out</button>
-<button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float:right;margin-right:20px;">Home</button>
+<button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float:right;margin-right:10px;">Home</button>
 <br><br><br>
-<h1 style="text-align:center; margin-top:50px;">Admin Page</h1>
+<h1 style="text-align:center; margin-top:50px;">Task Search and Task Report</h1>
 <br><br><br><br><br>
 
 <form id="task_search" method="get" style="margin-left:50px;">

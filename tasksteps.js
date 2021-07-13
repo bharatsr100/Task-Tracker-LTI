@@ -188,6 +188,8 @@ var tasklist=[
 
                 //console.log(item);
                 //console.log(receipts[index]);
+                  var peffort= item.peffort/480;
+                  var aeffort= item.aeffort/480;
                   var pstartn="";
                   var pendn="";
                   var astartn="";
@@ -238,7 +240,8 @@ var tasklist=[
 
                 i++;
                 newcell = row.insertCell(i);
-                newcell.innerHTML = item.peffort;
+                if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
+                else newcell.innerHTML="";
 
                 i++;
                 newcell = row.insertCell(i);
@@ -250,7 +253,8 @@ var tasklist=[
 
                 i++;
                 newcell = row.insertCell(i);
-                newcell.innerHTML = item.aeffort;
+                if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
+                else newcell.innerHTML = "";
 
                 i++;
                 newcell = row.insertCell(i);

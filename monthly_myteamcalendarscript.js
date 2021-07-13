@@ -74,9 +74,9 @@ function load() {
         success: function(dataResult){
           // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
-            console.log("Result for "+ months[i]);
-           console.log(dataResult);
-           console.log("Result loaded");
+           //  console.log("Result for "+ months[i]);
+           // console.log(dataResult);
+           // console.log("Result loaded");
            var reslength= dataResult[0].length;
            var safeprogress= dataResult[1].length;
            var alertprogress= dataResult[2].length;

@@ -56,7 +56,7 @@ calendar.innerHTML = '';
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
 
-      var type= "20";
+      var type= "25";
       var uguid=sessionStorage.getItem("member_uguid");
       $.ajax({
         url: "updatetask1.php",

@@ -41,12 +41,12 @@ include 'database.php';
   <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float:right;">Log Out</button>
   <?php
   if($admin=="Yes"){?>
-  <button onclick="location.href='admin_page.php';" type="button" class="btn btn-primary" style="float:right;margin-right:10px;">Admin</button>
+  <button onclick="location.href='admin_home_page.php';" type="button" class="btn btn-primary" style="float:right;margin-right:10px;">Admin</button>
   <?php
   }
   ?>
   <br><br><br>
-  
+
   <h1 style="text-align:center; margin-top:50px;"> Welcome <?php
 
       echo $arr['uname'];

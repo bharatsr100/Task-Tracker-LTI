@@ -143,7 +143,7 @@ function load() {
       if ((currentdate.getTime() >= weekstart.getTime()) &&(currentdate.getTime() <= weekend.getTime() )  ) {
         monthSquare.id = 'currentMonth';
       }
-
+      var uguid=sessionStorage.getItem("member_uguid");
       var type= "22";
       $.ajax({
         url: "updatetask1.php",
@@ -152,7 +152,8 @@ function load() {
         data:    {
               type: type,
               date: weekend_date,
-              date2: weekstart_date
+              date2: weekstart_date,
+              uguid:uguid
 
             },
         cache: false,
