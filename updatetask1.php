@@ -3563,5 +3563,69 @@ else if($_POST['type']=="26"){
 
 
 }
+//Function to upload mass task upload
+// $_POST['type']=="27"
+// isset($_POST['alltasks'])
+else if($_POST['type']=="27" ){
+  //also include created by as session uguid
+  $uguid=$_SESSION['uguid'];
+  $all_tasks= array();
+  $task = array (
+
+          "tguid"=> "",
+          "tid"=> "",
+          "tdescription"=> "",
+          "ttype"=> "",
+          "createdon"=>"",
+          "createdat"=>"",
+          "createdby"=> $uguid,
+          "priority"=>"",
+          "tstage"=>"",
+          "assignto"=> "",
+           "pstart"=> "",
+          "pend"=> "",
+          "peffort"=> "",
+          "astart"=>"",
+          "aend"=> "",
+          "aeffort"=> "",
+          "remark"=>"",
+          "remark_id"=>"",
+          "statuscode"=>"e",
+          "description"=>"Error while uploading tasks"
+
+      );
+
+
+      $alltasks = $_POST['alltasks'];
+      // for($i = 0; $i < count($alltasks); $i++) {
+      //   $tguid=$alltasks[$i]["tguid"];
+      //   $tid=$alltasks[$i]["tid"];
+      //   $ttdescription=$alltasks[$i]["tdescription"];
+      //   $ttype=$alltasks[$i]["ttype"];
+      //   $createdon=$alltasks[$i]["createdon"];
+      //   $createdat=$alltasks[$i]["createdat"];
+      //   $priority=$alltasks[$i]["priority"];
+      //   $tstage=$alltasks[$i]["tstage"];
+      //   $assignto=$alltasks[$i]["assignto"];
+      //   $pstart=$alltasks[$i]["pstart"];
+      //   if($pstart=="") $pstart="0000-00-00";
+      //   $pend=$alltasks[$i]["pend"];
+      //   if($pend=="") $pend="0000-00-00";
+      //   $peffort=$alltasks[$i]["peffort"];
+      //   if($peffort=="") $peffort=0;
+      //   $astart=$alltasks[$i]["astart"];
+      //   if($astart=="") $astart="0000-00-00";
+      //   $aend=$alltasks[$i]["aend"];
+      //   if($aend=="") $aend="0000-00-00";
+      //   $aeffort=$alltasks[$i]["aeffort"];
+      //   if($aeffort=="") $aeffort=0;
+      //   $remark_id=$alltasks[$i]["remark_id"];
+      //
+      //   $remark;
+      //
+      // }
+
+      echo json_encode($alltasks);
+}
 
 ?>

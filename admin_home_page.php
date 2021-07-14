@@ -24,8 +24,8 @@ header('location:index.php');
 <br><br><br>
 
 <button onclick="location.href='admin_page.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">Task Search </button>
-<button onclick="location.href='\#';" type="button" class="btn btn-secondary" style="width:170px;">Mass Upload Task</button>
-<button onclick="location.href='\#';" type="button" class="btn btn-secondary" style="width:200px;">Mass Upload Task Status</button>
+<button onclick="location.href='admin_mass_taskupload.php';" type="button" class="btn btn-secondary" style="width:170px;">Mass Upload Task</button>
+<button onclick="location.href='\#';" type="button" class="btn btn-secondary" style="width:200px;">Mass Upload Task Step</button>
 
 
 </body>
