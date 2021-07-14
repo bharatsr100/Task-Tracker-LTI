@@ -137,11 +137,11 @@ function CSV2JSON(csv) {
       }
       var header= task_head[i-1];
 
-      var tguid=task_details.tguid;
+      var tid=task_details.tid;
       // console.log(tguid);
 
       var result = alltasks.filter(obj => {
-      return obj.tguid === tguid
+      return obj.tid === tid
     })
     // console.log(result);
 
@@ -168,7 +168,19 @@ function CSV2JSON(csv) {
           // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
           console.log(dataResult);
+          // $('#successedittask').html(dataResult.description);
+          $(dataResult).each(function (index, item) {
+            var cell_id="#"+item.remark_id;
+            $(cell_id).html(item.description);
+            var status=item.statuscode;
+            if(status=="s"){
+               $(cell_id).css('color', 'green');
+            }
+            else{
+              $(cell_id).css('color', 'red');
+            }
 
+          });
         },
            error: function(e){
 
@@ -314,9 +326,9 @@ $(document).ready(function() {
                   newcell.className="selectcolumn";
                   // // <input type='checkbox' name='name1' />&nbsp;
                   //
-                  i++;
-                  var newcell = row.insertCell(i);
-                  newcell.innerHTML =item.tguid;
+                  // i++;
+                  // var newcell = row.insertCell(i);
+                  // newcell.innerHTML =item.tguid;
 
                   i++;
                   var newcell = row.insertCell(i);
@@ -353,11 +365,11 @@ $(document).ready(function() {
 
                   i++;
                   var newcell = row.insertCell(i);
-                  newcell.innerHTML =item.pstart;
+                  newcell.innerHTML =pstart;
 
                   i++;
                   var newcell = row.insertCell(i);
-                  newcell.innerHTML =item.pend;
+                  newcell.innerHTML =pend;
 
                   i++;
                   var newcell = row.insertCell(i);
