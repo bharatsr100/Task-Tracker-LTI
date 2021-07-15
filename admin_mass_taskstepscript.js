@@ -1,16 +1,15 @@
 var alltasks;
 var task_head;
-var table1;
+
 
 
   function upload_data(){
 
-    $("#success_uploadorcheck").hide();
-    $("#error_uploadorcheck").hide();
+
   var selected_tasks= new Array();
   // var size=$(".mass_task_table").find("tr:first td").length-1;
   var size= task_head.length-1;
-  $(".mass_task_table tbody input[type=checkbox]:checked").each(function () {
+  $(".mass_task_table input[type=checkbox]:checked").each(function () {
 
       var task_details = {};
       var row = $(this).closest("tr")[0];
@@ -37,9 +36,8 @@ var table1;
   });
 
 // console.log(selected_tasks);
-var length=selected_tasks.length;
 
-if(length){     var type="27";
+     var type="27";
 
      $.ajax({
         type: "POST",
@@ -68,7 +66,6 @@ if(length){     var type="27";
             }
 
           });
-
         },
            error: function(e){
 
@@ -77,11 +74,6 @@ if(length){     var type="27";
       }
 
 });
-}
-else{
-  $("#error_uploadorcheck").show();
-  $("#error_uploadorcheck").html("Select at least one task to save it");
-}
 
 
 
@@ -89,11 +81,10 @@ else{
 
 
   function check_data(){
-    $("#success_uploadorcheck").hide();
-    $("#error_uploadorcheck").hide();
+
   var selected_tasks= new Array();
   var size= task_head.length-1;
-  $(".mass_task_table tbody input[type=checkbox]:checked").each(function () {
+  $(".mass_task_table input[type=checkbox]:checked").each(function () {
       var task_details = {};
       var row = $(this).closest("tr")[0];
       console.log(size);
@@ -114,11 +105,9 @@ else{
 
   });
 
-console.log(selected_tasks);
-var length=selected_tasks.length;
+// console.log(selected_tasks);
 
-
-  if(length){     var type="28";
+     var type="28";
 
      $.ajax({
         type: "POST",
@@ -132,10 +121,10 @@ var length=selected_tasks.length;
           // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
           console.log(dataResult);
-
+          // $('#successedittask').html(dataResult.description);
           $(dataResult).each(function (index, item) {
             var cell_id="#"+item.remark_id;
-            $(cell_id).html(item.statuscode +": "+ item.description);
+            $(cell_id).html(item.description);
             var status=item.statuscode;
             if(status=="s"){
                $(cell_id).css('color', 'green');
@@ -145,24 +134,6 @@ var length=selected_tasks.length;
             }
 
           });
-          table1.destroy();
-          table1=$('#mass_task_table1').DataTable({
-
-              "paging": false,
-              "ordering": true,
-              "info": false,
-              "columnDefs": [
-                    {
-                        orderable: false,
-                        targets: [0]
-                    }
-                ],
-              "order": [
-                [2, "asc"]
-              ]
-
-            });
-
         },
            error: function(e){
 
@@ -171,38 +142,30 @@ var length=selected_tasks.length;
       }
 
 });
-}
-else{
-$("#error_uploadorcheck").show();
-$("#error_uploadorcheck").html("Select at least one task to check it");
-}
 
 
 
   }
 
-function select_all(){
-
-  		$('.selectcolumn input').prop('checked', true);
-
-      if(!$('#selectcolumn1 input').prop("checked")) {
-      		$('.selectcolumn input').prop('checked', false);
-      }
-  }
-
-function select_row(id) {
-  console.log("Hello2");
-  console.log(id);
-  var cellid="#check"+id+"id input";
-
-  		if(!$(cellid).prop("checked")) {
-          $('#selectcolumn1 input').prop('checked', false);
-      } else {
-      	 if ($('.selectcolumn input:checked').length === $('.selectcolumn input').length) {
-             $('#selectcolumn1 input').prop('checked', true);
-         }
-      }
-}
+// function select_all(){
+//       console.log("Hello1");
+//   		$('.selectRow').prop('checked', true);
+//
+//       if(!$(this).prop("checked")) {
+//       		$('.selectRow').prop('checked', false);
+//       }
+//   }
+//
+// function select_row() {
+//   console.log("Hello2");
+//   		if(!$(this).prop("checked")) {
+//           $('#selectAll').prop('checked', false);
+//       } else {
+//       	 if ($('.selectRow:checked').length === $('.selectRow').length) {
+//              $('#selectAll').prop('checked', true);
+//          }
+//       }
+// }
   $('#selectcolumn1').click(function(){
     console.log("Hello3");
   });
@@ -258,10 +221,12 @@ $(document).ready(function() {
                 // var length= customers.length;
                 // console.log(length);
                 var table = document.createElement("table");
-                table.id="mass_task_table1";
+
 
 
                 table.className = "table table-hover mass_task_table";
+                // table.setAttribute("id", "mass_task_table1");
+                table.id="mass_task_table1";
                 var table_head=  table.createTHead();
                 var row = table_head.insertRow(0);
                 // var row = table.insertRow(0);
@@ -272,9 +237,9 @@ $(document).ready(function() {
                 // select_all.setAttribute('id',"selectAll");
 
                 var cell = row.insertCell(0);
-                //
-                // id='selectAll' onclick='select_all()'
-                cell.innerHTML = "<th><b><input type='checkbox' onclick='select_all()'/>&nbsp;</b></th>";
+                // cell.innerHTML = "<th><b><input type='checkbox' id='selectAll' onclick='select_all()'/>&nbsp;&nbsp;Select All </b></th>";
+
+                cell.innerHTML = "<th><b>Select</b></th>";
                 cell.id="selectcolumn1";
                 // onclick='select_all()'
                   // $("#selectcolumn").css({'background-color': 'red','width':'300px'});
@@ -289,9 +254,6 @@ $(document).ready(function() {
                 }
                 var cell = row.insertCell(j);
                 cell.innerHTML ="<th><b>Remarks</b></th>";
-
-                var tableBody = document.createElement('TBODY');
-                table.appendChild(tableBody);
 
                 var j= 0;
                 $(all_tasks).each(function (index, item) {
@@ -310,97 +272,80 @@ $(document).ready(function() {
                   if(aeffort==0) aeffort="";
 
                   j++;
-
-                  // row = table.insertRow(j);
-                  var tr = document.createElement('TR');
-                  tableBody.appendChild(tr);
+                  // row = table.insertRow(table.rows.length);
+                  row = table.insertRow(j);
 
                   var i=0;
-                  var newcell = document.createElement('TD');
-                  newcell.innerHTML = "<input type='checkbox' onclick='select_row(\""+j+"\")'/>&nbsp;";
+                  var newcell = row.insertCell(i);
+                  newcell.innerHTML = "<input type='checkbox' />&nbsp;";
                   newcell.className="selectcolumn";
-                  newcell.id= "check"+j+"id";
-                  tr.appendChild(newcell);
-
+                  // // <input type='checkbox' name='name1' />&nbsp;
+                  //
+                  // i++;
+                  // var newcell = row.insertCell(i);
+                  // newcell.innerHTML =item.tguid;
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.tid;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.tdescription;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.ttype;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.createdon;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.createdat;
-                  tr.appendChild(newcell);
 
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.priority;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.tstage;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =item.assignto;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =pstart;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =pend;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =peffort;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =astart;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =aend;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML =aeffort;
-                  tr.appendChild(newcell);
 
                   i++;
-                  var newcell = document.createElement('TD');
+                  var newcell = row.insertCell(i);
                   newcell.innerHTML ="";
                   newcell.id= item.remark_id;
-                  newcell.className= "remarkcolumn";
-                  tr.appendChild(newcell);
-
 
 
 
@@ -409,25 +354,9 @@ $(document).ready(function() {
                 $("#dvCSV").html('');
                 // $("#dvCSV").append(JSON.stringify(customers));
                 dvCSV.appendChild(table);
-
-
-                table1=$('#mass_task_table1').DataTable({
-
-                    "paging": false,
-                    "ordering": true,
-                    "info": false,
-                    "columnDefs": [
-                          {
-                              orderable: false,
-                              targets: [0]
-                          }
-                      ],
-                    "order": [
-                      [2, "asc"]
-                    ]
-
-                  });
                 $("#action_buttons").show();
+
+
               }
               reader.readAsText(fileUpload.files[0]);
           } else {

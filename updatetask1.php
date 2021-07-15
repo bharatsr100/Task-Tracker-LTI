@@ -3563,9 +3563,10 @@ else if($_POST['type']=="26"){
 
 
 }
-//Function to upload mass task upload
+
 // $_POST['type']=="27"
 // isset($_POST['alltasks'])
+//Function to upload mass task upload
 else if($_POST['type']=="27" ){
   //also include created by as session uguid
   $uguid=$_SESSION['uguid'];
@@ -3678,6 +3679,155 @@ else if($_POST['type']=="27" ){
           $task['description']="Task Created Successfully";
 
         }
+        }
+      }
+      else{
+
+        if($tid=="" || $tdescription==""){
+        $task['description']="Enter all required details (Task ID and Task Description)";
+
+      }
+      else{
+        $task['description']="Enter all Planning details (Planned Start , Planned End and Planned Effort)";
+      }
+
+
+      }
+
+        $all_tasks[]=$task;
+
+      }
+
+      echo json_encode($all_tasks);
+}
+//Function to check mass task upload
+else if($_POST['type']=="28" ){
+  $uguid=$_SESSION['uguid'];
+  $all_tasks= array();
+
+  $task = array (
+
+
+          "tid"=> "",
+          "tdescription"=> "",
+          "ttype"=> "",
+          "createdon"=>"",
+          "createdat"=>"",
+          "createdby"=> $uguid,
+          "priority"=>"",
+          "tstage"=>"",
+          "assignto"=> "",
+           "pstart"=> "",
+          "pend"=> "",
+          "peffort"=> "",
+          "astart"=>"",
+          "aend"=> "",
+          "aeffort"=> "",
+          "remark"=>"",
+          "remark_id"=>"",
+          "statuscode"=>"e",
+          "description"=>"Error while uploading tasks"
+
+      );
+
+
+      $alltasks = $_POST['alltasks'];
+
+      for($i = 0; $i < count($alltasks); $i++) {
+
+        $tid=$alltasks[$i]["tid"];
+        $tdescription=$alltasks[$i]["tdescription"];
+        $ttype=$alltasks[$i]["ttype"];
+        $createdon=$alltasks[$i]["createdon"];
+        $createdat=$alltasks[$i]["createdat"];
+        $createdby=$uguid;
+        $priority=(int)($alltasks[$i]["priority"]);
+        $tstage=$alltasks[$i]["tstage"];
+        $assignto=$alltasks[$i]["assignto"];
+        $pstart=$alltasks[$i]["pstart"];
+        if($pstart=="") $pstart="0000-00-00";
+        $pend=$alltasks[$i]["pend"];
+        if($pend=="") $pend="0000-00-00";
+        $peffort=$alltasks[$i]["peffort"];
+        if($peffort=="") $peffort=0;
+        else $peffort=(int)((int)$peffort)*480;
+        $astart=$alltasks[$i]["astart"];
+        if($astart=="") $astart="0000-00-00";
+        $aend=$alltasks[$i]["aend"];
+        if($aend=="") $aend="0000-00-00";
+        $aeffort=$alltasks[$i]["aeffort"];
+        if($aeffort=="") $aeffort=0;
+        else $aeffort=(int)((int)$aeffort)*480;
+        $remark_id=$alltasks[$i]["remark_id"];
+
+        $remark="Test Remark";
+
+        $task['tid']= $tid;
+        $task['tdescription']= $tdescription;
+        $task['ttype']= $ttype;
+        $task['createdon']= $createdon;
+        $task['createdat']= $createdat;
+        $task['priority']= (int)$priority;
+        $task['tstage']= $tstage;
+        $task['assignto']= $assignto;
+        $task['pstart']= $pstart;
+        $task['pend']= $pend;
+        $task['peffort']= $peffort;
+        $task['astart']= $astart;
+        $task['aend']= $aend;
+        $task['aeffort']= $aeffort;
+        $task['remark']= $remark;
+        $task['remark_id']= $remark_id;
+        // $task['statuscode']= "s";
+        // $task['description']= "Task Uploaded";
+
+
+
+        if(($tid!="" && $tdescription!="" && $pstart!="0000-00-00" && $pend!="0000-00-00" && $peffort!=0) || ($tid!="" && $tdescription!="" && $pstart=="0000-00-00" && $pend=="0000-00-00" && $peffort==0)  )
+        {
+          $st= mysqli_query($conn,"select * from ttable where tid= '$tid' ");
+          $nt= mysqli_num_rows($st);
+        if($nt){
+          $task['description']="Task ID Already Exist";
+
+        }
+        else{
+          $t1="contact";
+          $t2="employeeid";
+          $t3="e_emailid";
+          $t4="p_emailid";
+
+          $s1= mysqli_query($conn,"select * from userdata2 where type= '$t1' && value='$assignto'");
+          $s2= mysqli_query($conn,"select * from userdata2 where type='$t2' && value='$assignto'");
+          $s3= mysqli_query($conn,"select * from userdata2 where type='$t3' && value='$assignto'");
+          $s4= mysqli_query($conn,"select * from userdata2 where type= '$t4' && value='$assignto'");
+          $n1= mysqli_num_rows($s1);
+          $n2= mysqli_num_rows($s2);
+          $n3= mysqli_num_rows($s3);
+          $n4= mysqli_num_rows($s4);
+          $row1 = mysqli_fetch_assoc($s1);
+          $row2 = mysqli_fetch_assoc($s2);
+          $row3 = mysqli_fetch_assoc($s3);
+          $row4 = mysqli_fetch_assoc($s4);
+
+          if($n1 || $n2 || $n3|| $n4){
+
+            if($n1) $assignto= $row1["uguid"];
+            else if($n2) $assignto= $row2["uguid"];
+            else if($n3) $assignto= $row3["uguid"];
+            else $assignto= $row4["uguid"];
+
+            $task['assignto']=$assignto;
+            $task['statuscode']="s";
+            $task['description']="Task can be created";
+          }
+          else{
+            $task['description']="Invalid User ID";
+          }
+
+
+
+
         }
       }
       else{

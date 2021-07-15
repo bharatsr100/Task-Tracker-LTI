@@ -14,38 +14,26 @@ header('location:index.php');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
     <style>
 
     #selectcolumn1{
-      width:50px;
-    
+      width:100px;
+
     }
     .selectcolumn{
-      width:50px;
-
-
-    }
-    .remarkcolumn{
-      width:150px;
+      width:100px;
 
     }
+    .mass_task_table{
 
-    /* .mass_task_table{
-      color:blue;
-    } */
-    /* #mass_task_table1{
-      color:red;
-    } */
+    }
     .mass_task_table td{
       padding:5px;
     }
-    /* .selectcolumn input{
-      height: 50px;
-      width: 50px;
-    } */
+    #selectcolumn1 input{
+      checked: true;
+
+    }
     /* .mass_task_table th{
       padding:0px;
     } */
@@ -56,7 +44,7 @@ header('location:index.php');
     <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float:right;">Log Out</button>
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float:right;margin-right:20px;">Home</button>
     <br><br><br>
-    <h1 style="text-align:center; margin-top:50px;">Mass Task Upload</h1>
+    <h1 style="text-align:center; margin-top:50px;">Mass Task Step Upload</h1>
     <br><br><br><br><br>
 
 
@@ -82,11 +70,11 @@ header('location:index.php');
 <button onclick="upload_data()" type="button" class="btn btn-primary" style="float: left;margin-left:10px;">Save</button>
 </div>
 
-<div class="alert alert-success alert-dismissible" id="success_uploadorcheck" style="display:none;width:400px;margin-left:50px;margin-top:100px;" >
+<div class="alert alert-success alert-dismissible" id="success_uploadorcheck" style="display:none;width:400px;margin-left:100px;margin-top:50px;" >
 </div>
-<div class="alert alert-danger alert-dismissible" id="error_uploadorcheck" style="display:none;width:400px;margin-left:50px;margin-top:100px;">
+<div class="alert alert-danger alert-dismissible" id="error_uploadorcheck" style="display:none;width:400px;margin-left:100px;margin-top:50px;">
 </div>
 
-    <script src="admin_mass_taskscript.js"></script>
+    <script src="admin_mass_taskstepscript.js"></script>
   </body>
 </html>
