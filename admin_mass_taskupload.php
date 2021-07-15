@@ -21,7 +21,7 @@ header('location:index.php');
 
     #selectcolumn1{
       width:50px;
-    
+
     }
     .selectcolumn{
       width:50px;
@@ -67,6 +67,7 @@ header('location:index.php');
 </div>
 <div>
 <input type="button" id="uploadbtn" value="Upload" class="btn btn-primary uploadbtn" style="margin-left:100px;"/>
+<input type="button" id="downloadbtn" value="Download demo file" class="btn btn-primary downloadbtn" style="margin-left:10px;"/>
 <!-- onclick="Upload()" -->
 </div>
 <div class="alert alert-success alert-dismissible" id="success_display" style="display:none;width:400px;margin-left:100px;margin-top:50px;" >

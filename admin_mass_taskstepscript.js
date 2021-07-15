@@ -462,7 +462,27 @@ $(document).ready(function() {
           $('#error_display').html("Please upload a valid CSV file.");
       }
   });
+  $('#downloadbtn').on('click',function(){
+    // console.log("download demo file function");
 
+    var head_demo= "tid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort";
+    var sample_demo="T001,Requirement Gathering,In Progress,PS789,2021-07-02,2021-07-13,12,0000-00-00,0000-00-00,0";
+    var csv = '';
+    csv += head_demo + '\r\n';
+    csv += sample_demo;
+    var reporttitle="Task Steps";
+    var fileName = "Demo_";
+    fileName += reporttitle.replace(/ /g,"_");
+
+    var uri = 'data:text/csv;charset=utf-8,' + escape(csv);
+    var link = document.createElement("a");
+   link.href = uri;
+   link.style = "visibility:hidden";
+   link.download = fileName + ".csv";
+   document.body.appendChild(link);
+   link.click();
+   document.body.removeChild(link);
+  });
 
 
 
