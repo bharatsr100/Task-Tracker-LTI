@@ -49,25 +49,30 @@ function taskdetails(tguid){
 function exporttable1toexcel()
 {
 
-   $("#admin_search_table").table2excel({
-     exclude: ".noExl",
-     filename: "tasks",
-     fileext: ".xls",
-     columns : [0,1,4,5,6,7,8,9,10,11,12,13]
-});
+//    $("#admin_search_table").table2excel({
+//      exclude: ".noExl",
+//      filename: "tasks",
+//      fileext: ".xls",
+//      columns : [0,1,4,5,6,7,8,9,10,11,12,13]
+// });
+var table2excel = new Table2Excel();
+table2excel.export(document.querySelectorAll("#admin_search_table"),"tasks");
+
 }
 
 function exporttable2toexcel()
 {
 
-   $("#admin_search_table").table2excel({
-     exclude: ".noExl",
-     filename: "task_steps",
-     fileext: ".xls",
-     columns : [0,1,4,5,6,7,8,9,10,11,12,13]
-
-
-});
+//    $("#admin_search_table").table2excel({
+//      exclude: ".noExl",
+//      filename: "task_steps",
+//      fileext: ".xls",
+//      columns : [0,1,4,5,6,7,8,9,10,11,12,13]
+//
+//
+// });
+var table2excel = new Table2Excel();
+table2excel.export(document.querySelectorAll("#admin_search_step_table"),"task_steps");
 }
 function exporttable1topdf(){
 
@@ -265,8 +270,8 @@ function loadtask_tables(){
            j++;
            if(item.tsequenceid==0)
            {
-           row = table1.insertRow(table1.rows.length);
-           row.className = "row_task_table1";
+             var tr = document.createElement('tr');
+             table1.appendChild(tr);
 
            if(pstart=="0000-00-00") pstart="";
            if(pend=="0000-00-00") pend="";
@@ -274,72 +279,88 @@ function loadtask_tables(){
            if(aend=="0000-00-00") aend="";
 
            var i=0;
-           var newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML =item.createdon;
+           tr.appendChild(newcell);
            // newcell.className = "vguid_vacation_table";
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('td');
            newcell.innerHTML = item.assignto;
+           tr.appendChild(newcell);
 
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('td');
            newcell.innerHTML = item.assignto_id;
-           newcell.className = "hidden_cells";
+           // newcell.className = "hidden_cells";
+           newcell.style.display = "none";
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('td');
            newcell.innerHTML = item.tguid;
-           newcell.className = "hidden_cells";
+           newcell.style.display = "none";
+           // newcell.className = "hidden_cells";
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
            newcell.className="tid_div";
            newcell.id="tid_b"+j+"_id";
            var cellid="#tid_b"+j+"_id button";
+           tr.appendChild(newcell);
 
            applycolor(pend,date_today,cellid,tid,tstage)
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = '<button type="button" onclick="taskdetails(\''+ tguid +'\')" class="btn btn-link t_descr_button">'+tstepdescription+'</button>';
            newcell.className="t_descr_div";
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = item.ttype;
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = pstart;
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = pend;
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
            else newcell.innerHTML="";
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = astart;
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = aend;
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
            else newcell.innerHTML = "";
+           tr.appendChild(newcell);
 
            i++;
-           newcell = row.insertCell(i);
+           var newcell = document.createElement('TD');
            newcell.innerHTML = item.tstatus;
+           tr.appendChild(newcell);
          }
          else{
            row = table2.insertRow(table2.rows.length);
@@ -372,12 +393,14 @@ function loadtask_tables(){
            i++;
            newcell = row.insertCell(i);
            newcell.innerHTML = item.assignto_id;
-           newcell.className = "hidden_cells";
+           newcell.style.display = "none";
+           // newcell.className = "hidden_cells";
 
            i++;
            newcell = row.insertCell(i);
            newcell.innerHTML = item.tguid;
-           newcell.className = "hidden_cells";
+           newcell.style.display = "none";
+           // newcell.className = "hidden_cells";
 
            i++;
            newcell = row.insertCell(i);

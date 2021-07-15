@@ -342,12 +342,8 @@ header('location:index.php');
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.15/jspdf.plugin.autotable.js"></script> -->
     <script src="	https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    <!-- <script src="https://cdn.rawgit.com/unconditional/jquery-table2excel/master/src/jquery.table2excel.js"></script> -->
-    <!-- <script src="jquery.table2excel.js"></script> -->
-    <!-- <script type="text/javascript" src="jspdf.debug.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
-    <!-- <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script> -->
-    <script src="https://rawgit.com/davidkonrad/table2excel/master/table2excel.js"></script>
+    <!-- <script src="https://rawgit.com/davidkonrad/table2excel/master/table2excel.js"></script> -->
+    <script src="table2excel.js"></script>
 
   </body>
 </html>
