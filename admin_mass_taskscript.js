@@ -1,6 +1,8 @@
 var alltasks;
 var task_head;
 var table1;
+var task_head_user={};
+
 
 
   function upload_data(){
@@ -58,7 +60,7 @@ if(length){     var type="27";
           // $('#successedittask').html(dataResult.description);
           $(dataResult).each(function (index, item) {
             var cell_id="#"+item.remark_id;
-            $(cell_id).html(item.description);
+            $(cell_id).html((item.statuscode).charAt(0).toUpperCase() +": "+ item.description);
             var status=item.statuscode;
             if(status=="s"){
                $(cell_id).css('color', 'green');
@@ -68,6 +70,23 @@ if(length){     var type="27";
             }
 
           });
+          table1.destroy();
+          table1=$('#mass_task_table1').DataTable({
+
+              "paging": false,
+              "ordering": true,
+              "info": false,
+              "columnDefs": [
+                    {
+                        orderable: false,
+                        targets: [0]
+                    }
+                ],
+              "order": [
+                [1, "asc"]
+              ]
+
+            });
 
         },
            error: function(e){
@@ -135,7 +154,7 @@ var length=selected_tasks.length;
 
           $(dataResult).each(function (index, item) {
             var cell_id="#"+item.remark_id;
-            $(cell_id).html(item.statuscode +": "+ item.description);
+            $(cell_id).html((item.statuscode).charAt(0).toUpperCase() +": "+ item.description);
             var status=item.statuscode;
             if(status=="s"){
                $(cell_id).css('color', 'green');
@@ -158,7 +177,7 @@ var length=selected_tasks.length;
                     }
                 ],
               "order": [
-                [2, "asc"]
+                [1, "asc"]
               ]
 
             });
@@ -213,6 +232,24 @@ $(document).ready(function() {
   });
 
   $('#uploadbtn').on('click',function(){
+    // task_head_user
+    task_head_user["tid"]="Task ID";
+    task_head_user["s_no"]="S No.";
+    task_head_user["tdescription"]="Task Description";
+    task_head_user["ttype"]="Task Type";
+    task_head_user["createdon"]="Created On";
+    task_head_user["createdat"]="Created At";
+    task_head_user["createdby"]="Created By";
+    task_head_user["priority"]="Priority";
+    task_head_user["tstage"]="Task Phase";
+    task_head_user["assignto"]="Assigned To";
+    task_head_user["pstart"]="Planned Start";
+    task_head_user["pend"]="Planned End";
+    task_head_user["peffort"]="Planned Effort";
+    task_head_user["astart"]="Actual Start";
+    task_head_user["aend"]="Actual End";
+    task_head_user["aeffort"]="Actual Effort";
+    task_head_user["tstepdescription"]="Task Step Description";
 
     $("#success_display").hide();
     $("#error_display").hide();
@@ -230,7 +267,9 @@ $(document).ready(function() {
                 for (var i = 0; i < rows.length; i++) {
                     var cells = rows[i].split(",");
 
+
                     if(i==0){
+                            header_cells.push("s_no");
                         for (var j = 0; j < cells.length; j++) {
                             header_cells.push(cells[j]);
                         }
@@ -242,9 +281,9 @@ $(document).ready(function() {
                     else {
 
                         var task_details = {};
-
-                        for (var j = 0; j < cells.length; j++) {
-                            var header= header_cells[j];
+                        task_details["s_no"] = i;
+                      for (var j = 0; j < cells.length; j++) {
+                            var header= header_cells[j+1];
                             task_details[header] = cells[j];
                         }
                         task_details["remark_id"] = "id"+i;
@@ -272,19 +311,17 @@ $(document).ready(function() {
                 // select_all.setAttribute('id',"selectAll");
 
                 var cell = row.insertCell(0);
-                //
-                // id='selectAll' onclick='select_all()'
                 cell.innerHTML = "<th><b><input type='checkbox' onclick='select_all()'/>&nbsp;</b></th>";
                 cell.id="selectcolumn1";
-                // onclick='select_all()'
-                  // $("#selectcolumn").css({'background-color': 'red','width':'300px'});
-                // cell.innerHTML = "<td><input type='checkbox' name='name1' />&nbsp;</td>";
-                // <td><input type="checkbox" name="name1" />&nbsp;</td>
+
+
                 var j;
                  for ( j = 1; j <= header_cells.length-1; j++)
                 {
                 var cell = row.insertCell(j);
-                cell.innerHTML = "<th><b>"+header_cells[j-1]+"</b></th>";
+                var short_head=header_cells[j-1];
+                var long_head= task_head_user[short_head];
+                cell.innerHTML = "<th><b>"+long_head+"</b></th>";
 
                 }
                 var cell = row.insertCell(j);
@@ -322,6 +359,10 @@ $(document).ready(function() {
                   newcell.id= "check"+j+"id";
                   tr.appendChild(newcell);
 
+                  i++;
+                  var newcell = document.createElement('TD');
+                  newcell.innerHTML =item.s_no;
+                  tr.appendChild(newcell);
 
                   i++;
                   var newcell = document.createElement('TD');
@@ -423,7 +464,7 @@ $(document).ready(function() {
                           }
                       ],
                     "order": [
-                      [2, "asc"]
+                      [1, "asc"]
                     ]
 
                   });

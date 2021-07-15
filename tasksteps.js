@@ -97,7 +97,7 @@ var tasklist=[
     },
   {	tguid:tguidstep,
     tsequenceid:"91",
-    tstepdescription:"Technical Design (TSD) "
+    tstepdescription:"Technical Design (TSD)"
     },
   {	tguid:tguidstep,
     tsequenceid:"101",

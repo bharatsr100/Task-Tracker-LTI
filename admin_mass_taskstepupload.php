@@ -14,26 +14,38 @@ header('location:index.php');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
     <style>
 
     #selectcolumn1{
-      width:100px;
+      width:50px;
 
     }
     .selectcolumn{
-      width:100px;
+      width:50px;
+
 
     }
-    .mass_task_table{
+    .remarkcolumn{
+      width:150px;
 
     }
+
+    /* .mass_task_table{
+      color:blue;
+    } */
+    /* #mass_task_table1{
+      color:red;
+    } */
     .mass_task_table td{
       padding:5px;
     }
-    #selectcolumn1 input{
-      checked: true;
-
-    }
+    /* .selectcolumn input{
+      height: 50px;
+      width: 50px;
+    } */
     /* .mass_task_table th{
       padding:0px;
     } */
@@ -70,9 +82,9 @@ header('location:index.php');
 <button onclick="upload_data()" type="button" class="btn btn-primary" style="float: left;margin-left:10px;">Save</button>
 </div>
 
-<div class="alert alert-success alert-dismissible" id="success_uploadorcheck" style="display:none;width:400px;margin-left:100px;margin-top:50px;" >
+<div class="alert alert-success alert-dismissible" id="success_uploadorcheck" style="display:none;width:400px;margin-left:50px;margin-top:100px;" >
 </div>
-<div class="alert alert-danger alert-dismissible" id="error_uploadorcheck" style="display:none;width:400px;margin-left:100px;margin-top:50px;">
+<div class="alert alert-danger alert-dismissible" id="error_uploadorcheck" style="display:none;width:400px;margin-left:50px;margin-top:100px;">
 </div>
 
     <script src="admin_mass_taskstepscript.js"></script>
