@@ -25,7 +25,11 @@ header('location:index.php');
 
 <button onclick="location.href='admin_page.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">Task Search </button>
 <button onclick="location.href='admin_mass_taskupload.php';" type="button" class="btn btn-secondary" style="width:170px;">Mass Upload Task</button>
-<button onclick="location.href='admin_mass_taskstepupload.php';" type="button" class="btn btn-secondary" style="width:200px;">Mass Upload Task Step</button>
+<button onclick="location.href='admin_mass_taskstepupload.php';" type="button" class="btn btn-secondary" style="width:240px;">Mass Upload Task Step</button>
+<br><br>
+<button onclick="location.href='task_types.php';" type="button" class="btn btn-secondary" style="margin-left:100px;width:170px;">Task Types</button>
+<button onclick="location.href='task_steps.php';" type="button" class="btn btn-secondary" style="width:170px;">Task Steps</button>
+<button onclick="location.href='ttype_map_tstep.php';" type="button" class="btn btn-secondary" style="width:240px;">Task Step and Type Mapping</button>
 
 
 </body>

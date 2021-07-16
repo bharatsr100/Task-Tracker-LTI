@@ -4378,5 +4378,330 @@ else if($_POST['type']=="30" ){
 
       echo json_encode($all_tasks);
 }
+//Function to create task steps
+else if($_POST['type']=="31" ){
+
+  $taskstep = array (
+          "tsequenceid"=> "",
+          "tstepdescription"=> "",
+          "statuscode"=>"e",
+          "description"=>"Error while creating task step"
+
+      );
+      $tsequenceid= $_POST['tsequenceid'];
+      $tstepdescription= $_POST['tstepdescription'];
+
+      $taskstep['tsequenceid']="$tsequenceid";
+      $taskstep['tstepdescription']="$tstepdescription";
+
+      $r2= mysqli_query($conn,"select * from task_steps where tsequenceid='$tsequenceid'");
+      $n2= mysqli_num_rows($r2);
+      if($n2){
+        $taskstep['description']="Task Step Sequence ID already exist";
+      }
+      else
+{      $sql1=mysqli_query($conn, "INSERT INTO task_steps (tsequenceid,tstepdescription)VALUES ('$tsequenceid','$tstepdescription')");
+      if($sql1){
+        $taskstep['statuscode']="s";
+        $taskstep['description']="Task Step Created Successfully";
+
+      }
+    }
+
+      echo json_encode($taskstep);
+
+}
+//Function to fetch all task steps
+else if($_POST['type']=="32" ){
+  $all_tasksteps= array();
+
+  $taskstep = array (
+          "tsequenceid"=> "",
+          "tstepdescription"=> "",
+          "statuscode"=>"e",
+          "description"=>"Error while creating task step"
+
+      );
+$r1= mysqli_query($conn,"select * from task_steps");
+
+while($row=mysqli_fetch_assoc($r1)){
+ $taskstep['tsequenceid']= $row['tsequenceid'];
+ $taskstep['tstepdescription']= $row['tstepdescription'];
+ $taskstep['statuscode']= "s";
+ $taskstep['description']= "Task Step successfully loaded";
+ $all_tasksteps[]=$taskstep;
+}
+
+echo json_encode($all_tasksteps);
+
+}
+//function to delte task steps
+else if($_POST['type']=="33" ){
+  $taskstepsdeleted = array ();
+      $deletedsteps=array(
+        "tsequenceid"=> "",
+        "tstepdescription"=> "",
+        "remark_id"=>"",
+        "statuscode"=>"e",
+        "description"=>"Error while deleting task step"
+      );
+
+  $alltasksteps = $_POST['alltasksteps'];
+  for($i = 0; $i < count($alltasksteps); $i++) {
+    $tsequenceid=$alltasksteps[$i]["tsequenceid"];
+    $tstepdescription=$alltasksteps[$i]["tstepdescription"];
+    $remark_id=$alltasksteps[$i]["remark_id"];
+
+    $deletedsteps["tsequenceid"]=$tsequenceid;
+    $deletedsteps["tstepdescription"]=$tsequenceid;
+    $deletedsteps["remark_id"]=$remark_id;
+
+    $sql2= mysqli_query($conn,"select * from tstep where tsequenceid='$tsequenceid'");
+    $n2=mysqli_num_rows($sql2);
+    if($n2){
+      $deletedsteps['statuscode']= "e";
+      $deletedsteps['description']= "Some task exist for this task step";
+    }
+      else {
+          $sql1 = "DELETE FROM task_steps WHERE tsequenceid=$tsequenceid ";
+          $res=mysqli_query($conn, $sql1);
+
+          if($res){
+            $deletedsteps['statuscode']= "s";
+            $deletedsteps['description']= "Task Step Successfully deleted";
+
+          }
+          else{
+            $deletedsteps['statuscode']= "e";
+            $deletedsteps['description']= "Error while deleting task steps";
+          }
+  }
+
+    $taskstepsdeleted[]=$deletedsteps;
+
+  }
+  echo json_encode($taskstepsdeleted);
+}
+//Function to create task type
+else if($_POST['type']=="34" ){
+  $tasktype = array (
+          "ttype"=> "",
+          "ttytpe_desc"=> "",
+          "statuscode"=>"e",
+          "description"=>"Error while creating task type"
+
+      );
+      $ttype= $_POST['ttype'];
+      $ttytpe_desc= $_POST['ttytpe_desc'];
+
+      $tasktype['ttype']="$ttype";
+      $tasktype['ttytpe_desc']="$ttytpe_desc";
+
+      $r2= mysqli_query($conn,"select * from task_types where ttype='$ttype'");
+      $n2= mysqli_num_rows($r2);
+      if($n2){
+        $tasktype['description']="Task Type ID already exist";
+      }
+      else
+{
+//     $sql1=mysqli_query($conn, "INSERT INTO task_steps (tsequenceid,tstepdescription)VALUES ('$tsequenceid','$tstepdescription')");
+      $sql1=mysqli_query($conn, "INSERT INTO task_types (ttype,ttype_desc)VALUES ('$ttype','$ttytpe_desc')");
+      if($sql1){
+        $tasktype['statuscode']="s";
+        $tasktype['description']="Task Type Created Successfully";
+
+      }
+      else{
+        $tasktype['description']=mysqli_error($conn);
+      }
+
+    }
+
+      echo json_encode($tasktype);
+
+}
+//Function to fetch all task types
+else if($_POST['type']=="35" ){
+  $all_tasksteps= array();
+
+  $taskstep = array (
+          "ttype"=> "",
+          "ttype_desc"=> "",
+          "statuscode"=>"e",
+          "description"=>"Error while creating task step"
+
+      );
+$r1= mysqli_query($conn,"select * from task_types");
+
+while($row=mysqli_fetch_assoc($r1)){
+ $taskstep['ttype']= $row['ttype'];
+ $taskstep['ttype_desc']= $row['ttype_desc'];
+ $taskstep['statuscode']= "s";
+ $taskstep['description']= "Task Step successfully loaded";
+ $all_tasksteps[]=$taskstep;
+}
+
+echo json_encode($all_tasksteps);
+
+}
+//function to delte task types
+else if($_POST['type']=="36" ){
+  $taskstepsdeleted = array ();
+      $deletedsteps=array(
+        "ttype"=> "",
+        "ttype_desc"=> "",
+        "remark_id"=>"",
+        "statuscode"=>"e",
+        "description"=>"Error while deleting task step"
+      );
+
+  $alltasksteps = $_POST['alltasksteps'];
+  for($i = 0; $i < count($alltasksteps); $i++) {
+    $tsequenceid=$alltasksteps[$i]["ttype"];
+    $tstepdescription=$alltasksteps[$i]["ttype_desc"];
+    $remark_id=$alltasksteps[$i]["remark_id"];
+
+    $deletedsteps["ttype"]=$tsequenceid;
+    $deletedsteps["ttype_desc"]=$tsequenceid;
+    $deletedsteps["remark_id"]=$remark_id;
+
+    $sql2= mysqli_query($conn,"select * from ttable where ttype='$tsequenceid'");
+    $n2=mysqli_num_rows($sql2);
+    if($n2){
+      $deletedsteps['statuscode']= "e";
+      $deletedsteps['description']= "Some task exist for this task type";
+    }
+      else {
+          $sql1 = "DELETE FROM task_types WHERE ttype=$tsequenceid ";
+          $res=mysqli_query($conn, $sql1);
+
+          if($res){
+            $deletedsteps['statuscode']= "s";
+            $deletedsteps['description']= "Task Type Successfully deleted";
+
+          }
+          else{
+            $deletedsteps['statuscode']= "e";
+            $deletedsteps['description']= "Error while deleting task Type";
+          }
+  }
+
+    $taskstepsdeleted[]=$deletedsteps;
+
+  }
+  echo json_encode($taskstepsdeleted);
+}
+//function to fetch mapped task types
+else if($_POST['type']=="37" ){
+  $all_ttypes= array();
+
+  $task_ttype = array (
+          "ttype"=> "",
+          "ttype_desc"=> "",
+          "statuscode"=>"e",
+          "description"=>"Error while loading task type"
+
+      );
+  $sql1="select DISTINCT (p.ttype), p.ttype_desc from task_types p, ttype_map_tstep q where p.ttype=q.ttype order by p.ttype";
+  $res=mysqli_query($conn, $sql1);
+  if($res)
+  {
+  while($row=mysqli_fetch_assoc($res))
+  {
+  $ttype1=$row['ttype'];
+   $task_ttype['ttype']= $row['ttype'];
+   $task_ttype['ttype_desc']= $row['ttype_desc'];
+   $task_ttype['statuscode']= "s";
+   $task_ttype['description']= "Task Mapp loaded successfult";
+
+
+
+     $all_ttypes[]=$task_ttype;
+
+
+  }
+  echo json_encode($all_ttypes);
+  }
+  else{
+    $task_ttype['description']= mysqli_error($conn);
+    echo json_encode($task_ttype);
+  }
+
+// mysqli_error($conn);
+}
+//Function to fetch all task steps, mapped task steps and remaining task steps
+else if($_POST['type']=="38" ){
+
+  $ttype=$_POST['ttype'];
+  $tsteps = array (
+          "all_tsteps"=> "",
+          "mapped_tsteps"=> "",
+          "remaining_tsteps"=>""
+      );
+      $all_tsteps= array();
+      $mapped_tsteps= array();
+      $remaining_tsteps= array();
+
+      $taskstep = array (
+              "tsequenceid"=> "",
+              "tstepdescription"=> "",
+              "statuscode"=>"e",
+              "description"=>"Error while loading task step"
+
+          );
+    $r1= mysqli_query($conn,"select * from task_steps");
+
+
+    if($r1){
+       while($row=mysqli_fetch_assoc($r1))
+      {
+     $taskstep['tsequenceid']= $row['tsequenceid'];
+     $taskstep['tstepdescription']= $row['tstepdescription'];
+     $taskstep['statuscode']= "s";
+     $taskstep['description']= "Task Step successfully loaded";
+     $all_tsteps[]=$taskstep;
+    }
+    }
+    else{
+      $taskstep['statuscode']= "e";
+      $taskstep['description']= mysqli_error($conn);;
+      $all_tsteps[]=$taskstep;
+    }
+
+    $sql1="select DISTINCT (p.tsequenceid), p.tstepdescription from task_steps p, ttype_map_tstep q where p.tsequenceid=q.tsequenceid && q.ttype='$ttype' order by p.tsequenceid";
+    $res=mysqli_query($conn, $sql1);
+    if($res)
+    {
+    while($row=mysqli_fetch_assoc($res))
+    {
+      $taskstep['tsequenceid']= $row['tsequenceid'];
+      $taskstep['tstepdescription']= $row['tstepdescription'];
+      $taskstep['statuscode']= "s";
+      $taskstep['description']= "Mapped Task Step loaded successfult";
+
+     $mapped_tsteps[]=$taskstep;
+
+    }
+  }
+  else{
+    $taskstep['statuscode']= "s";
+    $taskstep['description']= mysqli_error($conn);
+    $mapped_tsteps[]=$taskstep;
+  }
+
+function udiffCompare($all_tsteps, $mapped_tsteps)
+{
+    return ($all_tsteps['tsequenceid'] - $mapped_tsteps['tsequenceid']);
+}
+
+$array_diff = array_udiff($all_tsteps, $mapped_tsteps, 'udiffCompare');
+$remaining_tsteps= array_values ($array_diff);
+
+    $tsteps["all_tsteps"]=$all_tsteps;
+    $tsteps["mapped_tsteps"]=$mapped_tsteps;
+    $tsteps["remaining_tsteps"]=$remaining_tsteps;
+
+    echo json_encode($tsteps);
+}
 
 ?>
