@@ -33,8 +33,8 @@ header('location:index.php');
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float:right;margin-right:20px;">Home</button>
     <br><br><br>
     <h1 style="text-align:center; margin-top:50px;">Task Type and Steps Mapping</h1>
-    <br><br><br><br><br>
-    <div id="tmap_div" style="margin-top:50px;">
+
+    <div id="tmap_div" style="margin-top:80px;">
       <table class="table table-bordered task_map_table" id="task_map_table" style="margin-left:10px;margin-left:auto;margin-right:auto;max-width:1000px;">
         <thead>
           <tr>

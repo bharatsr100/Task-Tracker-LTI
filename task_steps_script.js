@@ -183,7 +183,6 @@ $(document).ready(function() {
 
         data: {
           type: type,
-          type:type,
           alltasksteps:selected_tasks
         },
         cache: false,
