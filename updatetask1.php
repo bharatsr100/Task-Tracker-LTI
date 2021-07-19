@@ -3966,27 +3966,14 @@ else if($_POST['type']=="29" ){
 
   $tasksteps =array(
 
-"Kickoff"=>"21",
-"Requirement Gathering"=>"31",
-"Requirement Analysis"=>"41",
-"Estimation"=>"51",
-"Approval Step"=>"61",
-"Functional Specification (FSR)"=>"71",
-"Functional Design (FSD)"=>"81",
-"Technical Design (TSD)"=>"91",
-"Code"=>"101",
-"Code Review"=>"111",
-"Technical Testing"=>"121",
-"Unit Testing (UT)"=>"131",
-"Integration Testing (TIN)"=>"141",
-"User Acceptance Testing (UAT)"=>"151",
-"Non Regression Testing (NRT)"=>"161",
-"Cut Over"=>"171",
-"Go Live"=>"181",
-"Hypercare"=>"191",
-"Bug Fix"=>"201",
-"Closure"=>"211"
   );
+  $sql1= mysqli_query($conn,"select * from task_steps");
+  while($row=mysqli_fetch_array($sql1)){
+    $seq_id=$row["tsequenceid"];
+    $seq_des=$row["tstepdescription"];
+
+    $tasksteps[$seq_des]=$seq_id;
+  }
 
   $tstage_arr =array(
 
@@ -4181,27 +4168,15 @@ else if($_POST['type']=="30" ){
 
   $tasksteps =array(
 
-      "Kickoff"=>"21",
-      "Requirement Gathering"=>"31",
-      "Requirement Analysis"=>"41",
-      "Estimation"=>"51",
-      "Approval Step"=>"61",
-      "Functional Specification (FSR)"=>"71",
-      "Functional Design (FSD)"=>"81",
-      "Technical Design (TSD)"=>"91",
-      "Code"=>"101",
-      "Code Review"=>"111",
-      "Technical Testing"=>"121",
-      "Unit Testing (UT)"=>"131",
-      "Integration Testing (TIN)"=>"141",
-      "User Acceptance Testing (UAT)"=>"151",
-      "Non Regression Testing (NRT)"=>"161",
-      "Cut Over"=>"171",
-      "Go Live"=>"181",
-      "Hypercare"=>"191",
-      "Bug Fix"=>"201",
-      "Closure"=>"211"
   );
+
+  $sql1= mysqli_query($conn,"select * from task_steps");
+  while($row=mysqli_fetch_array($sql1)){
+    $seq_id=$row["tsequenceid"];
+    $seq_des=$row["tstepdescription"];
+
+    $tasksteps[$seq_des]=$seq_id;
+  }
 
   $task = array (
           "tid"=> "",

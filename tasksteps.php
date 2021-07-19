@@ -8,6 +8,22 @@ header('location:index.php');
 if( isset($_POST['tguidstep']) ){
 $tguid= $_POST['tguidstep'];
 
+$tsteps = array (
+        "all_tsteps"=> "",
+        "mapped_tsteps"=> "",
+        "remaining_tsteps"=>""
+    );
+
+$all_tsteps= array();
+$taskstep = array (
+        "tsequenceid"=> "",
+        "tstepdescription"=> "",
+        'tguid'=>$tguid,
+        "statuscode"=>"e",
+        "description"=>"Error while loading task step"
+
+    );
+
 $arrstep = array (
           "tguid"=> "",
           "tsequenceid"=>"",
@@ -53,7 +69,37 @@ while($row=mysqli_fetch_assoc($s1)){
 
 }
 
- echo json_encode($arrs);
+$r1= mysqli_query($conn,"select * from task_steps");
+if($r1){
+   while($row=mysqli_fetch_assoc($r1))
+  {
+ $taskstep['tsequenceid']= $row['tsequenceid'];
+ $taskstep['tstepdescription']= $row['tstepdescription'];
+ $taskstep['statuscode']= "s";
+ $taskstep['description']= "Task Step successfully loaded";
+ $all_tsteps[]=$taskstep;
+}
+}
+else{
+  $taskstep['statuscode']= "e";
+  $taskstep['description']= mysqli_error($conn);;
+  $all_tsteps[]=$taskstep;
+}
+$mapped_tsteps=$arrs;
+
+function udiffCompare($all_tsteps, $mapped_tsteps)
+{
+    return ($all_tsteps['tsequenceid'] - $mapped_tsteps['tsequenceid']);
+}
+
+$array_diff = array_udiff($all_tsteps, $mapped_tsteps, 'udiffCompare');
+$remaining_tsteps= array_values ($array_diff);
+
+$tsteps["all_tsteps"]=$all_tsteps;
+$tsteps["mapped_tsteps"]=$mapped_tsteps;
+$tsteps["remaining_tsteps"]=$remaining_tsteps;
+
+ echo json_encode($tsteps);
  mysqli_close($conn);
 
 }

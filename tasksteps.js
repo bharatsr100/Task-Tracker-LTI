@@ -163,19 +163,24 @@ var tasklist=[
     cache: false,
     success:function(dataResult){
     var dataResult = JSON.parse(dataResult);
-    dataResult = sortByKey(dataResult, 'tsequenceid');
-    //console.log(dataResult);
+    console.log(dataResult);
+    var mapped_tsteps= dataResult.mapped_tsteps;
+    var remaining_tsteps=dataResult.remaining_tsteps;
+
+    mapped_stteps = sortByKey(mapped_tsteps, 'tsequenceid');
+    // console.log(mapped_tsteps);
+
     $("#tbodystep23").empty();
     $("#tbodylist23").empty();
     var taskpresent=[];
 
-    var len= dataResult.length;
+    var len= mapped_tsteps.length;
     var table = document.getElementById("taskstep23");
 
 
 
 
-    $(dataResult).each(function (index, item) {
+    $(mapped_tsteps).each(function (index, item) {
 
       var task1={
                   tguid:item.tguid,
@@ -260,74 +265,48 @@ var tasklist=[
                 newcell = row.insertCell(i);
                 newcell.innerHTML = pstagen;
 
-            // console.log("Checking values in console");
-            // var y = item.tguid;
-            // var z = "bharat";
-            // console.log(item.tguid);
-            // console.log(item.tsequenceid);
-            // console.log(z);
-
-
                 i++;
                 newcell = row.insertCell(i);
                 newcell.innerHTML = "<button onclick='deletetaskstep(\""+ item.tguid +"\",\"" + item.tsequenceid +"\",\"" + pstartn +"\")'><i data-toggle= 'tooltip' data-placement= 'right' title='Delete Task Step' class='fas fa-trash deletetstep' style='font-size:20px;' ></i></button>";
                 newcell.className = 'deletestepbutton';
 
-//onclick='deletetaskstep()'
-//
-                // $('#tsteps23 tbody').append(
-                //     '<tr><td >' + item.tguid +
-                //     '</td><td >' + item.tsequenceid +
-                //     '</td><td>' + item.tstepdescription +
-                //     '</td><td>' + pstartn +
-                //     '</td><td>' + pendn +
-                //     '</td><td>' + item.peffort +
-                //     '</td><td>' + astartn +
-                //     '</td><td>' + aendn +
-                //     '</td><td>' + item.aeffort +
-                //     '</td><td style="width: 160px;">' + pstagen +
-                //     '</td><td><button class="deletestep2" id="deletestep1" ><i data-toggle="tooltip" data-placement="right" title="Delete Task Step" class="fas fa-trash deletetstep" style="font-size:20px;" id="deletestep"></i></button>' +
-                //     '</td></tr>'
-                //
-                //
-                // )
-
-
               });
 
+            $(remaining_tsteps).each(function (index, item) {
+                
+                  $('[data-toggle="tooltip"]').tooltip();
+                  $('#tasksteplist23 tbody').append(
+                    '<tr><td style="display:none;">' + item.tguid +
+                    '</td><td style="display:none;">' + item.tsequenceid +
+                    '</td><td>' + item.tstepdescription +
+                    '</td><td><button onclick="addtaskstep(\''+ item.tguid +'\',\'' + item.tsequenceid +'\',\'' + item.tstepdescription +'\')"><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-plus" style="font-size:20px;" id="deletestep"></i></button>'+
+                    '</td></tr>'
+
+                  );
+            });
 
 
-
-
-
-
-            // console.log(tasklist);
-            // console.log(taskpresent);
-
-    $(tasklist).each(function (index, item) {
-
-      let toSearch = item.tsequenceid;
-      let result = taskpresent.filter(o=> o.tsequenceid === toSearch);
-      var res= result.length;
-      //console.log(item);
-      //console.log(result);
-      //console.log(res);
-      if(res==0){
-        //console.log("true");
-        $('[data-toggle="tooltip"]').tooltip();
-        $('#tasksteplist23 tbody').append(
-          '<tr><td style="display:none;">' + item.tguid +
-          '</td><td style="display:none;">' + item.tsequenceid +
-          '</td><td>' + item.tstepdescription +
-          '</td><td><button onclick="addtaskstep(\''+ item.tguid +'\',\'' + item.tsequenceid +'\',\'' + item.tstepdescription +'\')"><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-plus" style="font-size:20px;" id="deletestep"></i></button>'+
-          '</td></tr>'
-          //class="addstep2"
-        )
-
-      }
-
-
-    });
+    // $(tasklist).each(function (index, item) {
+    //
+    //   let toSearch = item.tsequenceid;
+    //   let result = taskpresent.filter(o=> o.tsequenceid === toSearch);
+    //   var res= result.length;
+    //
+    //   if(res==0){
+    //     $('[data-toggle="tooltip"]').tooltip();
+    //     $('#tasksteplist23 tbody').append(
+    //       '<tr><td style="display:none;">' + item.tguid +
+    //       '</td><td style="display:none;">' + item.tsequenceid +
+    //       '</td><td>' + item.tstepdescription +
+    //       '</td><td><button onclick="addtaskstep(\''+ item.tguid +'\',\'' + item.tsequenceid +'\',\'' + item.tstepdescription +'\')"><i data-toggle="tooltip" data-placement="right" title="Add Task Step" class="fas fa-plus" style="font-size:20px;" id="deletestep"></i></button>'+
+    //       '</td></tr>'
+    //
+    //     )
+    //
+    //   }
+    //
+    //
+    // });
 
 
 
@@ -435,6 +414,35 @@ $('.deletetaskstp').on('click',function(){
 
 
 });
-
+// function loadtask_step_tables(){
+//   // event.preventDefault();
+//   var type="32";
+//   $.ajax({
+//     url: "updatetask1.php",
+//     type: "POST",
+//
+//     data: {
+//       type: type
+//     },
+//     cache: false,
+//     success: function(dataResult) {
+//
+//       // console. log(dataResult);
+//       var dataResult = JSON.parse(dataResult);
+//       console. log(dataResult);
+//
+// },
+//   error: function(e){
+//
+//    console.log(e);
+//    console.log("Error");
+// }
+//
+//
+// });
+//
+//
+// }
+// loadtask_step_tables();
 
 });

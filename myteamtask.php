@@ -232,7 +232,9 @@ $allusers = unserialize($_SESSION['allusers']);
             <div  class="form-group">
               <label  for="ttype">Task Type:
             </label>
-              <input type="text" class="form-control" id="ttype" placeholder="Task Type" name="ttype">
+              <!-- <input type="text" class="form-control" id="ttype" placeholder="Task Type" name="ttype"> -->
+              <select class="form-control" id="ttype" name="ttype">
+                  </select>
             </div>
 
 
@@ -564,7 +566,8 @@ $allusers = unserialize($_SESSION['allusers']);
             <div  class="form-group">
               <label  for="ttype1">Task Type:
             </label>
-              <input type="text" class="form-control" id="ttype1" placeholder="Task Type" name="ttype1">
+              <!-- <input type="text" class="form-control" id="ttype1" placeholder="Task Type" name="ttype1"> -->
+              <select class="form-control" id="ttype1" name="ttype"> </select>
             </div>
 
             <div  class="form-group">
@@ -1037,7 +1040,15 @@ $allusers = unserialize($_SESSION['allusers']);
 
 
         <td><?php echo $row['tdescription']; ?></td>
-         <td><button  type="submit" class="btn btn-success stpbtn12" id="stepbtn12" style="color: black;font-weight:700;text-decoration: underline; border-color:white"><?php echo $row['ttype']; ?></button></td>
+         <td style="width:200px;"><button  type="submit" class="btn btn-link stpbtn12" id="stepbtn12" style="color: black;font-weight:700;text-decoration: underline;">
+           <?php
+          $ttype=$row['ttype'];
+          $sql_ttype= mysqli_query($conn, "select ttype_desc from task_types where ttype='$ttype'");
+          $result_ttype=mysqli_fetch_assoc($sql_ttype);
+          $ttype_desc=$result_ttype['ttype_desc'];
+
+           echo $ttype_desc; ?>
+        </button></td>
         <td><?php
         //onclick="location.href = 'taskstepsadd_del.php';"
 

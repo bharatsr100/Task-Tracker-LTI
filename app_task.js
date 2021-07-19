@@ -1,5 +1,33 @@
 $(document).ready(function() {
+function loadtask_types(){
+  // event.preventDefault();
+  var type="35";
+  $.ajax({
+    url: "updatetask1.php",
+    type: "POST",
 
+    data: {
+      type: type
+    },
+    cache: false,
+    success: function(dataResult) {
+
+      // console. log(dataResult);
+      var dataResult = JSON.parse(dataResult);
+      // console. log(dataResult);
+      let dropdown_ttype = $('#ttype');
+      let dropdown_ttype1 = $('#ttype1');
+      dropdown_ttype.empty();
+      dropdown_ttype1.empty();
+      $(dataResult).each(function (index, item) {
+        dropdown_ttype.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
+        dropdown_ttype1.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
+      });
+
+    }
+  });
+}
+loadtask_types();
 
 var table1=$('#mytasktable').DataTable({
 
@@ -940,7 +968,11 @@ var table1=$('#mytasktable').DataTable({
       $('#uguid1').val(data[0]);
       $('#tguid1').val(data[1]);
       $('#tdescription1').val(data[3]);
-      $('#ttype1').val(data[4]);
+      // $('#ttype1').val(data[4].trim());
+      var textToFind = data[4].trim();
+      var dd = document.getElementById ('ttype1');
+      dd.selectedIndex = [...dd.options].findIndex (option => option.text === textToFind);
+
 
       //data[1].trim()
       $('#tid1').val(tids);
@@ -988,7 +1020,11 @@ var table1=$('#mytasktable').DataTable({
       $('#tguid1').val(data[1]);
       $('#tid1').val(tids);
       $('#tdescription1').val(data[3]);
-      $('#ttype1').val(data[4]);
+      // $('#ttype1').val(data[4].trim());
+      var textToFind = data[4].trim();
+      var dd = document.getElementById ('ttype1');
+      dd.selectedIndex = [...dd.options].findIndex (option => option.text === textToFind);
+
       $("#pstart1").val("");
       $("#pend1").val("");
       $("#peffort1").val("");
@@ -1138,9 +1174,9 @@ var table1=$('#mytasktable').DataTable({
       },
       cache: false,
       success: function(dataResult) {
-        console.log(dataResult);
+        // console.log(dataResult);
         var dataResult = JSON.parse(dataResult);
-        console.log(dataResult);
+        // console.log(dataResult);
         if (dataResult.statuscode == "s") {
           $(".edittaskbtn").prop('disabled', true);
           // $("#task_edit_form")[0].reset();
