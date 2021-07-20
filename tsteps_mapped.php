@@ -18,7 +18,13 @@ header('location:index.php');
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <style>
 
+    .peffort_col{
+      width:200px;
+    }
+
+    </style>
   </head>
   <body>
     <button onclick="location.href='ttype_map_tstep.php';" type="button" class="btn btn-primary" >Back</button>
@@ -35,13 +41,16 @@ header('location:index.php');
             <th scope="col">Task Sequence ID</th>
             <th scope="col">Task Step Description</th>
             <th scope="col">Planned Effort (%)</th>
-            <th scope="col">Remarks</th>
+            <!-- <th scope="col">Remarks</th> -->
           </tr>
         </thead>
         <tbody id="task_step_table_tbody">
         </tbody>
       </table>
-      <button  type="button" class="btn btn-danger deletebtn" id="deletebtn" onclick="" style="margin-left:auto;margin-right:auto;margin-top:30px;display:block;">Delete Task Steps</button>
+      <div style="text-align: center;">
+      <button  type="button" class="btn btn-danger deletebtn" id="deletebtn" onclick="" style="margin-left:auto;margin-right:auto;margin-top:30px;">Delete Task Steps</button>
+      <button  type="button" class="btn btn-success savebtn" id="savebtn" onclick="" style="margin-top:30px;">Save</button>
+    </div>
       <div class="alert alert-success alert-dismissible" id="success_delete" style="display:none;width:400px;margin-left:auto;margin-right:auto;margin-top:40px;" >
       </div>
       <div class="alert alert-danger alert-dismissible" id="error_delete" style="display:none;width:400px;margin-left:auto;margin-right:auto;margin-top:40px;">
@@ -56,7 +65,7 @@ header('location:index.php');
             <th scope="col" id="selectcolumn2"><input type='checkbox' onclick='select_all("selectcolumn2 input","selectcolumn2 input")'/>&nbsp;</th>
             <th scope="col">Task Sequence ID</th>
             <th scope="col">Task Step Description</th>
-            <th scope="col">Remarks</th>
+            <!-- <th scope="col">Remarks</th> -->
           </tr>
         </thead>
         <tbody id="task_step_table_tbody2">

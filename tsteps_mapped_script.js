@@ -58,6 +58,7 @@ function load_tsteps(ttype){
               j++;
               var tsequenceid=item.tsequenceid;
               var tstepdescription= item.tstepdescription;
+              var peffort_per= parseFloat(item.peffort_per);
 
               var tr = document.createElement('tr');
               table.appendChild(tr);
@@ -82,14 +83,15 @@ function load_tsteps(ttype){
               tr.appendChild(newcell);
 
               var newcell = document.createElement('td');
-              newcell.innerHTML ="";
+              newcell.innerHTML ='<input type="number" class="form-control" style="width: 100%;" step="any" value='+peffort_per+'>';
               tr.appendChild(newcell);
+              newcell.className="peffort_col";
 
-              var newcell = document.createElement('td');
-              newcell.innerHTML ="";
-              newcell.id= "remark"+j;
-              newcell.className= "remarkcolumn";
-              tr.appendChild(newcell);
+              // var newcell = document.createElement('td');
+              // newcell.innerHTML ="";
+              // newcell.id= "remark"+j;
+              // newcell.className= "remarkcolumn";
+              // tr.appendChild(newcell);
 
             });
 
@@ -122,11 +124,11 @@ function load_tsteps(ttype){
               tr.appendChild(newcell);
 
 
-              var newcell = document.createElement('td');
-              newcell.innerHTML ="";
-              newcell.id= "remark2"+j;
-              newcell.className= "remarkcolumn2";
-              tr.appendChild(newcell);
+              // var newcell = document.createElement('td');
+              // newcell.innerHTML ="";
+              // newcell.id= "remark2"+j;
+              // newcell.className= "remarkcolumn2";
+              // tr.appendChild(newcell);
 
             });
           },
@@ -140,6 +142,78 @@ function load_tsteps(ttype){
 
 }
 load_tsteps(ttype);
+
+$('#savebtn').on('click',function(){
+// console.log("Hello");
+var selected_tasks= new Array();
+var size= task_head.length;
+$(".task_step_table tbody input[type=number]").each(function () {
+  var task_details = {};
+  var row = $(this).closest("tr")[0];
+  var i;
+
+  for(i=0;i<size;i++){
+
+      var header= task_head[i];
+      task_details[header] = row.cells[i+1].innerHTML;
+  }
+  // parseFloat
+  task_details["peffort_per"]=parseFloat(row.cells[i+1].children[0].value);
+  selected_tasks.push(task_details);
+
+});
+var ttype1=ttype;
+// console.log(selected_tasks);
+var length=selected_tasks.length;
+if(length){
+  var type="41";
+
+  $.ajax({
+    url: "updatetask1.php",
+    type: "POST",
+
+    data: {
+      type: type,
+      ttype:ttype1,
+      alltasksteps:selected_tasks
+    },
+    cache: false,
+    success: function(dataResult) {
+
+      // console.log(dataResult);
+      var dataResult = JSON.parse(dataResult);
+      var total_per=parseFloat(dataResult.total_per);
+      console.log(total_per);
+      // console. log(dataResult);
+      if(total_per<=100)
+{
+      load_tsteps(ttype1);
+      $("#error_delete").hide();
+      $("#success_delete").show();
+      $("#success_delete").html("Planed Effort % successfully updated");
+    }
+    else{
+      $("#success_delete").hide();
+      $("#error_delete").show();
+      $("#error_delete").html("Commulative % can not be greater than 100");
+    }
+
+
+},
+  error: function(e){
+
+   console.log(e);
+   console.log("Error");
+}
+});
+
+}
+else{
+  $("#error_delete").show();
+  $("#error_delete").html("No task steps present to be saved");
+}
+
+});
 
 $('#deletebtn').on('click', function() {
   $("#success_delete").hide();
@@ -185,6 +259,7 @@ if(length){
       var dataResult = JSON.parse(dataResult);
       // console. log(dataResult);
       load_tsteps(ttype1);
+
 
 },
   error: function(e){

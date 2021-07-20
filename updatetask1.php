@@ -1588,7 +1588,16 @@ mysqli_close($conn);
 }
 //Function for admin search results
 else if($_POST['type']=="17")
-{
+{ $all_ttypes=array();
+  $sql_ttype1=mysqli_query($conn,"select * from task_types");
+  while($row_ttype=mysqli_fetch_assoc($sql_ttype1)){
+    $ttype_id=$row_ttype["ttype"];
+    $ttype_desc=$row_ttype["ttype_desc"];
+
+    $all_ttypes[$ttype_id]=$ttype_desc;
+
+  }
+
   $tid= $_POST['tid'];
   if($tid=="") $tid="%";
   $createdon_from= $_POST['createdon_from'];
@@ -1655,6 +1664,7 @@ else if($_POST['type']=="17")
           "tsequenceid"=> "",
           "tstepdescription"=>"",
           "ttype"=>"",
+          "ttype_desc"=>"",
           "pstart"=>"",
           "pend"=>"",
           "date_today"=>"",
@@ -1691,6 +1701,8 @@ else if($_POST['type']=="17")
          $task['tsequenceid']= $row['tsequenceid'];
          $task['tstepdescription']= $row['tstepdescription'];
          $task['ttype']= $row['ttype'];
+         $ttype_t=$row['ttype'];
+         $task['ttype_desc']=$all_ttypes[$ttype_t];
          $task['pstart']= $row['pstart'];
          $task['pend']= $row['pend'];
          $task['date_today']=$date_today;
@@ -1767,6 +1779,8 @@ else if($_POST['type']=="17")
             $task['tsequenceid']= $row['tsequenceid'];
             $task['tstepdescription']= $row['tstepdescription'];
             $task['ttype']= $row['ttype'];
+            $ttype_t=$row['ttype'];
+            $task['ttype_desc']=$all_ttypes[$ttype_t];
             $task['pstart']= $row['pstart'];
             $task['pend']= $row['pend'];
             $task['date_today']=$date_today;
@@ -1852,6 +1866,8 @@ else if($_POST['type']=="17")
             $task['tsequenceid']= $row['tsequenceid'];
             $task['tstepdescription']= $row['tstepdescription'];
             $task['ttype']= $row['ttype'];
+            $ttype_t=$row['ttype'];
+            $task['ttype_desc']=$all_ttypes[$ttype_t];
             $task['pstart']= $row['pstart'];
             $task['pend']= $row['pend'];
             $task['date_today']=$date_today;
@@ -2018,7 +2034,7 @@ else if($_POST['type']=="19")
 
              $task['tsequenceid']= $row['tsequenceid'];
              $task['tstepdescription']= $row['tstepdescription'];
-             $task['ttype']= $row['ttype'];
+             $task['ttype_desc']=$all_ttypes[$ttype_t];
              $task['pstart']= $row['pstart'];
              $task['pend']= $row['pend'];
              $task['peffort']= $row['peffort'];
@@ -4643,6 +4659,7 @@ else if($_POST['type']=="38" ){
       $taskstep = array (
               "tsequenceid"=> "",
               "tstepdescription"=> "",
+              "peffort_per"=>"",
               "statuscode"=>"e",
               "description"=>"Error while loading task step"
 
@@ -4666,7 +4683,7 @@ else if($_POST['type']=="38" ){
       $all_tsteps[]=$taskstep;
     }
 
-    $sql1="select DISTINCT (p.tsequenceid), p.tstepdescription from task_steps p, ttype_map_tstep q where p.tsequenceid=q.tsequenceid && q.ttype='$ttype' order by p.tsequenceid";
+    $sql1="select DISTINCT (p.tsequenceid), p.tstepdescription, q.peffort_per from task_steps p, ttype_map_tstep q where p.tsequenceid=q.tsequenceid && q.ttype='$ttype' order by p.tsequenceid";
     $res=mysqli_query($conn, $sql1);
     if($res)
     {
@@ -4674,6 +4691,7 @@ else if($_POST['type']=="38" ){
     {
       $taskstep['tsequenceid']= $row['tsequenceid'];
       $taskstep['tstepdescription']= $row['tstepdescription'];
+      $taskstep['peffort_per']= $row['peffort_per'];
       $taskstep['statuscode']= "s";
       $taskstep['description']= "Mapped Task Step loaded successfult";
 
@@ -4779,4 +4797,145 @@ for($i = 0; $i < count($tstep_add); $i++) {
 echo json_encode($taskstepsadded);
 }
 
+//Funstion to edit peffort prcentage in ttype and tstep mapping
+else if($_POST['type']=="41" ){
+  $ttype=$_POST['ttype'];
+  $tstep_add=$_POST['alltasksteps'];
+  $allresult=array(
+    "total_per"=>"",
+    "all_tsteps"=>""
+  );
+
+  $all_tsteps= array();
+  $taskstep = array (
+          "tsequenceid"=> "",
+          "tstepdescription"=> "",
+          "peffort_per"=>"",
+          "statuscode"=>"e",
+          "description"=>"Error while loading task step"
+
+      );
+$total_per=0;
+for($i = 0; $i < count($tstep_add); $i++) {
+  $total_per= $total_per+floatval($tstep_add[$i]["peffort_per"]);
+
+}
+
+
+if($total_per<=100)
+{
+for($i = 0; $i < count($tstep_add); $i++) {
+  $peffort_per= floatval($tstep_add[$i]["peffort_per"]);
+  $tsequenceid= $tstep_add[$i]['tsequenceid'];
+  $r1=mysqli_query($conn, "UPDATE ttype_map_tstep SET peffort_per='$peffort_per' where ttype='$ttype' && tsequenceid='$tsequenceid'");
+
+  if($r1){
+    $taskstep['tsequenceid']= $tstep_add[$i]['tsequenceid'];
+    $taskstep['tstepdescription']= $tstep_add[$i]['tstepdescription'];
+    $taskstep['peffort_per']= floatval($tstep_add[$i]['peffort_per']);
+    $taskstep['statuscode']= "s";
+    $taskstep['description']= "Peffort Percentage updated successfuly";
+  }
+  else{
+    $taskstep['statuscode']= "e";
+    $taskstep['description']= mysqli_error($conn);
+  }
+  $all_tsteps[]=$taskstep;
+}
+}
+
+$allresult['total_per']= $total_per;
+$allresult['all_tsteps']=$all_tsteps;
+
+echo json_encode($allresult);
+}
+//Function to delete task step from admin task search page
+else if($_POST['type']=="42" ){
+      $taskstepsdeleted = array ();
+      $deletedsteps=array(
+        "tsequenceid"=> "",
+        "tguid"=> "",
+        "astart"=>"",
+        "remark_id"=>"",
+        "statuscode"=>"e",
+        "description"=>"Error while deleting task step"
+      );
+
+  $alltasksteps = $_POST['alltasksteps'];
+  for($i = 0; $i < count($alltasksteps); $i++) {
+    $tsequenceid=$alltasksteps[$i]["tsequenceid"];
+    $tguid=$alltasksteps[$i]["tguid"];
+    $astart=$alltasksteps[$i]["astart"];
+    $remark_id=$alltasksteps[$i]["remark_id"];
+
+    $deletedsteps["tsequenceid"]=$tsequenceid;
+    $deletedsteps["tguid"]=$tguid;
+    $deletedsteps["astart"]=$astart;
+    $deletedsteps["remark_id"]=$remark_id;
+    if($astart==""){
+      $sql1=mysqli_query($conn,"delete from tstep where tguid='$tguid' && tsequenceid='$tsequenceid' ");
+      if($sql1){
+        $deletedsteps["statuscode"]="s";
+        $deletedsteps["description"]="Task Step deleted successfully";
+      }
+      else{
+        $deletedsteps["statuscode"]="e";
+        $deletedsteps["description"]=mysqli_error($conn);
+      }
+    }
+    else{
+      $deletedsteps["statuscode"]="e";
+      $deletedsteps["description"]="Task in progress can not be deleted";
+    }
+    $taskstepsdeleted[]=$deletedsteps;
+  }
+
+  echo json_encode($taskstepsdeleted);
+
+}
+
+//Function to delete tasks from admin task search page
+else if($_POST['type']=="43" ){
+
+  $taskstepsdeleted = array ();
+  $deletedsteps=array(
+    "tguid"=> "",
+    "astart"=>"",
+    "remark_id"=>"",
+    "statuscode"=>"e",
+    "description"=>"Error while deleting task step"
+  );
+
+$alltasksteps = $_POST['alltasksteps'];
+for($i = 0; $i < count($alltasksteps); $i++) {
+
+$tguid=$alltasksteps[$i]["tguid"];
+$astart=$alltasksteps[$i]["astart"];
+$remark_id=$alltasksteps[$i]["remark_id"];
+
+$deletedsteps["tguid"]=$tguid;
+$deletedsteps["astart"]=$astart;
+$deletedsteps["remark_id"]=$remark_id;
+if($astart==""){
+  $sql1=mysqli_query($conn,"delete from tstep where tguid='$tguid' ");
+  $sql2=mysqli_query($conn,"delete from ttable where tguid='$tguid'");
+  if($sql1 && $sql2){
+    $deletedsteps["statuscode"]="s";
+    $deletedsteps["description"]="Task deleted successfully";
+  }
+  else{
+    $deletedsteps["statuscode"]="e";
+    $deletedsteps["description"]=mysqli_error($conn);
+  }
+}
+else{
+  $deletedsteps["statuscode"]="e";
+  $deletedsteps["description"]="Task in progress can not be deleted";
+}
+$taskstepsdeleted[]=$deletedsteps;
+}
+
+echo json_encode($taskstepsdeleted);
+
+}
 ?>

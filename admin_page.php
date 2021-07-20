@@ -7,15 +7,15 @@ header('location:index.php');
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Task Serach and Task Report</title>
+    <title>Task Search and Task Report</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script> -->
-    <!-- <script src="jspdf.umd.min.js"></script> -->
-    <!-- <script src="jspdf.plugin.autotable.js"></script> -->
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 
     <style>
     .hidden_cells{
@@ -173,6 +173,7 @@ header('location:index.php');
     <table class="table table-hover admin_search_table" id="admin_search_table">
       <thead>
         <tr>
+          <th scope="col" id="selectcolumn2"><input type='checkbox' onclick='select_all2()'/>&nbsp;</th>
           <th scope="col">Task Creation Date</th>
           <th scope="col">Assigned to</th>
           <th scope="col" style="display:none;">Assigned to (id)</th>
@@ -187,12 +188,14 @@ header('location:index.php');
           <th scope="col" >Actual End</th>
           <th scope="col">Actual Effort</th>
           <th scope="col" style="width:150px;">Task Status</th>
+          <th scope="col">Remarks</th>
         </tr>
       </thead>
       <tbody id="tbody_admin_search">
       </tbody>
     </table>
   </div>
+<button type="button" class="btn btn-danger deletebtn1" id="deletebtn1" onclick="delete_tasks()" style="display:none;">Delete Tasks</button>
 <button type="button" onclick="exporttable1toexcel()" class="btn btn-secondary expbtn">Export to excel</button>
 <button type="button" onclick="exporttable1topdf()" class="btn btn-secondary expbtn">Export to pdf</button>
   </div>
@@ -202,9 +205,10 @@ header('location:index.php');
   <h1 style="text-align:center; margin-top:50px;">Task Steps Table</h1>
   <div id="admin_search_step_div"  style="margin-top:50px;">
     <div id="admin_search_step_div_in">
-    <table class="table table-hover" id="admin_search_step_table">
+    <table class="table table-hover admin_search_step_table" id="admin_search_step_table">
       <thead>
         <tr>
+          <th scope="col" id="selectcolumn1"><input type='checkbox' onclick='select_all()'/>&nbsp;</th>
           <th scope="col">Task Creation Date</th>
           <th scope="col">Assigned to</th>
           <th scope="col" style="display:none;">Assigned to (id)</th>
@@ -219,14 +223,18 @@ header('location:index.php');
           <th scope="col" >Actual End</th>
           <th scope="col">Actual Effort</th>
           <th scope="col" style="width:150px;">Task Status</th>
+          <th scope="col">Sequence ID</th>
+          <th scope="col">Remarks</th>
         </tr>
       </thead>
       <tbody id="tbody_admin_step_search">
       </tbody>
     </table>
   </div>
+    <button type="button" class="btn btn-danger deletebtn" id="deletebtn" onclick="delete_tasksteps()" style="display:none;">Delete Task Steps</button>
     <button type="button" onclick="exporttable2toexcel()" class="btn btn-secondary expbtn">Export to excel</button>
     <button type="button" onclick="exporttable2topdf()" class="btn btn-secondary expbtn">Export to pdf</button>
+
   </div>
 </center>
 <!-- ######################################################################################################################################### -->
@@ -272,9 +280,11 @@ header('location:index.php');
               <input type="text" class="form-control" id="tdescription1" placeholder="Task Description" name="tdescription1" >
             </div>
             <div  class="form-group">
-              <label  for="ttype1">Task Type:
+              <label  for="ttype1" id="ttype1_label">Task Type:
             </label>
-              <input type="text" class="form-control" id="ttype1" placeholder="Task Type" name="ttype1">
+            <select class="form-control" id="ttype1" name="ttype1">
+            </select>
+              <!-- <input type="text" class="form-control" id="ttype1" placeholder="Task Type" name="ttype1"> -->
             </div>
             <div  class="form-group">
               <label  for="pstart1">Planned Start

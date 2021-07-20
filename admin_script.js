@@ -1,5 +1,69 @@
-function edittask(assignto,tguid,tid,tsequenceid,tstepdescription,ttype,pstart,pend,peffort,astart,aend,aeffort,tstage)
+var type="35";
+$.ajax({
+  url: "updatetask1.php",
+  type: "POST",
+
+  data: {
+    type: type
+  },
+  cache: false,
+  success: function(dataResult) {
+    // console. log(dataResult);
+    var dataResult = JSON.parse(dataResult);
+    // console. log(dataResult);
+    let dropdown_ttype1 = $('#ttype1');
+    dropdown_ttype1.empty();
+    $(dataResult).each(function (index, item) {
+      dropdown_ttype1.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
+    });
+
+  }
+});
+
+function select_all(){
+
+  		$('.selectcolumn input').prop('checked', true);
+
+      if(!$('#selectcolumn1 input').prop("checked")) {
+      		$('.selectcolumn input').prop('checked', false);
+      }
+  }
+
+function select_row(id) {
+  var cellid="#check"+id+"id input";
+
+  		if(!$(cellid).prop("checked")) {
+          $('#selectcolumn1 input').prop('checked', false);
+      } else {
+      	 if ($('.selectcolumn input:checked').length === $('.selectcolumn input').length) {
+             $('#selectcolumn1 input').prop('checked', true);
+         }
+      }
+}
+function select_all2(){
+
+  		$('.selectcolumn2 input').prop('checked', true);
+
+      if(!$('#selectcolumn2 input').prop("checked")) {
+      		$('.selectcolumn2 input').prop('checked', false);
+      }
+  }
+
+function select_row2(id) {
+  var cellid="#check"+id+"id input";
+
+  		if(!$(cellid).prop("checked")) {
+          $('#selectcolumn2 input').prop('checked', false);
+      } else {
+      	 if ($('.selectcolumn2 input:checked').length === $('.selectcolumn2 input').length) {
+             $('#selectcolumn2 input').prop('checked', true);
+         }
+      }
+}
+
+function edittask(assignto,tguid,tid,tsequenceid,tstepdescription,ttype,pstart,pend,peffort,astart,aend,aeffort,tstage,ttype_desc)
 {
+
   console.log("Test click function");
   $('#edit_task_modal').modal({
     backdrop: 'static',
@@ -28,12 +92,17 @@ function edittask(assignto,tguid,tid,tsequenceid,tstepdescription,ttype,pstart,p
 if(tsequenceid!=0){
   $('#tsequenceid1').prop('readonly', true);
   $('#tdescription1').prop('readonly', true);
+
+  $('#ttype1_label').prop('hidden', true);
+  $('#ttype1').prop('hidden', true);
   $('#tid1').prop('readonly', true);
 }
 else{
   $('#tsequenceid1').prop('readonly', false);
   $('#tdescription1').prop('readonly', false);
   $('#tid1').prop('readonly', false);
+  $('#ttype1_label').prop('hidden', false);
+  $('#ttype1').prop('hidden', false);
 }
   $("#successedittask").hide();
   $("#erroredittask").hide();
@@ -59,7 +128,132 @@ var table2excel = new Table2Excel();
 table2excel.export(document.querySelectorAll("#admin_search_table"),"tasks");
 
 }
+function delete_tasks(){
+  var selected_tasks= new Array();
+  $(".admin_search_table tbody input[type=checkbox]:checked").each(function () {
 
+      var task_details = {};
+      var row = $(this).closest("tr")[0];
+
+      task_details["tguid"] = row.cells[4].innerHTML;
+      task_details["astart"] = row.cells[11].innerHTML;
+      task_details["remark_id"] = "#"+row.cells[15].id;
+      selected_tasks.push(task_details);
+
+  });
+
+  console.log(selected_tasks);
+  var length=selected_tasks.length;
+  if(length){
+    var type="43";
+    $.ajax({
+      url: "updatetask1.php",
+      type: "POST",
+
+      data: {
+        type: type,
+        alltasksteps:selected_tasks
+      },
+      cache: false,
+      success: function(dataResult) {
+
+        // console. log(dataResult);
+        var dataResult = JSON.parse(dataResult);
+        console. log(dataResult);
+        $(dataResult).each(function (index, item) {
+          var cell_id=item.remark_id;
+          $(cell_id).html((item.statuscode).charAt(0).toUpperCase() +": "+ item.description);
+          var status=item.statuscode;
+
+          if(status=="s"){
+             $(cell_id).css('color', 'green');
+          }
+          else{
+            $(cell_id).css('color', 'red');
+          }
+        });
+              // loadtask_tables()
+              // $(".expbtn").show();
+              // $("#deletebtn").show();
+
+
+  },
+    error: function(e){
+
+     console.log(e);
+     console.log("Error");
+  }
+  });
+
+  }
+  else{
+
+  }
+}
+function delete_tasksteps(){
+
+  var selected_tasks= new Array();
+  $(".admin_search_step_table tbody input[type=checkbox]:checked").each(function () {
+
+      var task_details = {};
+      var row = $(this).closest("tr")[0];
+
+      task_details["tguid"] = row.cells[4].innerHTML;
+      task_details["tsequenceid"] = row.cells[15].innerHTML;
+      task_details["astart"]=row.cells[11].innerHTML;
+      task_details["remark_id"] = "#"+row.cells[16].id;
+      selected_tasks.push(task_details);
+
+  });
+
+  // console.log(selected_tasks);
+  var length=selected_tasks.length;
+  if(length){
+    var type="42";
+    $.ajax({
+      url: "updatetask1.php",
+      type: "POST",
+
+      data: {
+        type: type,
+        alltasksteps:selected_tasks
+      },
+      cache: false,
+      success: function(dataResult) {
+
+        // console. log(dataResult);
+        var dataResult = JSON.parse(dataResult);
+        // console. log(dataResult);
+        $(dataResult).each(function (index, item) {
+          var cell_id=item.remark_id;
+          $(cell_id).html((item.statuscode).charAt(0).toUpperCase() +": "+ item.description);
+          var status=item.statuscode;
+
+          if(status=="s"){
+             $(cell_id).css('color', 'green');
+          }
+          else{
+            $(cell_id).css('color', 'red');
+          }
+        });
+              // loadtask_tables()
+              // $(".expbtn").show();
+              // $("#deletebtn").show();
+
+
+  },
+    error: function(e){
+
+     console.log(e);
+     console.log("Error");
+  }
+  });
+
+  }
+  else{
+
+  }
+}
 function exporttable2toexcel()
 {
 
@@ -78,9 +272,6 @@ function exporttable1topdf(){
 
 var pdf = new jsPDF('l', 'pt', 'a4');
 
-// var tablaDatos = $('#admin_search_table');
-// var data = pdf.autoTableHtmlToJson(tablaDatos[0]);
-
 pdf.autoTable({
 html: '#admin_search_table',
 styles: {overflow: 'linebreak',
@@ -90,11 +281,12 @@ margin: {
   top: 20,
   right:20
 },
-// tableWidth: 800,
+
 theme: 'grid'
  });
 pdf.save('task_table.pdf');
 }
+
 function exporttable2topdf(){
   var pdf = new jsPDF('l', 'pt', 'a4');
 
@@ -116,7 +308,23 @@ function exporttable2topdf(){
 
 
 $(document).ready(function() {
+var table_1;
+table_1=$('#admin_search_table').DataTable({
 
+    "paging": false,
+    "ordering": true,
+    "info": false,
+    "columnDefs": [
+          {
+              orderable: false,
+              targets: [0]
+          }
+      ],
+    "order": [
+      [2, "asc"]
+    ]
+
+  });
 let dropdown = $('#userslist');
 dropdown.empty();
 dropdown.append('<option selected="true" value="0">--Choose User Name--</option>');
@@ -187,6 +395,7 @@ $("#error_find").hide();
 
 // admin search functionality
 function loadtask_tables(){
+  table_1.destroy();
   $("#admin_search_div").show();
   event.preventDefault();
   var tid= $('#tid').val();
@@ -251,211 +460,245 @@ function loadtask_tables(){
          var j=0;
 
          $(dataResult).each(function (index, item) {
-           var assignto=item.assignto_id;
-           var tguid= item.tguid;
-           var tstepdescription= item.tstepdescription;
-           var ttype= item.ttype;
-           var pstart= item.pstart;
-           var pend= item.pend;
-           var peffort= item.peffort/480;
-           var peffortm= item.peffort;
-           var astart= item.astart;
-           var aend= item.aend;
-           var aeffortm= item.aeffort;
-           var aeffort= item.aeffort/480;
-           var date_today= item.date_today;
-           var tid= item.tid;
-           var tstage=item.tstage;
-           var tsequenceid=item.tsequenceid;
-           j++;
-           if(item.tsequenceid==0)
-           {
-             var tr = document.createElement('tr');
-             table1.appendChild(tr);
+                    var assignto=item.assignto_id;
+                    var tguid= item.tguid;
+                    var tstepdescription= item.tstepdescription;
+                    var ttype= item.ttype;
+                    var ttype_desc= item.ttype_desc;
+                    var pstart= item.pstart;
+                    var pend= item.pend;
+                    var peffort= item.peffort/480;
+                    var peffortm= item.peffort;
+                    var astart= item.astart;
+                    var aend= item.aend;
+                    var aeffortm= item.aeffort;
+                    var aeffort= item.aeffort/480;
+                    var date_today= item.date_today;
+                    var tid= item.tid;
+                    var tstage=item.tstage;
+                    var tsequenceid=item.tsequenceid;
+                    j++;
+                    if(item.tsequenceid==0)
+                    {
+                    row = table1.insertRow(table1.rows.length);
+                    row.className = "row_task_table1";
 
-           if(pstart=="0000-00-00") pstart="";
-           if(pend=="0000-00-00") pend="";
-           if(astart=="0000-00-00") astart="";
-           if(aend=="0000-00-00") aend="";
+                    if(pstart=="0000-00-00") pstart="";
+                    if(pend=="0000-00-00") pend="";
+                    if(astart=="0000-00-00") astart="";
+                    if(aend=="0000-00-00") aend="";
 
-           var i=0;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML =item.createdon;
-           tr.appendChild(newcell);
-           // newcell.className = "vguid_vacation_table";
+                    var i=0;
+                    var newcell = row.insertCell(i);
+                    newcell.innerHTML = "<input type='checkbox' onclick='select_row2(\""+j+"\")'/>&nbsp;";
+                    newcell.className="selectcolumn2";
+                    newcell.id= "check"+j+"id";
 
-           i++;
-           var newcell = document.createElement('td');
-           newcell.innerHTML = item.assignto;
-           tr.appendChild(newcell);
+                    i++;
+                    var newcell = row.insertCell(i);
+                    newcell.innerHTML =item.createdon;
+                    // newcell.className = "vguid_vacation_table";
 
-
-           i++;
-           var newcell = document.createElement('td');
-           newcell.innerHTML = item.assignto_id;
-           // newcell.className = "hidden_cells";
-           newcell.style.display = "none";
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('td');
-           newcell.innerHTML = item.tguid;
-           newcell.style.display = "none";
-           // newcell.className = "hidden_cells";
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
-           newcell.className="tid_div";
-           newcell.id="tid_b"+j+"_id";
-           var cellid="#tid_b"+j+"_id button";
-           tr.appendChild(newcell);
-
-           applycolor(pend,date_today,cellid,tid,tstage)
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = '<button type="button" onclick="taskdetails(\''+ tguid +'\')" class="btn btn-link t_descr_button">'+tstepdescription+'</button>';
-           newcell.className="t_descr_div";
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = item.ttype;
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = pstart;
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = pend;
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
-           else newcell.innerHTML="";
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = astart;
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = aend;
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
-           else newcell.innerHTML = "";
-           tr.appendChild(newcell);
-
-           i++;
-           var newcell = document.createElement('TD');
-           newcell.innerHTML = item.tstatus;
-           tr.appendChild(newcell);
-         }
-         else{
-           row = table2.insertRow(table2.rows.length);
-           row.className = "row_task_table1";
-
-           var pstart= item.pstart;
-           var pend= item.pend;
-           var astart= item.astart;
-           var aend= item.aend;
-           var aeffort= item.aeffort/480;
-           var date_today= item.date_today;
-           var tid= item.tid;
-           var tstage=item.tstage;
-
-           if(pstart=="0000-00-00") pstart="";
-           if(pend=="0000-00-00") pend="";
-           if(astart=="0000-00-00") astart="";
-           if(aend=="0000-00-00") aend="";
-
-           var i=0;
-           var newcell = row.insertCell(i);
-           newcell.innerHTML =item.createdon;
-           // newcell.className = "vguid_vacation_table";
-
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = item.assignto;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.assignto;
 
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = item.assignto_id;
-           newcell.style.display = "none";
-           // newcell.className = "hidden_cells";
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.assignto_id;
+                    // newcell.className = "hidden_cells";
+                    newcell.style.display = "none";
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = item.tguid;
-           newcell.style.display = "none";
-           // newcell.className = "hidden_cells";
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.tguid;
+                    // newcell.className = "hidden_cells";
+                    newcell.style.display = "none";
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
-           newcell.className="tid_div";
-           newcell.id="tid_b"+j+"_id";
-           var cellid="#tid_b"+j+"_id button";
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\',\''+ ttype_desc +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
+                    newcell.className="tid_div";
+                    newcell.id="tid_b"+j+"_id";
+                    var cellid="#tid_b"+j+"_id button";
 
-           applycolor(pend,date_today,cellid,tid,tstage)
+                    applycolor(pend,date_today,cellid,tid,tstage)
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = item.tstepdescription;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = '<button type="button" onclick="taskdetails(\''+ tguid +'\')" class="btn btn-link t_descr_button">'+tstepdescription+'</button>';
+                    // newcell.className="t_descr_div";
+                    newcell.style.width = "200px";
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = item.ttype;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.ttype_desc;
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = pstart;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = pstart;
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = pend;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = pend;
 
-           i++;
-           newcell = row.insertCell(i);
-           if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
-           else newcell.innerHTML ="";
+                    i++;
+                    newcell = row.insertCell(i);
+                    if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
+                    else newcell.innerHTML="";
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = astart;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = astart;
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = aend;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = aend;
 
-           i++;
-           newcell = row.insertCell(i);
-           if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
-           else newcell.html="";
+                    i++;
+                    newcell = row.insertCell(i);
+                    if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
+                    else newcell.innerHTML = "";
 
-           i++;
-           newcell = row.insertCell(i);
-           newcell.innerHTML = item.tstatus;
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.tstatus;
 
-         }
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = "";
+                    newcell.id= "remark"+j;
+                    newcell.className= "remarkcolumn";
+                  }
+                  else{
+                    row = table2.insertRow(table2.rows.length);
+                    row.className = "row_task_table1";
+
+                    var pstart= item.pstart;
+                    var pend= item.pend;
+                    var astart= item.astart;
+                    var aend= item.aend;
+                    var aeffort= item.aeffort/480;
+                    var date_today= item.date_today;
+                    var tid= item.tid;
+                    var tstage=item.tstage;
+
+                    if(pstart=="0000-00-00") pstart="";
+                    if(pend=="0000-00-00") pend="";
+                    if(astart=="0000-00-00") astart="";
+                    if(aend=="0000-00-00") aend="";
+
+                    var i=0;
+                    var newcell = row.insertCell(i);
+                    newcell.innerHTML = "<input type='checkbox' onclick='select_row(\""+j+"\")'/>&nbsp;";
+                    newcell.className="selectcolumn";
+                    newcell.id= "check"+j+"id";
+
+                    i++;
+                    var newcell = row.insertCell(i);
+                    newcell.innerHTML =item.createdon;
+                    // newcell.className = "vguid_vacation_table";
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.assignto;
+
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.assignto_id;
+                    // newcell.className = "hidden_cells";
+                    newcell.style.display = "none";
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.tguid;
+                    // newcell.className = "hidden_cells";
+                    newcell.style.display = "none";
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = '<button type="button" onclick="edittask(\''+ assignto +'\',\''+ tguid +'\',\''+ tid +'\',\''+ tsequenceid +'\',\''+ tstepdescription +'\',\''+ ttype +'\',\''+ pstart +'\',\''+ pend +'\',\''+ peffort +'\',\''+ astart +'\',\''+ aend +'\',\''+ aeffort +'\',\''+ tstage +'\',\''+ ttype_desc +'\')" class="btn btn-primary tid_button">'+item.tid+'</button>';
+                    newcell.className="tid_div";
+                    newcell.id="tid_b"+j+"_id";
+                    var cellid="#tid_b"+j+"_id button";
+
+                    applycolor(pend,date_today,cellid,tid,tstage)
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.tstepdescription;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.ttype_desc;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = pstart;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = pend;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    if(peffort!=0) newcell.innerHTML = peffort.toFixed(2);
+                    else newcell.innerHTML ="";
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = astart;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = aend;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    if(aeffort!=0) newcell.innerHTML = aeffort.toFixed(2);
+                    else newcell.html="";
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = item.tstatus;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = tsequenceid;
+
+                    i++;
+                    newcell = row.insertCell(i);
+                    newcell.innerHTML = "";
+                    newcell.id= "remark"+j;
+                    newcell.className= "remarkcolumn";
+                  }
 
 
 
 
 
-         });
+                  });
+
+
+                  table_1=$('#admin_search_table').DataTable({
+
+                      "paging": false,
+                      "ordering": true,
+                      "info": false,
+                      "columnDefs": [
+                            {
+                                orderable: false,
+                                targets: [0]
+                            }
+                        ],
+                      "order": [
+                        [5, "asc"]
+                      ]
+
+                    });
+
 
        }
 
@@ -466,6 +709,8 @@ $('.search_admin').on('click',function(){
 
 loadtask_tables();
 $(".expbtn").show();
+$("#deletebtn").show();
+$("#deletebtn1").show();
 
 });
 $('.close1').on('click',function(){

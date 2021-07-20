@@ -916,6 +916,15 @@ var table1=$('#mytasktable').DataTable({
       $('#uguid3').val(data[1]);
       $('#tguid3').val(data[2]);
       $('#tid3').val(tids);
+      $("#peffort3").val(data[8]);
+      if(data[8]!="" || data[8]!=0){
+        $("#peffort3").prop("readonly", true);
+        $("#peffort3").prop("disabled", false);
+      }
+      else{
+        $("#peffort3").prop("readonly", false);
+        $("#peffort3").prop("disabled", false);
+      }
       //var s = data[3];
       var s = data[5].replace(/\d+/g, '');
       $('#tdescription3').val(s);
@@ -923,7 +932,7 @@ var table1=$('#mytasktable').DataTable({
 
       $("#pstart3").val("");
       $("#pend3").val("");
-      $("#peffort3").val("");
+      // $("#peffort3").val("");
 
 
       $("#tid3").prop("readonly", true);
@@ -936,8 +945,8 @@ var table1=$('#mytasktable').DataTable({
       $("#pstart3").prop("disabled", false);
       $("#pend3").prop("readonly", false);
       $("#pend3").prop("disabled", false);
-      $("#peffort3").prop("readonly", false);
-      $("#peffort3").prop("disabled", false);
+      // $("#peffort3").prop("readonly", false);
+      // $("#peffort3").prop("disabled", false);
 
       $("#edittaskstepbtn").show();
 
@@ -1094,10 +1103,11 @@ var table1=$('#mytasktable').DataTable({
       cache: false,
       success: function(dataResult) {
         //console. log("success");
+        // console.log(dataResult);
         var dataResult = JSON.parse(dataResult);
         ajaxResult.push(dataResult);
         //console.log("Hello");
-        console.log(dataResult);
+        // console.log(dataResult);
         console.log("Data Result loaded");
 
 
@@ -1274,9 +1284,9 @@ var table1=$('#mytasktable').DataTable({
       },
       cache: false,
       success: function(dataResult) {
-			console.log(dataResult);
+			// console.log(dataResult);
 			var dataResult = JSON.parse(dataResult);
-      console.log(dataResult);
+      // console.log(dataResult);
       if (dataResult.statuscode == "s") {
         $(".edittaskstepbtn").prop('disabled', true);
         $("#erroredittaskstep").hide();

@@ -5,6 +5,7 @@ if(!isset($_SESSION['uguid'])){
 header('location:index.php');
 }
 
+// Function to create task
  if($_POST['type']=="1"){
 $arr2 = array (
 
@@ -44,6 +45,8 @@ $arr2 = array (
     $astart= $_POST['astart'];
     $aend= $_POST['aend'];
     $peffort= $_POST['peffort'];
+    if($peffort=="") $peffort=0;
+    $peffort=(int)$peffort;
     $priority= $_POST['priority'];
     $aeffort="";
     // $astart= $_POST['astart'];
@@ -96,12 +99,50 @@ $arr2 = array (
         else {
           $tstage=2;
         }
-
-
         $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
         $r2=mysqli_query($conn, $sql2);
+
+        if($comment!=""){
         $sql3 = "INSERT INTO tstatus (tguid,tsequenceid,updatedon,updatedat,updatedby,comment)VALUES ('$tguid','$tsequenceid','$updatedon','$updatedat','$updatedby','$comment')";
         $r3=mysqli_query($conn, $sql3);
+      }
+      else{
+        $r3=1;
+      }
+
+        if($ttype==0){
+
+        }
+        else{
+          $all_tsteps=array();
+          $tstep_info=array(
+            "tsequenceid"=>"",
+            "tstepdescription"=>"",
+            "peffort_per"=>""
+              );
+
+            $sql_stp="select DISTINCT (p.tsequenceid), p.tstepdescription, q.peffort_per from task_steps p, ttype_map_tstep q where p.tsequenceid=q.tsequenceid && q.ttype='$ttype' order by p.tsequenceid";
+            $res_stp=mysqli_query($conn, $sql_stp);
+            while($row_stp=mysqli_fetch_assoc($res_stp))
+            { $pstart="0000-00-00";
+              $pend="0000-00-00";
+              $astart="0000-00-00";
+              $aend="0000-00-00";
+              $aeffort=0;
+              $tstage=1;
+              $tsequenceid=$row_stp["tsequenceid"];
+              $tstepdescription=$row_stp["tstepdescription"];
+              $peffort_per=$row_stp["peffort_per"];
+              $peffort_stp= $peffort*$peffort_per/100;
+              $peffort_stp= round($peffort_stp,2);
+
+              $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tstepdescription','$tstage','$assignto','$pstart','$pend','$peffort_stp','$astart','$aend','$aeffort')";
+              $r2=mysqli_query($conn, $sql2);
+
+            }
+
+        }
+
          if($r1 && $r2 && $r3) {
            $arr2['statuscode']="s";
            $arr2['description']="Task Created Successfully";
