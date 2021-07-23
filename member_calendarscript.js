@@ -56,7 +56,7 @@ calendar.innerHTML = '';
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
 
-      var type= "25";
+      var type= "20";
       var uguid=sessionStorage.getItem("member_uguid");
       $.ajax({
         url: "updatetask1.php",
@@ -69,10 +69,12 @@ calendar.innerHTML = '';
             },
         cache: false,
         success: function(dataResult){
+          // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
            // console.log("Result for "+ dayString2);
            // console.log(dataResult);
            // console.log("Result loaded");
+
           var reslength= dataResult[0].length;
           var safeprogress= dataResult[1].length;
           var alertprogress= dataResult[2].length;

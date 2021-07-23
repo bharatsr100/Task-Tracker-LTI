@@ -2419,7 +2419,8 @@ else if($_POST['type']=="21"){
   }
 
 }
-//Function to fetch tasks for monthly my calendar
+
+//Function to fetch tasks for members weeekly
 else if($_POST['type']=="22"){
   $pendingtasks=array();
   $safeinprogressall=array();
@@ -3108,7 +3109,7 @@ else if($_POST['type']=="24"){
   mysqli_close($conn);
 
 }
-//Function to fetch tasks and vacations for weekly memner calendar
+//Function to fetch tasks and vacations for weekly member calendar
 else if($_POST['type']=="25"){
 
     $pendingtasks=array();

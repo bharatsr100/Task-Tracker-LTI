@@ -34,6 +34,7 @@ header('location:index.php');
     </style>
   </head>
   <body>
+      <img src="pics/logo.jpg" alt="LTI-Veolia Logo" style="height:70px;width:auto;">
     <button onclick="location.href='logout.php';" type="button" class="btn btn-primary" style="float: right;">Log Out</button>
     <button onclick="location.href='welcome.php';" type="button" class="btn btn-primary" style="float: right; margin-right:10px;">Home</button>
 <!-- ########################################################################################################################################### -->
