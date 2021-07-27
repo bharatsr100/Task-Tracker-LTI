@@ -563,7 +563,7 @@ else if($_POST['type']=="6"){
 
 }
 // ######################################################################################################################
-// Function for updating and view comment
+// Function for updating and view comment for my task
 else if($_POST['type']=="7"){
 
 
@@ -594,8 +594,6 @@ else if($_POST['type']=="7"){
   $arr2['tguid']="$tguid";
   $arr2['efforth']="$efforth";
   $arr2['effortm']="$effortm";
-
-
 
 
 
@@ -646,7 +644,7 @@ else if($_POST['type']=="7"){
 
 
 
-if($pstart=="0000-00-00"){
+if($pstart=="0000-00-00" && $aeffort=!""){
 
   $arr2['description']="Task needs to be planned first";
   echo json_encode($arr2);
@@ -950,7 +948,7 @@ else if($_POST['type']=="9"){
 
 
 
-if( $pstart=="0000-00-00"  ){
+if( $pstart=="0000-00-00"  && $aeffort!=""){
   $arr2['description']="Task needs to be planned first";
   echo json_encode($arr2);
   exit();
@@ -1088,6 +1086,8 @@ else if($_POST['type']=="11"){
           "tid"=>"",
           "createdon"=>"",
           "tguid"=> "",
+          "assignto"=>"",
+          "assignto_id"=>"",
           "tsequenceid"=> "",
           "tstage"=>"",
           "tstepdescription"=>"",
@@ -1102,6 +1102,8 @@ else if($_POST['type']=="11"){
               "pend"=>"",
               "pdiff"=>"",
               "createdon"=>"",
+              "assignto"=>"",
+              "assignto_id"=>"",
               "tguid"=> "",
               "tsequenceid"=> "",
               "tstage"=>"",
@@ -1164,10 +1166,13 @@ $result=mysqli_query($conn, $sql1);
   $todotask['tstage']= $row['tstage'];
   $todotask['statuscode']= "s";
   $todotask['description']= "Task successfully loaded";
+  $todotask['assignto_id']=$row['assignto'];
+  $username=$row['assignto'];
+  $sql_name=mysqli_query($conn,"select * from userdata1 where uguid='$username'");
+  $res_name=mysqli_fetch_array($sql_name);
+  $todotask['assignto']=$res_name['uname'];
   $pendingtasks[]=$todotask;
 }
-
-
 
 
 $sql2="select c.*, p.* from tstep c,ttable p where c.tguid=p.tguid  && c.tsequenceid!='$sequence' && c.tstage!='1' && c.tstage!='4' && c.pstart <='$date' && c.assignto='$uguid'  order by p.tid";
@@ -1179,13 +1184,6 @@ while($row=mysqli_fetch_assoc($result2)){
  $safeinprogress['pstart']= $row['pstart'];
  $safeinprogress['pend']= $row['pend'];
 
- //$date2=$row['pend'];
- // $newdate1 = date("Ymd", strtotime($date1));
- // $datenow=$date;
- // $datenow1=date("Ymd",strtotime($datenow));
- // $diff= $newdate1-$datenow1;
-
- //$date1=$date;
  $date2=date_create($row['pend']);
  $date1=date_create($date);
  $diff=date_diff($date1,$date2);
@@ -1200,7 +1198,11 @@ while($row=mysqli_fetch_assoc($result2)){
  $safeinprogress['tstage']= $row['tstage'];
  $safeinprogress['statuscode']= "s";
  $safeinprogress['description']= "Task successfully loaded";
-
+ $safeinprogress['assignto_id']=$row['assignto'];
+ $username=$row['assignto'];
+ $sql_name=mysqli_query($conn,"select * from userdata1 where uguid='$username'");
+ $res_name=mysqli_fetch_array($sql_name);
+ $safeinprogress['assignto']=$res_name['uname'];
  $allprogresstasks[]=$safeinprogress;
 
  if($pdiff2>=2) $safeinprogressall[]=$safeinprogress;
@@ -1964,6 +1966,15 @@ if($s1 && $s2){
 }
 else if($_POST['type']=="19")
 { $tguid= $_POST['tguid'];
+
+  $all_ttypes=array();
+  $sql_ttype1=mysqli_query($conn,"select * from task_types");
+    while($row_ttype=mysqli_fetch_assoc($sql_ttype1)){
+      $ttype_id=$row_ttype["ttype"];
+      $ttype_desc=$row_ttype["ttype_desc"];
+      $all_ttypes[$ttype_id]=$ttype_desc;
+
+    }
   $task = array (
           "tguid"=> $tguid,
           "tid"=>"",
@@ -2034,6 +2045,7 @@ else if($_POST['type']=="19")
 
              $task['tsequenceid']= $row['tsequenceid'];
              $task['tstepdescription']= $row['tstepdescription'];
+             $ttype_t=$row["ttype"];
              $task['ttype_desc']=$all_ttypes[$ttype_t];
              $task['pstart']= $row['pstart'];
              $task['pend']= $row['pend'];
@@ -2650,7 +2662,7 @@ $alltasks[]=$allremarks;
 echo json_encode($alltasks);
 mysqli_close($conn);
 }
-//Function to fetch tasks and vacations my team monthly calendar
+//Function to fetch tasks and vacations for my team monthly calendar
 else if($_POST['type']=="23"){
   $pendingtasks=array();
   $safeinprogressall=array();
@@ -2661,7 +2673,6 @@ else if($_POST['type']=="23"){
   $allremarks=array();
 
   $alltasks=array();
-  // $uguid=$_SESSION['uguid'];
   $date= $_POST['date'];
   $date3= $_POST['date2'];
   $todotask = array (
@@ -4938,5 +4949,121 @@ $taskstepsdeleted[]=$deletedsteps;
 
 echo json_encode($taskstepsdeleted);
 
+}
+//Function to fetch form data for user profile
+
+else if($_POST['type']=="44"){
+
+  $uguid=$_POST['uguid'];
+  $arr=array(
+    "uguid"=>$uguid,
+    "uname"=>"",
+    "shortname"=>"",
+    "contact"=>"",
+    "employeeid"=>"",
+    "e_emailid"=>"",
+    "p_emailid"=>""
+  );
+  $sql1=mysqli_query($conn,"select * from userdata1 where uguid='$uguid'");
+  $row1=mysqli_fetch_assoc($sql1);
+  $arr["uname"]=$row1["uname"];
+  $arr["shortname"]=$row1["shortname"];
+
+  $sql2=mysqli_query($conn, "select * from userdata2 where uguid='$uguid'");
+  while($row2=mysqli_fetch_assoc($sql2)){
+    $arr[$row2["type"]]=$row2["value"];
+  }
+  echo json_encode($arr);
+}
+//FUnction to update user profile information
+else if($_POST["type"]=="45"){
+  $uguid=$_POST["uguid"];
+  $uname=$_POST["uname"];
+  $shortname=$_POST["shortname"];
+  $contact=$_POST["contact"];
+  $employeeid=$_POST["employeeid"];
+  $e_emailid=$_POST["e_emailid"];
+  $p_emailid=$_POST["p_emailid"];
+  $password=$_POST["password"];
+
+  $arr=array(
+    "uguid"=>$uguid,
+    "uname"=>$uname,
+    "shortname"=>$shortname,
+    "contact"=>$contact,
+    "employeeid"=>$employeeid,
+    "e_emailid"=>$e_emailid,
+    "p_emailid"=>$p_emailid,
+    // "password"=>$password,
+    "statuscode"=>"e",
+    "description"=>"error while updating user profile"
+  );
+  $p2= mysqli_query($conn,"select * from userdata1 where password= '$password' && uguid='$uguid'");
+  $n1= mysqli_num_rows($p2);
+
+  if($n1){
+
+    $t1="contact";
+    $t2="employeeid";
+    $t3="e_emailid";
+    $t4="p_emailid";
+    $s1= mysqli_query($conn,"UPDATE userdata1 SET uname='$uname', shortname='$shortname' WHERE uguid= '$uguid'");
+    $s2= mysqli_query($conn,"UPDATE userdata2 SET value='$contact' WHERE uguid= '$uguid' && type='$t1'");
+    $s3= mysqli_query($conn,"UPDATE userdata2 SET value='$employeeid' WHERE uguid= '$uguid' && type='$t2'");
+    $s4= mysqli_query($conn,"UPDATE userdata2 SET value='$e_emailid' WHERE uguid= '$uguid' && type='$t3'");
+    $s5= mysqli_query($conn,"UPDATE userdata2 SET value='$p_emailid' WHERE uguid= '$uguid' && type='$t4'");
+
+      if ($s1 && $s2 && $s3 && $s4 && $s5){
+        $arr["statuscode"]="s";
+        $arr["description"]="Updated Successfully";
+      }
+    }
+    else{
+      $arr["statuscode"]="e";
+      $arr["description"]="Wrong Password";
+    }
+  echo json_encode($arr);
+}
+//Function to update user login password
+else if($_POST["type"]=="46"){
+  $uguid=$_POST["uguid"];
+  $opassword=$_POST["opassword"];
+  $npassword=$_POST["npassword"];
+  $ncpassword=$_POST["ncpassword"];
+
+  $arr=array(
+    "opassword"=>$opassword,
+    "npassword"=>$npassword,
+    "ncpassword"=>$ncpassword,
+    "statuscode"=>"e",
+    "description"=>"Error while updating password"
+  );
+
+  $p2= mysqli_query($conn,"select * from userdata1 where password= '$opassword' && uguid='$uguid'");
+  $n1= mysqli_num_rows($p2);
+  if($n1){
+    if($npassword==$ncpassword){
+      $s1= mysqli_query($conn,"UPDATE userdata1 SET password='$npassword' WHERE uguid= '$uguid'");
+      if($s1){
+        $arr["statuscode"]="s";
+        $arr["description"]="Password updated successfully";
+      }
+      else{
+        $arr["statuscode"]="e";
+        $arr["description"]=mysqli_error($conn);
+      }
+
+    }
+    else{
+      $arr["statuscode"]="e";
+      $arr["description"]="Passwords are not matching";
+    }
+  }
+  else{
+    $arr["statuscode"]="e";
+    $arr["description"]="Wrong Password";
+  }
+
+  echo json_encode($arr);
 }
 ?>

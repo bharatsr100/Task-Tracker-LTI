@@ -54,7 +54,7 @@ header('location:index.php');
                   <div style="font-size:15px;float:left;"><b>Task ID:&emsp;</b></div>
                   <div style="font-size:15px;float:left;"id="tid"></div>
             </div>
-            <div  style="margin-left:40px;width:25%;float:left;">
+            <div  style="margin-left:40px;width:70%;float:left;">
                 <div style="font-size:15px;float:left;"><b>Task Description:&emsp;</b></div>
                 <div style="font-size:15px;float:left;"id="tstepdescription"></div>
             </div>
@@ -113,11 +113,6 @@ header('location:index.php');
       <div style="margin-top:50px;width:100%;" id="allcomments_div">
         <h4 style="text-align:center;"> <b>Comments History</b> </h4>
         <br><br>
-        <!-- <div  class="comments_full_div" >
-        <div  class="date_div">date</div>
-        <div class="name_div">user</div>
-        <div class="comment_div">comment</div> -->
-
       </div>
       </div>
 

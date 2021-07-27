@@ -65,13 +65,6 @@ function load() {
   var full_weeks= remaining_days/7;
   var total_weeks= full_weeks+2;
 
-  // console.log(days_week1);
-  // console.log(days_week2);
-  // console.log(remaining_days);
-  // console.log(full_weeks);
-  // console.log(total_weeks);
-
-
   document.getElementById('yearDisplay').innerText =
     `${year}`;
     calendar.innerHTML = '';
@@ -133,12 +126,6 @@ function load() {
       }
       const weekend_date = `${year2}-${month2}-${day2}`;
 
-      // console.log("Week "+(i+1));
-      // console.log(number_of_day_inweek);
-      // console.log(weekstart_date);
-      // console.log(weekend_date);
-
-
 
       if ((currentdate.getTime() >= weekstart.getTime()) &&(currentdate.getTime() <= weekend.getTime() )  ) {
         monthSquare.id = 'currentMonth';
@@ -182,7 +169,7 @@ function load() {
                  $("#stage1title").append("To be Planned Tasks Week "+(i+1)+" ("+ weekstart_date+" - "+weekend_date +")");
 
                  $(dataResult[0]).each(function (index, item) {
-                   $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"</li>");
+                   $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"; <b>Assigned to:</b> "+item.assignto+ "</li>");
 
                  });
 
@@ -204,7 +191,7 @@ function load() {
 
                  $(dataResult[1]).each(function (index, item) {
                    $("#safelist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                  });
 
@@ -227,7 +214,7 @@ function load() {
 
                  $(dataResult[2]).each(function (index, item) {
                    $("#deadlineapplist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                  });
 
@@ -250,7 +237,7 @@ function load() {
 
                  $(dataResult[3]).each(function (index, item) {
                    $("#deadlinepasslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                  });
 
@@ -274,7 +261,7 @@ function load() {
 
                  $(dataResult[4]).each(function (index, item) {
                    $("#alltaskslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                   +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                  });
 

@@ -1336,10 +1336,9 @@ var table1=$('#mytasktable').DataTable({
       },
       cache: false,
       success: function(dataResult) {
-			console.log(dataResult);
-
+			// console.log(dataResult);
 			var dataResult = JSON.parse(dataResult);
-			console.log(dataResult);
+			// console.log(dataResult);
 			if (dataResult.statuscode == "s") {
 				$(".savecomment5").prop('disabled', true);
         $("#comment_form2")[0].reset();

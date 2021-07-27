@@ -161,14 +161,14 @@ $allusers = unserialize($_SESSION['allusers']);
       <a class="dropdown-item" href="#/"><b>Task in Progress</b></a>
       <br>
       <a class="dropdown-item" href="#/"><i style="color:#5FDB39;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is more than 48 calendar hours</a>
-      <a class="dropdown-item" href="#/"><i style="color:#F39536 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 clendar hours</a>
+      <a class="dropdown-item" href="#/"><i style="color:#F39536 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 calendar hours</a>
       <a class="dropdown-item" href="#/"><i style="color:#EC4819 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Deadline is already passed</a>
 
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#/"><b>Task on Hold</b></a>
       <br>
       <a class="dropdown-item" href="#/"><i style="color:#EDE310;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is more than 48 calendar hours</a>
-      <a class="dropdown-item" href="#/"><i style="color:#8C1BE0;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 clendar hours</a>
+      <a class="dropdown-item" href="#/"><i style="color:#8C1BE0;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 calendar hours</a>
       <a class="dropdown-item" href="#/"><i style="color:#2227E3 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Deadline is already passed</a>
 
 
@@ -176,7 +176,7 @@ $allusers = unserialize($_SESSION['allusers']);
     <a class="dropdown-item" href="#/"><b>Task Awaiting</b></a>
     <br>
     <a class="dropdown-item" href="#/"><i style="color:#F2EC82 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is more than 48 calendar hours</a>
-    <a class="dropdown-item" href="#/"><i style="color:#C28BEA ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 clendar hours</a>
+    <a class="dropdown-item" href="#/"><i style="color:#C28BEA ;font-size:20px;"class="fas fa-circle"></i>&nbsp; End Date is within next 48 calendar hours</a>
     <a class="dropdown-item" href="#/"><i style="color:#878AE0 ;font-size:20px;"class="fas fa-circle"></i>&nbsp; Deadline is already passed</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="#/"><b>Task yet to be planned</b></a>

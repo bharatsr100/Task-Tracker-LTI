@@ -143,7 +143,7 @@ function load() {
                 $("#stage1title").append("To be Planned Tasks ("+ dayString2 +")");
 
                 $(dataResult[0]).each(function (index, item) {
-                  $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"</li>");
+                  $("#stage1list").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"+item.tstepdescription +"; <b>Assigned to:</b> "+item.assignto+ "</li>");
 
                 });
 
@@ -165,13 +165,12 @@ function load() {
 
                 $(dataResult[1]).each(function (index, item) {
                   $("#safelist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+" )</li>");
 
                 });
 
             });
             eventDiv1.classList.add('eventprogress');
-            //eventDiv1.className="eventprogress";
             eventDiv1.innerText = safeprogress;
             daySquare.appendChild(eventDiv1);
 
@@ -188,7 +187,7 @@ function load() {
 
                 $(dataResult[2]).each(function (index, item) {
                   $("#deadlineapplist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                 });
 
@@ -211,7 +210,7 @@ function load() {
 
                 $(dataResult[3]).each(function (index, item) {
                   $("#deadlinepasslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                 });
 
@@ -235,7 +234,7 @@ function load() {
 
                 $(dataResult[4]).each(function (index, item) {
                   $("#alltaskslist").append("  <li class='list-group-item'>"+item.tid+"&nbsp;&nbsp;"
-                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +" )</li>");
+                  +item.tstepdescription +"&nbsp;&nbsp;(<b>Deadline:</b> "+item.pend +"; <b>Assigned to:</b> "+item.assignto+ " )</li>");
 
                 });
 
