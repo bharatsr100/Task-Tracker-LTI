@@ -146,11 +146,7 @@ function load() {
         success: function(dataResult){
           // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
-          // console.log("Result for Week"+ (i+1) );
-          // console.log(weekstart_date);
-          // console.log(weekend_date);
-          // console.log(dataResult);
-          // console.log("Result loaded");
+
            var reslength= dataResult[0].length;
            var safeprogress= dataResult[1].length;
            var alertprogress= dataResult[2].length;

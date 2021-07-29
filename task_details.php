@@ -8,9 +8,7 @@ header('location:index.php');
   <head>
     <meta charset="utf-8">
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -46,7 +44,7 @@ header('location:index.php');
       <br><br><br><br><br>
 
        <!--  -->
-      <div id="task_details_admin" style="margin-left:40px;float:left;width:90%;" >
+      <div id="task_details_admin" style="margin-left:40px;float:left;width:100%;" >
         <h4 style="text-align:center;" id="headone"><b>Task Details</b></h4>
         <br><br>
         <div style="width:90%;height:40px;">
@@ -116,10 +114,11 @@ header('location:index.php');
       </div>
       </div>
 
-      </div>
+      <div style="width:100%;">
       <center>
       <button type="button" onclick="exporttasktopdf()" class="btn btn-secondary expbtn">Export to pdf</button>
       <center>
+      </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="	https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
