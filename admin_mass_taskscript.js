@@ -56,8 +56,7 @@ if(length){     var type="27";
 
           // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
-          console.log(dataResult);
-          // $('#successedittask').html(dataResult.description);
+          // console.log(dataResult);
           $(dataResult).each(function (index, item) {
             var cell_id="#"+item.remark_id;
             $(cell_id).html((item.statuscode).charAt(0).toUpperCase() +": "+ item.description);
@@ -133,7 +132,7 @@ else{
 
   });
 
-console.log(selected_tasks);
+// console.log(selected_tasks);
 var length=selected_tasks.length;
 
 
@@ -150,7 +149,7 @@ var length=selected_tasks.length;
 
           // console.log(dataResult);
           var dataResult = JSON.parse(dataResult);
-          console.log(dataResult);
+          // console.log(dataResult);
 
           $(dataResult).each(function (index, item) {
             var cell_id="#"+item.remark_id;
@@ -276,7 +275,7 @@ $(document).ready(function() {
 
                         header_cells.push("remark_id");
                         task_head=header_cells;
-                        console.log(header_cells);
+                        // console.log(header_cells);
                     }
                     else {
 
@@ -290,7 +289,7 @@ $(document).ready(function() {
                         all_tasks.push(task_details);
                     }
                 }
-                console.log(all_tasks);
+                // console.log(all_tasks);
                 var json_tasks = JSON.stringify(all_tasks);
                 // sessionStorage.setItem("json_tasks", json_tasks);
                 alltasks= all_tasks;
@@ -303,12 +302,6 @@ $(document).ready(function() {
                 table.className = "table table-hover mass_task_table";
                 var table_head=  table.createTHead();
                 var row = table_head.insertRow(0);
-                // var row = table.insertRow(0);
-
-                // var select_all= document.createElement("input");
-                // select_all.innerHTML = "<input type='checkbox' id='selectAll' onclick='select_all()'/>&nbsp;&nbsp;Select All ";
-                // select_all.setAttribute('type',"checkbox");
-                // select_all.setAttribute('id',"selectAll");
 
                 var cell = row.insertCell(0);
                 cell.innerHTML = "<th><b><input type='checkbox' onclick='select_all()'/>&nbsp;</b></th>";

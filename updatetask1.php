@@ -3592,11 +3592,19 @@ else if($_POST['type']=="26"){
 
 }
 
-// $_POST['type']=="27"
-// isset($_POST['alltasks'])
 //Function to upload mass task upload
 else if($_POST['type']=="27" ){
-  //also include created by as session uguid
+  $tasktypes =array(
+
+  );
+  $sql1= mysqli_query($conn,"select * from task_types");
+  while($row=mysqli_fetch_array($sql1)){
+    $seq_id=$row["ttype"];
+    $seq_des=$row["ttype_desc"];
+
+    $tasktypes[$seq_des]=$seq_id;
+  }
+
   $uguid=$_SESSION['uguid'];
   $all_tasks= array();
 
@@ -3662,6 +3670,7 @@ else if($_POST['type']=="27" ){
         $tid=$alltasks[$i]["tid"];
         $tdescription=$alltasks[$i]["tdescription"];
         $ttype=$alltasks[$i]["ttype"];
+
         $createdon=$alltasks[$i]["createdon"];
         $createdat=$alltasks[$i]["createdat"];
         $createdby=$uguid;
@@ -3728,7 +3737,8 @@ else if($_POST['type']=="27" ){
 
         }
         else{
-
+          if (array_key_exists($ttype,$tasktypes)){
+          $ttype_num= $tasktypes[$ttype];
           $t1="contact";
           $t2="employeeid";
           $t3="e_emailid";
@@ -3756,7 +3766,7 @@ else if($_POST['type']=="27" ){
 
             $task['assignto']=$assignto;
             $task['assignto_id']=$assignto_id;
-            $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby,priority)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby','$priority_num')";
+            $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby,priority)VALUES ('$tguid','$tid','$tdescription','$ttype_num','$createdon','$createdat','$createdby','$priority_num')";
             $r1=mysqli_query($conn, $sql1);
             $tsequenceid=0;
             $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage_num','$assignto_id','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
@@ -3768,33 +3778,33 @@ else if($_POST['type']=="27" ){
 
           }
           else{
+            $task['statuscode']="e";
             $task['description']="Error while creating task";
           }
           }
           else{
+            $task['statuscode']="e";
             $task['description']="Invalid User ID";
           }
 
-          $sql1 = "INSERT INTO ttable (tguid,tid,tdescription,ttype,createdon,createdat,createdby,priority)VALUES ('$tguid','$tid','$tdescription','$ttype','$createdon','$createdat','$createdby','$priority_num')";
-          $r1=mysqli_query($conn, $sql1);
-          $tsequenceid=0;
-          $sql2 = "INSERT INTO tstep (tguid,tsequenceid,tstepdescription,tstage,assignto,pstart,pend,peffort,astart,aend,aeffort)VALUES ('$tguid','$tsequenceid','$tdescription','$tstage','$assignto','$pstart','$pend','$peffort','$astart','$aend','$aeffort')";
-          $r2=mysqli_query($conn, $sql2);
-
-          if($r1 && $r2){
-          $task['statuscode']="s";
-          $task['description']="Task Created Successfully";
+        }
+        else{
+          $task['statuscode']="e";
+          $task['description']="Invalid Task Type";
+        }
 
         }
         }
-      }
+
       else{
 
         if($tid=="" || $tdescription==""){
+          $task['statuscode']="e";
         $task['description']="Enter all required details (Task ID and Task Description)";
 
       }
       else{
+        $task['statuscode']="e";
         $task['description']="Enter all Planning details (Planned Start , Planned End and Planned Effort)";
       }
 
@@ -3809,6 +3819,20 @@ else if($_POST['type']=="27" ){
 }
 //Function to check mass task upload
 else if($_POST['type']=="28" ){
+
+  $tasktypes =array(
+
+  );
+
+  $sql1= mysqli_query($conn,"select * from task_types");
+  while($row=mysqli_fetch_array($sql1)){
+    $seq_id=$row["ttype"];
+    $seq_des=$row["ttype_desc"];
+
+    $tasktypes[$seq_des]=$seq_id;
+  }
+  // if (array_key_exists($ttype,$tasktypes))
+
   $uguid=$_SESSION['uguid'];
   $all_tasks= array();
 
@@ -3924,11 +3948,13 @@ else if($_POST['type']=="28" ){
           $st= mysqli_query($conn,"select * from ttable where tid= '$tid' ");
           $nt= mysqli_num_rows($st);
         if($nt){
-
+          $task['statuscode']="e";
           $task['description']="Task ID Already Exist";
 
         }
         else{
+
+          if (array_key_exists($ttype,$tasktypes)){
           $t1="contact";
           $t2="employeeid";
           $t3="e_emailid";
@@ -3959,22 +3985,28 @@ else if($_POST['type']=="28" ){
             $task['description']="Task can be created";
           }
           else{
+            $task['statuscode']="e";
             $task['description']="Invalid User ID";
           }
 
 
 
-
+          }
+          else{
+            $task['statuscode']="e";
+            $task['description']="Invalid Task Type";
+          }
         }
       }
       else{
 
         if($tid=="" || $tdescription==""){
-
+        $task['statuscode']="e";
         $task['description']="Enter all required details (Task ID and Task Description)";
 
       }
       else{
+        $task['statuscode']="e";
         $task['description']="Enter all Planning details (Planned Start , Planned End and Planned Effort)";
       }
 
