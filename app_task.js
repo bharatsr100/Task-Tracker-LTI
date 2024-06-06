@@ -1,35 +1,35 @@
-$(document).ready(function() {
-function loadtask_types(){
-  // event.preventDefault();
-  var type="35";
-  $.ajax({
-    url: "updatetask1.php",
-    type: "POST",
+$(document).ready(function () {
+  function loadtask_types() {
+    // event.preventDefault();
+    var type = "35";
+    $.ajax({
+      url: "updatetask1.php",
+      type: "POST",
 
-    data: {
-      type: type
-    },
-    cache: false,
-    success: function(dataResult) {
+      data: {
+        type: type
+      },
+      cache: false,
+      success: function (dataResult) {
 
-      // console. log(dataResult);
-      var dataResult = JSON.parse(dataResult);
-      // console. log(dataResult);
-      let dropdown_ttype = $('#ttype');
-      let dropdown_ttype1 = $('#ttype1');
-      dropdown_ttype.empty();
-      dropdown_ttype1.empty();
-      $(dataResult).each(function (index, item) {
-        dropdown_ttype.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
-        dropdown_ttype1.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
-      });
+        // console. log(dataResult);
+        var dataResult = JSON.parse(dataResult);
+        // console. log(dataResult);
+        let dropdown_ttype = $('#ttype');
+        let dropdown_ttype1 = $('#ttype1');
+        dropdown_ttype.empty();
+        dropdown_ttype1.empty();
+        $(dataResult).each(function (index, item) {
+          dropdown_ttype.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
+          dropdown_ttype1.append($('<option></option>').attr('value', item.ttype).text(item.ttype_desc));
+        });
 
-    }
-  });
-}
-loadtask_types();
+      }
+    });
+  }
+  loadtask_types();
 
-var table1=$('#mytasktable').DataTable({
+  var table1 = $('#mytasktable').DataTable({
 
     "paging": false,
     "ordering": true,
@@ -72,8 +72,8 @@ var table1=$('#mytasktable').DataTable({
   const url = 'employeelist.json';
 
 
-  $.getJSON(url, function(data) {
-    $.each(data, function(key, entry) {
+  $.getJSON(url, function (data) {
+    $.each(data, function (key, entry) {
       dropdown.append($('<option></option>').attr('value', entry.uguid).text(entry.uname + "---" + entry.e_emailid));
     })
   });
@@ -90,8 +90,8 @@ var table1=$('#mytasktable').DataTable({
   const url1 = 'employeelist.json';
 
 
-  $.getJSON(url1, function(data1) {
-    $.each(data1, function(key, entry) {
+  $.getJSON(url1, function (data1) {
+    $.each(data1, function (key, entry) {
       dropdown1.append($('<option></option>').attr('value', entry.uguid).text(entry.uname + "---" + entry.e_emailid));
     })
   });
@@ -105,8 +105,8 @@ var table1=$('#mytasktable').DataTable({
   const url5 = 'employeelist.json';
 
 
-  $.getJSON(url5, function(data5) {
-    $.each(data5, function(key, entry) {
+  $.getJSON(url5, function (data5) {
+    $.each(data5, function (key, entry) {
       dropdown5.append($('<option></option>').attr('value', entry.uguid).text(entry.uname + "---" + entry.e_emailid));
     })
   });
@@ -152,9 +152,9 @@ var table1=$('#mytasktable').DataTable({
   }
 
 
-  $('#deletestep1').on('click', function() {
+  $('#deletestep1').on('click', function () {
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
     console.log("deletetaskfunction");
@@ -165,10 +165,10 @@ var table1=$('#mytasktable').DataTable({
       $('#tsequenceidd').val(data[1]);
     }
   });
-  $(document).on('click', '.stpbtn12', function(e) {
-  //$('.stpbtn12').on('click', function() {
+  $(document).on('click', '.stpbtn12', function (e) {
+    //$('.stpbtn12').on('click', function() {
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
     var tguidstep23 = data[1];
@@ -372,10 +372,10 @@ var table1=$('#mytasktable').DataTable({
 
   });
 
-  $('.stpbtn').on('click', function() {
+  $('.stpbtn').on('click', function () {
 
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
 
@@ -502,14 +502,14 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
+      success: function (dataResult) {
         var dataResult = JSON.parse(dataResult);
         //console.log(dataResult);
         $("#tbodystep").empty();
         var taskpresent = [];
 
 
-        $(dataResult).each(function(index, item) {
+        $(dataResult).each(function (index, item) {
 
           var task1 = {
             tguid: item.tguid,
@@ -568,7 +568,7 @@ var table1=$('#mytasktable').DataTable({
         // console.log(tasklist);
         // console.log(taskpresent);
 
-        $(tasklist).each(function(index, item) {
+        $(tasklist).each(function (index, item) {
 
           let toSearch = item.tsequenceid;
           let result = taskpresent.filter(o => o.tsequenceid === toSearch);
@@ -600,33 +600,33 @@ var table1=$('#mytasktable').DataTable({
   });
 
   // $('.close').on('click', function() {
-    // window.location.reload();
-    //  $(document).on('click', '.stpbtn12', function(e) {
-    // $(document).on('click', '.commentbtn', function(e) {
-    //window.location.href = 'mytask.php';
+  // window.location.reload();
+  //  $(document).on('click', '.stpbtn12', function(e) {
+  // $(document).on('click', '.commentbtn', function(e) {
+  //window.location.href = 'mytask.php';
   // });
 
   //To refresh table 1
-  function loadtable1(){
+  function loadtable1() {
 
-    table1=$('#mytasktable').DataTable({
+    table1 = $('#mytasktable').DataTable({
 
-        "paging": false,
-        "ordering": true,
-        "info": false,
-        "order": [
-          [4, "asc"]
-        ]
+      "paging": false,
+      "ordering": true,
+      "info": false,
+      "order": [
+        [4, "asc"]
+      ]
 
-      });
+    });
 
 
   }
-    // $(document).on('click', '.close1', function(e) {
-  $('.close').on('click', function() {
-      window.location.reload();
-    });
-  $('.close1').on('click', function() {
+  // $(document).on('click', '.close1', function(e) {
+  $('.close').on('click', function () {
+    window.location.reload();
+  });
+  $('.close1').on('click', function () {
     // table1.destroy();
     // table1=$('#mytasktable').DataTable({
     //
@@ -641,24 +641,24 @@ var table1=$('#mytasktable').DataTable({
     window.location.reload();
 
   });
-  $('.close2').on('click', function() {
-      window.location.reload();
+  $('.close2').on('click', function () {
+    window.location.reload();
     // $("#mytaskstep_div").load(location.href + " #mytaskstep_div");
   });
 
-  function close1function(callback){
+  function close1function(callback) {
     $('#editmodal').modal('hide');
-   table1.destroy();
-   table1.destroy();
-   //table1.clear();
+    table1.destroy();
+    table1.destroy();
+    //table1.clear();
     $("#mytask_div").load(location.href + " #mytask_div");
     callback();
   }
 
 
-//To refresh table 2
+  //To refresh table 2
 
-  $('.createbtn').on('click', function() {
+  $('.createbtn').on('click', function () {
     //	$('#createtaskmodal').modal('show');
     $('#createtaskmodal').modal({
       backdrop: 'static',
@@ -667,17 +667,17 @@ var table1=$('#mytasktable').DataTable({
 
 
   });
-  $('.tstepstage').on('click', function() {
+  $('.tstepstage').on('click', function () {
 
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
 
     $('#uguid_comment5').val(data[1]);
     $('#tguid5').val(data[2]);
     $('#tsequenceid5').val(data[4]);
-		$("#headercommentstep_table").html("Task Step Comment History for: "+data[12]);
+    $("#headercommentstep_table").html("Task Step Comment History for: " + data[12]);
 
     //$('#commenttaskmodal5').modal('show');
     $('#commenttaskmodal5').modal({
@@ -698,11 +698,11 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
+      success: function (dataResult) {
         var dataResult = JSON.parse(dataResult);
         //console.log(dataResult);
         $("#tbodycomment5").empty();
-        $(dataResult).each(function(index, item) {
+        $(dataResult).each(function (index, item) {
 
           $('#tcomments5 tbody').append(
             '<tr><td >' + item.createdon +
@@ -717,44 +717,44 @@ var table1=$('#mytasktable').DataTable({
     });
 
   });
-	function loadcommentsteptable(tguids,tsequenceids){
-		$.ajax({
-			url: "showcomment.php",
-			type: "POST",
-			data: {
-				type: 2,
-				tguids: tguids,
-				tsequenceids: tsequenceids
+  function loadcommentsteptable(tguids, tsequenceids) {
+    $.ajax({
+      url: "showcomment.php",
+      type: "POST",
+      data: {
+        type: 2,
+        tguids: tguids,
+        tsequenceids: tsequenceids
 
 
-			},
-			cache: false,
-			success: function(dataResult) {
-				var dataResult = JSON.parse(dataResult);
-				//console.log(dataResult);
-				$("#tbodycomment5").empty();
-				$(dataResult).each(function(index, item) {
+      },
+      cache: false,
+      success: function (dataResult) {
+        var dataResult = JSON.parse(dataResult);
+        //console.log(dataResult);
+        $("#tbodycomment5").empty();
+        $(dataResult).each(function (index, item) {
 
-					$('#tcomments5 tbody').append(
-						'<tr><td >' + item.createdon +
-						'</td><td >' + item.createdat +
-						'</td><td >' + item.createdby +
-						'</td><td>' + item.comment +
-						'</td></tr>'
-					)
+          $('#tcomments5 tbody').append(
+            '<tr><td >' + item.createdon +
+            '</td><td >' + item.createdat +
+            '</td><td >' + item.createdby +
+            '</td><td>' + item.comment +
+            '</td></tr>'
+          )
 
-				});
-			}
-		});
-	}
-  $(document).on('click', '.commentbtn', function(e) {
-  //$('.commentbtn').on('click', function() {
+        });
+      }
+    });
+  }
+  $(document).on('click', '.commentbtn', function (e) {
+    //$('.commentbtn').on('click', function() {
 
 
 
 
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
 
@@ -795,11 +795,11 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
+      success: function (dataResult) {
         var dataResult = JSON.parse(dataResult);
         //console.log(dataResult);
         $("#tbodycomment").empty();
-        $(dataResult).each(function(index, item) {
+        $(dataResult).each(function (index, item) {
           //console.log(item);
           $('#tcomments tbody').append(
             '<tr><td >' + item.createdon +
@@ -827,11 +827,11 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
+      success: function (dataResult) {
         var dataResult = JSON.parse(dataResult);
         //console.log(dataResult);
         $("#tbodycomment").empty();
-        $(dataResult).each(function(index, item) {
+        $(dataResult).each(function (index, item) {
           //console.log(item);
           $('#tcomments tbody').append(
             '<tr><td >' + item.createdon +
@@ -848,10 +848,10 @@ var table1=$('#mytasktable').DataTable({
 
 
 
-  $(document).on('click', '.stpedit12', function(e) {
-  //$('.stpedit12').on('click', function() {
+  $(document).on('click', '.stpedit12', function (e) {
+    //$('.stpedit12').on('click', function() {
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
 
@@ -917,11 +917,11 @@ var table1=$('#mytasktable').DataTable({
       $('#tguid3').val(data[2]);
       $('#tid3').val(tids);
       $("#peffort3").val(data[8]);
-      if(data[8]!="" || data[8]!=0){
+      if (data[8] != "" || data[8] != 0) {
         $("#peffort3").prop("readonly", true);
         $("#peffort3").prop("disabled", false);
       }
-      else{
+      else {
         $("#peffort3").prop("readonly", false);
         $("#peffort3").prop("disabled", false);
       }
@@ -955,10 +955,10 @@ var table1=$('#mytasktable').DataTable({
     }
 
   });
-  $(document).on('click', '.editbtn', function(e) {
-  //$('.editbtn').on('click', function() {
+  $(document).on('click', '.editbtn', function (e) {
+    //$('.editbtn').on('click', function() {
     $tr = $(this).closest('tr');
-    var data = $tr.children("td").map(function() {
+    var data = $tr.children("td").map(function () {
       return $(this).text();
     }).get();
 
@@ -979,8 +979,8 @@ var table1=$('#mytasktable').DataTable({
       $('#tdescription1').val(data[3]);
       // $('#ttype1').val(data[4].trim());
       var textToFind = data[4].trim();
-      var dd = document.getElementById ('ttype1');
-      dd.selectedIndex = [...dd.options].findIndex (option => option.text === textToFind);
+      var dd = document.getElementById('ttype1');
+      dd.selectedIndex = [...dd.options].findIndex(option => option.text === textToFind);
 
 
       //data[1].trim()
@@ -1031,8 +1031,8 @@ var table1=$('#mytasktable').DataTable({
       $('#tdescription1').val(data[3]);
       // $('#ttype1').val(data[4].trim());
       var textToFind = data[4].trim();
-      var dd = document.getElementById ('ttype1');
-      dd.selectedIndex = [...dd.options].findIndex (option => option.text === textToFind);
+      var dd = document.getElementById('ttype1');
+      dd.selectedIndex = [...dd.options].findIndex(option => option.text === textToFind);
 
       $("#pstart1").val("");
       $("#pend1").val("");
@@ -1063,7 +1063,7 @@ var table1=$('#mytasktable').DataTable({
 
   });
 
-  $('#createtask').on('click', function() {
+  $('#createtask').on('click', function () {
     event.preventDefault();
 
     var tid = $('#tid').val();
@@ -1074,14 +1074,11 @@ var table1=$('#mytasktable').DataTable({
     var pend = $('#pend').val();
     var astart = "0000-00-00";
     var aend = "0000-00-00";
-    var peffort = ($('#peffort').val())*480;
+    var peffort = ($('#peffort').val()) * 480;
     var comment = $('#comment').val();
     var type = "1";
-    var priority=$('#priority').val();
+    var priority = $('#priority').val();
     var ajaxResult = [];
-    //console. log("4");
-    //console. log("3");
-    //alert("Submit the form?");
     $.ajax({
       url: "task.php",
       type: "POST",
@@ -1097,11 +1094,11 @@ var table1=$('#mytasktable').DataTable({
         astart: astart,
         aend: aend,
         peffort: peffort,
-        priority:priority,
+        priority: priority,
         comment: comment
       },
       cache: false,
-      success: function(dataResult) {
+      success: function (dataResult) {
         //console. log("success");
         // console.log(dataResult);
         var dataResult = JSON.parse(dataResult);
@@ -1136,7 +1133,7 @@ var table1=$('#mytasktable').DataTable({
         }
 
       },
-      complete: function() {
+      complete: function () {
         //after completed request then this method will be called.
         //console.log(ajaxResult[0]);
         // $("#errortask").show();
@@ -1149,7 +1146,7 @@ var table1=$('#mytasktable').DataTable({
 
 
   });
-  $('.edittaskbtn').on('click', function() {
+  $('.edittaskbtn').on('click', function () {
 
     event.preventDefault();
 
@@ -1162,7 +1159,7 @@ var table1=$('#mytasktable').DataTable({
     var pstart1 = $('#pstart1').val();
     var pend1 = $('#pend1').val();
     var priority1 = $('#priority1').val();
-    var peffort1 = ($('#peffort1').val())*480;
+    var peffort1 = ($('#peffort1').val()) * 480;
     var type = "6";
 
     $.ajax({
@@ -1183,7 +1180,7 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
+      success: function (dataResult) {
         // console.log(dataResult);
         var dataResult = JSON.parse(dataResult);
         // console.log(dataResult);
@@ -1207,7 +1204,7 @@ var table1=$('#mytasktable').DataTable({
 
   });
   //save_comment_form
-  $('.savecomment').on('click', function() {
+  $('.savecomment').on('click', function () {
 
 
     event.preventDefault();
@@ -1234,8 +1231,8 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
-				//console.log(dataResult);
+      success: function (dataResult) {
+        //console.log(dataResult);
         var dataResult = JSON.parse(dataResult);
         //console.log(dataResult);
         if (dataResult.statuscode == "s") {
@@ -1258,7 +1255,7 @@ var table1=$('#mytasktable').DataTable({
     });
   });
 
-  $('.edittaskstepbtn').on('click', function() {
+  $('.edittaskstepbtn').on('click', function () {
     event.preventDefault();
 
     var uguid3 = $('#uguid3').val();
@@ -1266,7 +1263,7 @@ var table1=$('#mytasktable').DataTable({
     var tsequenceid3 = $('#tsequenceid3').val();
     var pstart3 = $('#pstart3').val();
     var pend3 = $('#pend3').val();
-    var peffort3 = ($('#peffort3').val())*480;
+    var peffort3 = ($('#peffort3').val()) * 480;
     var type = "8";
 
     $.ajax({
@@ -1283,22 +1280,22 @@ var table1=$('#mytasktable').DataTable({
 
       },
       cache: false,
-      success: function(dataResult) {
-			// console.log(dataResult);
-			var dataResult = JSON.parse(dataResult);
-      // console.log(dataResult);
-      if (dataResult.statuscode == "s") {
-        $(".edittaskstepbtn").prop('disabled', true);
-        $("#erroredittaskstep").hide();
-        $("#successedittaskstep").show();
-        $('#successedittaskstep').html(dataResult.description);
+      success: function (dataResult) {
+        // console.log(dataResult);
+        var dataResult = JSON.parse(dataResult);
+        // console.log(dataResult);
+        if (dataResult.statuscode == "s") {
+          $(".edittaskstepbtn").prop('disabled', true);
+          $("#erroredittaskstep").hide();
+          $("#successedittaskstep").show();
+          $('#successedittaskstep').html(dataResult.description);
 
-      } else {
-        $(".edittaskstepbtn").prop('disabled', false);
-        $("#successedittaskstep").hide();
-        $("#erroredittaskstep").show();
-        $('#erroredittaskstep').html(dataResult.description);
-      }
+        } else {
+          $(".edittaskstepbtn").prop('disabled', false);
+          $("#successedittaskstep").hide();
+          $("#erroredittaskstep").show();
+          $('#erroredittaskstep').html(dataResult.description);
+        }
 
       }
 
@@ -1309,55 +1306,55 @@ var table1=$('#mytasktable').DataTable({
 
   });
 
-	$('.savecomment5').on('click', function() {
-		event.preventDefault();
+  $('.savecomment5').on('click', function () {
+    event.preventDefault();
 
-		var comment5 = $('#comment5').val();
+    var comment5 = $('#comment5').val();
     var tguid5 = $('#tguid5').val();
     var tsequenceid5 = $('#tsequenceid5').val();
     var efforth5 = $('#efforth5').val();
     var effortm5 = $('#effortm5').val();
     var userslist5 = $('#userslist5').val();
-		var tstatus5 = $('#tstatus5').val();
+    var tstatus5 = $('#tstatus5').val();
     var type = "9";
 
-  	$.ajax({
+    $.ajax({
       url: "updatetask1.php",
       type: "POST",
       data: {
         type: type,
-				comment5:comment5,
+        comment5: comment5,
         tguid5: tguid5,
         tsequenceid5: tsequenceid5,
         efforth5: efforth5,
         effortm5: effortm5,
         userslist5: userslist5,
-				tstatus5: tstatus5
+        tstatus5: tstatus5
       },
       cache: false,
-      success: function(dataResult) {
-			// console.log(dataResult);
-			var dataResult = JSON.parse(dataResult);
-			// console.log(dataResult);
-			if (dataResult.statuscode == "s") {
-				$(".savecomment5").prop('disabled', true);
-        $("#comment_form2")[0].reset();
-				$("#errorcommentstep").hide();
-				$("#successcommentstep").show();
-				$('#successcommentstep').html(dataResult.description);
-				 loadcommentsteptable(dataResult.tguid,dataResult.tsequenceid);
-			} else {
-				$(".savecomment5").prop('disabled', false);
-				$("#successcommentstep").hide();
-				$("#errorcommentstep").show();
-				$('#errorcommentstep').html(dataResult.description);
-			}
-		}
+      success: function (dataResult) {
+        // console.log(dataResult);
+        var dataResult = JSON.parse(dataResult);
+        // console.log(dataResult);
+        if (dataResult.statuscode == "s") {
+          $(".savecomment5").prop('disabled', true);
+          $("#comment_form2")[0].reset();
+          $("#errorcommentstep").hide();
+          $("#successcommentstep").show();
+          $('#successcommentstep').html(dataResult.description);
+          loadcommentsteptable(dataResult.tguid, dataResult.tsequenceid);
+        } else {
+          $(".savecomment5").prop('disabled', false);
+          $("#successcommentstep").hide();
+          $("#errorcommentstep").show();
+          $('#errorcommentstep').html(dataResult.description);
+        }
+      }
 
 
-	});
+    });
 
-	});
+  });
 
 
 });
